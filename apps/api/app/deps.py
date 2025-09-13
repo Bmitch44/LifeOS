@@ -1,10 +1,10 @@
 from typing import Annotated, Optional
 from fastapi import Depends, Header, HTTPException, status
-
-from .modules.users.repo import UsersRepo
-from .modules.users.service import UsersService
-from .core.auth import verify_bearer_token, AuthenticatedUser
-
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.modules.users.repo import UsersRepo
+from app.modules.users.service import UsersService
+from app.core.auth import verify_bearer_token, AuthenticatedUser
+from app.db.base import get_session
 
 async def get_current_user(authorization: Optional[str] = Header(default=None)) -> AuthenticatedUser:
     if not authorization or not authorization.startswith("Bearer "):
@@ -18,5 +18,7 @@ async def get_current_user(authorization: Optional[str] = Header(default=None)) 
 
 def get_users_service(repo: Annotated[UsersRepo, Depends(lambda: UsersRepo())]) -> UsersService:
     return UsersService(repo)
+
+DbSession = Annotated[AsyncSession, Depends(get_session)]
 
 

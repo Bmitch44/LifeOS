@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["*"]
     clerk_jwks_url: str | None = None
     clerk_issuer: str | None = None
+    database_url: str | None = None
 
     model_config = {
         "env_file": ".env",

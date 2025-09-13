@@ -13,26 +13,54 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+      - name: Enable corepack (pnpm)
+        run: corepack enable
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
-          run_install: true
-      - name: Typecheck & Lint (JS)
-        run: |
-          pnpm typecheck
-          pnpm lint
-      - name: Build web
-        run: pnpm --filter web build
+          run_install: false
+      - name: Install workspace deps (no frozen lockfile)
+        run: pnpm install --no-frozen-lockfile
+      - name: Install JS dev tools for packages (eslint family)
+        run: pnpm add -w -D eslint @eslint/js
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install API deps
+      - name: Install API deps (tools + runtime)
         working-directory: apps/api
-        run: pip install fastapi uvicorn pydantic pydantic-settings pytest PyJWT[crypto]
+        run: |
+          pip install \
+            fastapi uvicorn pydantic pydantic-settings pytest PyJWT[crypto] \
+            sqlmodel sqlalchemy asyncpg alembic ruff httpx
+      - name: Typecheck & Lint (JS + Py)
+        run: |
+          pnpm typecheck
+          pnpm lint
+      - name: Build web
+        env:
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+        run: pnpm --filter web build
+      - name: Export OpenAPI
+        working-directory: apps/api
+        run: |
+          python - <<'PY'
+          from app.main import create_app
+          import json, os, pathlib
+          app = create_app()
+          schema = app.openapi()
+          out = pathlib.Path(__file__).resolve().parents[2] / "packages" / "shared-contracts" / "openapi" / "openapi.json"
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(schema, indent=2))
+          print("Exported:", out)
+          PY
+      - name: Generate web types from OpenAPI
+        run: pnpm contracts:gen:web
       - name: Test API
         working-directory: apps/api
+        env:
+          PYTHONPATH: .
         run: pytest -q
 
 

@@ -1,5 +1,5 @@
-from .repo import UsersRepo
-from .schemas import UserCreate, PaginatedUsers, UserOut
+from app.modules.users.repo import UsersRepo
+from app.modules.users.schemas import UserCreate, PaginatedUsers, UserOut
 
 
 class UsersService:

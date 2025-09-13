@@ -1,16 +1,13 @@
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any, Dict, Optional
 
 import jwt
-import urllib.request
 from jwt import PyJWKClient
-from jwt.algorithms import get_default_algorithms
 
-from ..settings import settings
+from app.settings import settings
 
 
 @dataclass

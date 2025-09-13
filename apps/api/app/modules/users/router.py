@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, Query
 
-from .schemas import PaginatedUsers, UserCreate, UserOut
-from .service import UsersService
-from ...deps import get_current_user, get_users_service
+from app.modules.users.schemas import PaginatedUsers, UserCreate, UserOut
+from app.modules.users.service import UsersService
+from app.deps import get_current_user, get_users_service
 
 
 router = APIRouter(prefix="/v1/users", tags=["users"])

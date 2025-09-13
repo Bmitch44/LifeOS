@@ -9,8 +9,9 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "contracts:pull": "curl -sSf http://localhost:8000/openapi.json > packages/shared-contracts/openapi/openapi.json",
-    "contracts:gen:web": "openapi-typescript packages/shared-contracts/openapi/openapi.json -o apps/web/src/core/api/generated/schema.ts"
+    "contracts:export": "cd apps/api && uv run -q python -m scripts.export_openapi",
+    "contracts:gen:web": "openapi-typescript packages/shared-contracts/openapi/openapi.json -o apps/web/src/core/api/generated/schema.ts",
+    "contracts:build": "pnpm contracts:export && pnpm contracts:gen:web"
   },
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",

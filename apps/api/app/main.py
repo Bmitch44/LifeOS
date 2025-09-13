@@ -1,11 +1,19 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 
-from .middleware.setup import setup_middleware
-from .modules.users.router import router as users_router
+from app.middleware.setup import setup_middleware
+from app.db.base import init_db
+from app.modules.users.router import router as users_router
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await init_db()
+    yield
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title="LifeOS API", version="0.1.0")
+    app = FastAPI(title="LifeOS API", version="0.1.0", lifespan=lifespan)
     setup_middleware(app)
 
     # Routers
