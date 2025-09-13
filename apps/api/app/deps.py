@@ -1,24 +1,46 @@
 from typing import Annotated, Optional
 from fastapi import Depends, Header, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.modules.users.repo import UsersRepo
-from app.modules.users.service import UsersService
+from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from app.core.auth import verify_bearer_token, AuthenticatedUser
 from app.db.base import get_session
+from app.modules.users.models import User
 
-async def get_current_user(authorization: Optional[str] = Header(default=None)) -> AuthenticatedUser:
+async def get_current_user(
+    authorization: Optional[str] = Header(default=None),
+    session: Annotated[AsyncSession, Depends(get_session)] = None,
+) -> AuthenticatedUser:
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing bearer token")
     token = authorization.split(" ", 1)[1]
     try:
-        return verify_bearer_token(token)
+        auth_user = verify_bearer_token(token)
     except Exception:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
+    # Ensure 1:1 mapping in DB by Clerk user id (token.sub -> User.client_id)
+    try:
+        result = await session.execute(select(User).where(User.client_id == auth_user.sub))
+        user = result.scalar_one_or_none()
+        if user is None:
+            session.add(User(client_id=auth_user.sub, email=auth_user.email or auth_user.sub))
+            await session.commit()
+        elif auth_user.email and user.email != auth_user.email:
+            user.email = auth_user.email
+            await session.commit()
+    except IntegrityError:
+        await session.rollback()
+        # Another request may have created it concurrently; ignore
+    except Exception:
+        await session.rollback()
+        # Do not block auth on DB errors
 
-def get_users_service(repo: Annotated[UsersRepo, Depends(lambda: UsersRepo())]) -> UsersService:
-    return UsersService(repo)
+    return auth_user
 
-DbSession = Annotated[AsyncSession, Depends(get_session)]
+
+def get_users_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.users.service import UsersService
+    return UsersService(session)
 
 

@@ -10,6 +10,8 @@ class UserOut(BaseModel):
 class UserCreate(BaseModel):
     email: str = Field(..., min_length=3)
 
+class UserUpdate(BaseModel):
+    email: str = Field(..., min_length=3)
 
 class PaginatedUsers(BaseModel):
     items: List[UserOut]

@@ -1,0 +1,29 @@
+services:
+  api:
+    ports:
+      - "5678:5678"
+    environment:
+      - UVICORN_LOG_LEVEL=debug
+    command: ["python","-Xfrozen_modules=off","-m","debugpy","--listen","0.0.0.0:5678","-m","uvicorn","app.main:app","--host","0.0.0.0","--port","8000","--reload","--log-level","debug"]
+    volumes:
+      - ../../apps/api/app:/app/app:delegated
+      - ../../apps/api/alembic:/app/alembic:delegated
+      - ../../apps/api/alembic.ini:/app/alembic.ini:delegated
+
+  web:
+    ports:
+      - "9229:9229"
+      - "9230:9230"
+    environment:
+      - NODE_OPTIONS=--inspect=0.0.0.0:9229
+    command: ["pnpm","--filter","web","dev"]
+    volumes:
+      - ../../:/app:delegated
+      - web_node_modules:/app/node_modules
+      - pnpm_store:/root/.local/share/pnpm
+
+volumes:
+  web_node_modules:
+  pnpm_store:
+
+

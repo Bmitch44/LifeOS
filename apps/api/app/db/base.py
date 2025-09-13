@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from contextlib import asynccontextmanager
-from typing import AsyncIterator
+from typing import AsyncGenerator
 from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 from sqlmodel import SQLModel
@@ -46,8 +45,7 @@ engine: AsyncEngine = create_async_engine(_get_database_url(), echo=False, futur
 SessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 
-@asynccontextmanager
-async def get_session() -> AsyncIterator[AsyncSession]:
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
     session: AsyncSession = SessionLocal()
     try:
         yield session

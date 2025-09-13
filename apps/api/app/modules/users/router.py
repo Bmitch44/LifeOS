@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query
 
-from app.modules.users.schemas import PaginatedUsers, UserCreate, UserOut
+from app.modules.users.schemas import PaginatedUsers, UserCreate, UserOut, UserUpdate
 from app.modules.users.service import UsersService
 from app.deps import get_current_user, get_users_service
 
@@ -26,4 +26,29 @@ async def create_user(
 ):
     return await svc.create_user(payload)
 
+
+@router.get("/{id}", response_model=UserOut)
+async def get_user(
+    id: int,
+    svc: UsersService = Depends(get_users_service),
+    _=Depends(get_current_user),
+):
+    return await svc.get_user(id)
+
+@router.put("/{id}", response_model=UserOut)
+async def update_user(
+    id: int,
+    payload: UserUpdate,
+    svc: UsersService = Depends(get_users_service),
+    _=Depends(get_current_user),
+):
+    return await svc.update_user(id, payload)
+
+@router.delete("/{id}", response_model=UserOut)
+async def delete_user(
+    id: int,
+    svc: UsersService = Depends(get_users_service),
+    _=Depends(get_current_user),
+):
+    return await svc.delete_user(id)
 
