@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.users.repo import UsersRepo
-from app.modules.users.schemas import UserCreate, PaginatedUsers, UserOut, UserUpdate
+from app.modules.users.schemas import UserCreate, PaginatedUsers, UserUpdate
+from app.modules.users.models import User
 
 
 class UsersService:
@@ -11,16 +12,16 @@ class UsersService:
     async def list_users(self, page: int, size: int) -> PaginatedUsers:
         return await self.repo.paginate(page, size)
 
-    async def create_user(self, payload: UserCreate) -> UserOut:
+    async def create_user(self, payload: UserCreate) -> User:
         return await self.repo.create(payload)
 
-    async def get_user(self, id: int) -> UserOut:
+    async def get_user(self, id: int) -> User:
         return await self.repo.get(id)
 
-    async def update_user(self, id: int, payload: UserUpdate) -> UserOut:
+    async def update_user(self, id: int, payload: UserUpdate) -> User:
         return await self.repo.update(id, payload)
 
-    async def delete_user(self, id: int) -> UserOut:
+    async def delete_user(self, id: int) -> dict:
         return await self.repo.delete(id)
 
 

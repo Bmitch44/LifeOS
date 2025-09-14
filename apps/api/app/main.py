@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from app.middleware.setup import setup_middleware
 from app.db.base import init_db
 from app.modules.users.router import router as users_router
+from app.modules.school.courses.router import router as courses_router
 
 
 @asynccontextmanager
@@ -18,6 +19,7 @@ def create_app() -> FastAPI:
 
     # Routers
     app.include_router(users_router)
+    app.include_router(courses_router)
 
     @app.get("/health", tags=["health"])  # simple readiness probe
     async def health() -> dict[str, str]:

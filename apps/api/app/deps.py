@@ -43,4 +43,8 @@ def get_users_service(session: Annotated[AsyncSession, Depends(get_session)]):
     from app.modules.users.service import UsersService
     return UsersService(session)
 
+def get_courses_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.school.courses.service import CoursesService
+    return CoursesService(session)
+
 

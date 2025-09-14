@@ -19,7 +19,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  console.log('has publishable key', !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY)
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
@@ -28,7 +27,8 @@ export default function RootLayout({
     >
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
+          suppressHydrationWarning
+          className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
         >
           <Providers>{children}</Providers>
         </body>

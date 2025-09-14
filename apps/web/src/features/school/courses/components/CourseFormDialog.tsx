@@ -1,0 +1,19 @@
+import { CourseForm } from "@/src/features/school/courses/components/CourseForm"
+import { Button } from "@workspace/ui/components/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@workspace/ui/components/dialog"
+
+export function CourseFormDialog({ id, edit }: { id: number, edit: boolean }) {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button>{edit ? "Edit Course" : "Add Course"}</Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>{edit ? "Edit Course" : "Add Course"}</DialogTitle>
+                </DialogHeader>
+                <CourseForm id={id} edit={edit} />
+            </DialogContent>
+        </Dialog>
+    )
+}

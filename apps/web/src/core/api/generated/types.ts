@@ -5,9 +5,13 @@
 
 import type { components } from '@/src/core/api/generated/schema';
 
+export type Course = components['schemas']['Course'];
+export type CourseCreate = components['schemas']['CourseCreate'];
+export type CourseUpdate = components['schemas']['CourseUpdate'];
 export type HTTPValidationError = components['schemas']['HTTPValidationError'];
+export type PaginatedCourses = components['schemas']['PaginatedCourses'];
 export type PaginatedUsers = components['schemas']['PaginatedUsers'];
+export type User = components['schemas']['User'];
 export type UserCreate = components['schemas']['UserCreate'];
-export type UserOut = components['schemas']['UserOut'];
 export type UserUpdate = components['schemas']['UserUpdate'];
 export type ValidationError = components['schemas']['ValidationError'];

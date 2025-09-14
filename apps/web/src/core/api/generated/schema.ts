@@ -41,6 +41,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/courses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Courses */
+        get: operations["list_courses_v1_courses_get"];
+        put?: never;
+        /** Create Course */
+        post: operations["create_course_v1_courses_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/courses/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Course */
+        get: operations["get_course_v1_courses__id__get"];
+        /** Update Course */
+        put: operations["update_course_v1_courses__id__put"];
+        post?: never;
+        /** Delete Course */
+        delete: operations["delete_course_v1_courses__id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/health": {
         parameters: {
             query?: never;
@@ -62,15 +99,108 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** Course */
+        Course: {
+            /** Id */
+            id?: number | null;
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Code */
+            code: string;
+            /** Professor Name */
+            professor_name: string;
+            /** Professor Email */
+            professor_email: string;
+            /** Credits */
+            credits: number;
+            /** Semester */
+            semester: string;
+            /** Year */
+            year: number;
+            /** Department */
+            department: string;
+            /** Campus */
+            campus: string;
+            /** Location */
+            location: string;
+            /** Final Grade */
+            final_grade: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at?: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at?: string;
+        };
+        /** CourseCreate */
+        CourseCreate: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Code */
+            code: string;
+            /** Professor Name */
+            professor_name: string;
+            /** Professor Email */
+            professor_email: string;
+            /** Credits */
+            credits: number;
+            /** Semester */
+            semester: string;
+            /** Year */
+            year: number;
+            /** Department */
+            department: string;
+            /** Campus */
+            campus: string;
+            /** Location */
+            location: string;
+            /** Final Grade */
+            final_grade: number;
+        };
+        /** CourseUpdate */
+        CourseUpdate: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Code */
+            code: string;
+            /** Professor Name */
+            professor_name: string;
+            /** Professor Email */
+            professor_email: string;
+            /** Credits */
+            credits: number;
+            /** Semester */
+            semester: string;
+            /** Year */
+            year: number;
+            /** Department */
+            department: string;
+            /** Campus */
+            campus: string;
+            /** Location */
+            location: string;
+            /** Final Grade */
+            final_grade: number;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
-        /** PaginatedUsers */
-        PaginatedUsers: {
+        /** PaginatedCourses */
+        PaginatedCourses: {
             /** Items */
-            items: components["schemas"]["UserOut"][];
+            items: components["schemas"]["Course"][];
             /** Page */
             page: number;
             /** Size */
@@ -78,22 +208,49 @@ export interface components {
             /** Total */
             total: number;
         };
+        /** PaginatedUsers */
+        PaginatedUsers: {
+            /** Items */
+            items: components["schemas"]["User"][];
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+            /** Total */
+            total: number;
+        };
+        /** User */
+        User: {
+            /** Id */
+            id?: number | null;
+            /** Client Id */
+            client_id: string;
+            /** Email */
+            email: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at?: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at?: string;
+        };
         /** UserCreate */
         UserCreate: {
             /** Email */
             email: string;
-        };
-        /** UserOut */
-        UserOut: {
-            /** Id */
-            id: number;
-            /** Email */
-            email: string;
+            /** Client Id */
+            client_id: string;
         };
         /** UserUpdate */
         UserUpdate: {
             /** Email */
             email: string;
+            /** Client Id */
+            client_id: string;
         };
         /** ValidationError */
         ValidationError: {
@@ -168,7 +325,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["UserOut"];
+                    "application/json": components["schemas"]["User"];
                 };
             };
             /** @description Validation Error */
@@ -201,7 +358,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["UserOut"];
+                    "application/json": components["schemas"]["User"];
                 };
             };
             /** @description Validation Error */
@@ -238,7 +395,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["UserOut"];
+                    "application/json": components["schemas"]["User"];
                 };
             };
             /** @description Validation Error */
@@ -271,7 +428,183 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["UserOut"];
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_courses_v1_courses_get: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedCourses"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_course_v1_courses_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CourseCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Course"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_course_v1_courses__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Course"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_course_v1_courses__id__put: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CourseUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Course"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_course_v1_courses__id__delete: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
