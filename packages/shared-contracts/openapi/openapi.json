@@ -74,63 +74,6 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Create User",
-        "operationId": "create_user_v1_users_post",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserCreate"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/v1/users/{id}": {
@@ -966,13 +909,25 @@
             ],
             "title": "Id"
           },
-          "client_id": {
+          "clerk_user_id": {
             "type": "string",
-            "title": "Client Id"
+            "title": "Clerk User Id"
           },
           "email": {
             "type": "string",
             "title": "Email"
+          },
+          "first_name": {
+            "type": "string",
+            "title": "First Name"
+          },
+          "last_name": {
+            "type": "string",
+            "title": "Last Name"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone"
           },
           "created_at": {
             "type": "string",
@@ -987,30 +942,13 @@
         },
         "type": "object",
         "required": [
-          "client_id",
-          "email"
+          "clerk_user_id",
+          "email",
+          "first_name",
+          "last_name",
+          "phone"
         ],
         "title": "User"
-      },
-      "UserCreate": {
-        "properties": {
-          "email": {
-            "type": "string",
-            "minLength": 3,
-            "title": "Email"
-          },
-          "client_id": {
-            "type": "string",
-            "minLength": 3,
-            "title": "Client Id"
-          }
-        },
-        "type": "object",
-        "required": [
-          "email",
-          "client_id"
-        ],
-        "title": "UserCreate"
       },
       "UserUpdate": {
         "properties": {
@@ -1018,17 +956,11 @@
             "type": "string",
             "minLength": 3,
             "title": "Email"
-          },
-          "client_id": {
-            "type": "string",
-            "minLength": 3,
-            "title": "Client Id"
           }
         },
         "type": "object",
         "required": [
-          "email",
-          "client_id"
+          "email"
         ],
         "title": "UserUpdate"
       },

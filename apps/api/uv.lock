@@ -48,6 +48,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "alembic" },
     { name = "asyncpg" },
+    { name = "clerk-backend-api" },
     { name = "debugpy" },
     { name = "fastapi" },
     { name = "greenlet" },
@@ -63,6 +64,7 @@ dependencies = [
 requires-dist = [
     { name = "alembic", specifier = ">=1.13.2" },
     { name = "asyncpg", specifier = ">=0.29.0" },
+    { name = "clerk-backend-api", specifier = ">=3.3.0" },
     { name = "debugpy", specifier = ">=1.8.0" },
     { name = "fastapi", specifier = ">=0.116.1" },
     { name = "greenlet", specifier = ">=3.2.4" },
@@ -215,6 +217,22 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/a0/1d/ec1a60bd1a10daa292d3cd6bb0b359a81607154fb8165f3ec95fe003b85c/cffi-2.0.0-cp314-cp314t-win32.whl", hash = "sha256:1fc9ea04857caf665289b7a75923f2c6ed559b8298a1b8c49e59f7dd95c8481e", size = 180487 },
     { url = "https://files.pythonhosted.org/packages/bf/41/4c1168c74fac325c0c8156f04b6749c8b6a8f405bbf91413ba088359f60d/cffi-2.0.0-cp314-cp314t-win_amd64.whl", hash = "sha256:d68b6cef7827e8641e8ef16f4494edda8b36104d79773a334beaa1e3521430f6", size = 191726 },
     { url = "https://files.pythonhosted.org/packages/ae/3a/dbeec9d1ee0844c679f6bb5d6ad4e9f198b1224f4e7a32825f47f6192b0c/cffi-2.0.0-cp314-cp314t-win_arm64.whl", hash = "sha256:0a1527a803f0a659de1af2e1fd700213caba79377e27e4693648c2923da066f9", size = 184195 },
+]
+
+[[package]]
+name = "clerk-backend-api"
+version = "3.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cryptography" },
+    { name = "httpcore" },
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "pyjwt" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/56/df/e376eaa2b01b0b572e4799fb3d833bdf8779e9fef0e7af3e9f064e98e556/clerk_backend_api-3.3.0.tar.gz", hash = "sha256:a4b4428f22cd1e642e94ec273c427c3cbe17bcb81cb34d43300b35ed7fd742b4", size = 188444 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d5/74/58d0389c0c375b7fdf8c63b5efa3ce9864e58cdfdd7f0e6c3bafd37c1701/clerk_backend_api-3.3.0-py3-none-any.whl", hash = "sha256:2b68da6e928c24c1c6b25ce2c4da2938c764b7c46a5a19c7663cce7c4a12ced4", size = 385088 },
 ]
 
 [[package]]

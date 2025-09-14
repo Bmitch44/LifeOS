@@ -1,6 +1,6 @@
 "use client"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { PaginatedUsers, User, UserCreate, UserUpdate } from "@/src/core/api/generated/types"
+import { PaginatedUsers, User, UserUpdate } from "@/src/core/api/generated/types"
 import { api } from "@/src/core/api/client"
 import { useAuthToken } from "@/src/core/auth/useAuthToken"
 
@@ -18,7 +18,7 @@ export function useAllUsers(page = 1, size = 20) {
   })
 }
 
-export function useGetUser(id: number) {
+export function useGetUser(id: number, enabled: boolean = true) {
   const getToken = useAuthToken()
   return useQuery({
     queryKey: ["users", id],
@@ -28,22 +28,23 @@ export function useGetUser(id: number) {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },
+    enabled: enabled
   })
 }
 
-export function useCreateUser() {
-  const qc = useQueryClient()
-  const getToken = useAuthToken()
-  return useMutation({
-    mutationFn: async (body: UserCreate) => {
-      const token = await getToken()
-      return api.postJson<User>(`/v1/users`, body, {
-        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-      })
-    },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
-  })
-}
+// export function useCreateUser() {
+//   const qc = useQueryClient()
+//   const getToken = useAuthToken()
+//   return useMutation({
+//     mutationFn: async (body: UserCreate) => {
+//       const token = await getToken()
+//       return api.postJson<User>(`/v1/users`, body, {
+//         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+//       })
+//     },
+//     onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
+//   })
+// }
 
 export function useUpdateUser() {
   const qc = useQueryClient()

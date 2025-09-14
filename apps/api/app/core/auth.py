@@ -13,7 +13,11 @@ from app.settings import settings
 @dataclass
 class AuthenticatedUser:
     sub: str
+    user_id: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
     email: Optional[str] = None
+    phone: Optional[str] = None
     raw: Dict[str, Any] | None = None
 
 
@@ -41,6 +45,14 @@ def verify_bearer_token(token: str) -> AuthenticatedUser:
         options={"verify_aud": False},
         issuer=settings.clerk_issuer,
     )
-    return AuthenticatedUser(sub=str(payload.get("sub")), email=payload.get("email"), raw=payload)
+    return AuthenticatedUser(
+        sub=str(payload.get("sub")), 
+        raw=payload,
+        email=payload.get("primary_email"), 
+        user_id=payload.get("user_id"),
+        first_name=payload.get("first_name"),
+        last_name=payload.get("last_name"),
+        phone=payload.get("primary_phone"),
+    )
 
 

@@ -16,15 +16,23 @@ async def get_current_user(
     token = authorization.split(" ", 1)[1]
     try:
         auth_user = verify_bearer_token(token)
-    except Exception:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, message=str(f"Invalid token: {e}"))
 
     # Ensure 1:1 mapping in DB by Clerk user id (token.sub -> User.client_id)
     try:
-        result = await session.execute(select(User).where(User.client_id == auth_user.sub))
+        result = await session.execute(select(User).where(User.clerk_user_id == auth_user.user_id))
         user = result.scalar_one_or_none()
         if user is None:
-            session.add(User(client_id=auth_user.sub, email=auth_user.email or auth_user.sub))
+            session.add(
+                User(
+                    clerk_user_id=auth_user.user_id, 
+                    email=auth_user.email, 
+                    first_name=auth_user.first_name, 
+                    last_name=auth_user.last_name, 
+                    phone=auth_user.phone
+                )
+            )
             await session.commit()
         elif auth_user.email and user.email != auth_user.email:
             user.email = auth_user.email

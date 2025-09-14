@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from app.modules.users.schemas import UserCreate, PaginatedUsers, UserUpdate
+from app.modules.users.schemas import PaginatedUsers, UserUpdate
 from app.modules.users.models import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, delete
@@ -25,17 +25,6 @@ class UsersRepo:
             users = users_result.scalars().all()
             
             return PaginatedUsers(items=users, page=page, size=size, total=total)
-        except Exception as e:
-            await self.session.rollback()
-            raise e
-
-    async def create(self, payload: UserCreate) -> User:
-        try:
-            user = User(email=payload.email, client_id=payload.client_id)
-            self.session.add(user)
-            await self.session.commit()
-            await self.session.refresh(user)
-            return user
         except Exception as e:
             await self.session.rollback()
             raise e

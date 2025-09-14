@@ -14,8 +14,7 @@ export interface paths {
         /** List Users */
         get: operations["list_users_v1_users_get"];
         put?: never;
-        /** Create User */
-        post: operations["create_user_v1_users_post"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -223,10 +222,16 @@ export interface components {
         User: {
             /** Id */
             id?: number | null;
-            /** Client Id */
-            client_id: string;
+            /** Clerk User Id */
+            clerk_user_id: string;
             /** Email */
             email: string;
+            /** First Name */
+            first_name: string;
+            /** Last Name */
+            last_name: string;
+            /** Phone */
+            phone: string;
             /**
              * Created At
              * Format: date-time
@@ -238,19 +243,10 @@ export interface components {
              */
             updated_at?: string;
         };
-        /** UserCreate */
-        UserCreate: {
-            /** Email */
-            email: string;
-            /** Client Id */
-            client_id: string;
-        };
         /** UserUpdate */
         UserUpdate: {
             /** Email */
             email: string;
-            /** Client Id */
-            client_id: string;
         };
         /** ValidationError */
         ValidationError: {
@@ -291,41 +287,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PaginatedUsers"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    create_user_v1_users_post: {
-        parameters: {
-            query?: never;
-            header?: {
-                authorization?: string | null;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UserCreate"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["User"];
                 };
             };
             /** @description Validation Error */

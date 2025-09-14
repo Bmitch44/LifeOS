@@ -1,18 +1,16 @@
-"use client"
-import { useAuth } from "@clerk/nextjs"
+"use client";
+import { useAuth } from "@clerk/nextjs";
 
 export function useAuthToken(): () => Promise<string | null> {
-  const { getToken } = useAuth()
+  const { getToken } = useAuth();
+  const template = process.env.NEXT_PUBLIC_CLERK_TOKEN_TEMPLATE || "api";
   return async () => {
     try {
-      const direct = await getToken()
-      if (direct) return direct
-      const tpl = process.env.NEXT_PUBLIC_CLERK_TOKEN_TEMPLATE || "default"
-      return await getToken({ template: tpl })
+      const t = await getToken({ template }); // prefer template token
+      if (t) return t;
+      return (await getToken()) ?? null;      // fallback to default
     } catch {
-      return null
+      return null;
     }
-  }
+  };
 }
-
-

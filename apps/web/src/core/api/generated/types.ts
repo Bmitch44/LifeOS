@@ -12,6 +12,5 @@ export type HTTPValidationError = components['schemas']['HTTPValidationError'];
 export type PaginatedCourses = components['schemas']['PaginatedCourses'];
 export type PaginatedUsers = components['schemas']['PaginatedUsers'];
 export type User = components['schemas']['User'];
-export type UserCreate = components['schemas']['UserCreate'];
 export type UserUpdate = components['schemas']['UserUpdate'];
 export type ValidationError = components['schemas']['ValidationError'];
