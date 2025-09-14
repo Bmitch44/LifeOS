@@ -4,6 +4,7 @@ import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { SidebarProvider } from "@workspace/ui/components/sidebar"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = React.useState(() => new QueryClient())
@@ -16,7 +17,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
         disableTransitionOnChange
         enableColorScheme
       >
-        {children}
+        <SidebarProvider>
+          {children}
+        </SidebarProvider>
       </NextThemesProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

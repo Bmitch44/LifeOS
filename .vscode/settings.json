@@ -1,4 +1,5 @@
 {
+  "css.lint.unknownAtRules": "ignore",
   "tailwindCSS.experimental.configFile": "packages/ui/src/styles/globals.css",
   "python.testing.pytestArgs": [
     "apps"
