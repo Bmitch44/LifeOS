@@ -1,18 +1,14 @@
 import { UserForm } from "@/src/features/users/components/UserForm"
-import { Button } from "@workspace/ui/components/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@workspace/ui/components/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
 
-export function UserFormDialog({ id, edit }: { id: number, edit: boolean }) {
+export function UserFormDialog({ id, edit, open, setOpen }: { id: number, edit: boolean, open: boolean, setOpen: (open: boolean) => void }) {
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button>{edit ? "Edit User" : "Add User"}</Button>
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>{edit ? "Edit User" : "Add User"}</DialogTitle>
                 </DialogHeader>
-                <UserForm id={id} edit={edit} />
+                <UserForm id={id} edit={edit} setOpen={setOpen} />
             </DialogContent>
         </Dialog>
     )

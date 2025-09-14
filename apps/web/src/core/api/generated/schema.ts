@@ -247,6 +247,12 @@ export interface components {
         UserUpdate: {
             /** Email */
             email: string;
+            /** First Name */
+            first_name: string;
+            /** Last Name */
+            last_name: string;
+            /** Phone */
+            phone: string;
         };
         /** ValidationError */
         ValidationError: {

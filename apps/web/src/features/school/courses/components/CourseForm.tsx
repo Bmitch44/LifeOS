@@ -24,7 +24,7 @@ const formSchema = z.object({
   final_grade: z.coerce.number().min(0).max(100),
 })
 
-export function CourseForm({ id, edit }: { id: number, edit: boolean }) {
+export function CourseForm({ id, edit, setOpen }: { id: number, edit: boolean, setOpen: (open: boolean) => void }) {
     
     const { data: course, isPending } = useGetCourse(id, edit)
     const { mutate: updateCourse } = useUpdateCourse()
@@ -79,6 +79,7 @@ export function CourseForm({ id, edit }: { id: number, edit: boolean }) {
         } else {
             createCourse(data)
         }
+        setOpen(false)
     }
 
     return (

@@ -12,9 +12,6 @@ class UsersService:
     async def list_users(self, page: int, size: int) -> PaginatedUsers:
         return await self.repo.paginate(page, size)
 
-    # async def create_user(self, payload: UserCreate, client_id: str) -> User:
-    #     return await self.repo.create(payload, client_id)
-
     async def get_user(self, id: int) -> User:
         return await self.repo.get(id)
 

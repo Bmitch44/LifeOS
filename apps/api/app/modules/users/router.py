@@ -18,16 +18,6 @@ async def list_users(
 ):
     return await svc.list_users(page, size)
 
-
-# @router.post("", response_model=User, status_code=201)
-# async def create_user(
-#     payload: UserCreate,
-#     svc: UsersService = Depends(get_users_service),
-#     user: User = Depends(get_current_user),
-# ):
-#     return await user
-
-
 @router.get("/{id}", response_model=User)
 async def get_user(
     id: int,

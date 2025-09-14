@@ -45,6 +45,9 @@ class UsersRepo:
             if not user:
                 raise HTTPException(status_code=404, detail="User not found")
             user.email = payload.email
+            user.first_name = payload.first_name
+            user.last_name = payload.last_name
+            user.phone = payload.phone
             await self.session.commit()
             await self.session.refresh(user)
             return user

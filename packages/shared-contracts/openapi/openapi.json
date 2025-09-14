@@ -956,11 +956,29 @@
             "type": "string",
             "minLength": 3,
             "title": "Email"
+          },
+          "first_name": {
+            "type": "string",
+            "minLength": 3,
+            "title": "First Name"
+          },
+          "last_name": {
+            "type": "string",
+            "minLength": 3,
+            "title": "Last Name"
+          },
+          "phone": {
+            "type": "string",
+            "minLength": 3,
+            "title": "Phone"
           }
         },
         "type": "object",
         "required": [
-          "email"
+          "email",
+          "first_name",
+          "last_name",
+          "phone"
         ],
         "title": "UserUpdate"
       },

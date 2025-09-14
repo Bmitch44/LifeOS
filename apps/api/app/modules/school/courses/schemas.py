@@ -1,5 +1,5 @@
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import List
 from app.modules.school.courses.models import Course
 

@@ -3,12 +3,9 @@
 import { Button } from "@workspace/ui/components/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "@workspace/ui/components/dialog"
 
-export function WarningDialog({ title, description, onConfirm }: { title: string, description: string, onConfirm: () => void }) {
+export function WarningDialog({ title, description, onConfirm, open, setOpen }: { title: string, description: string, onConfirm: () => void, open: boolean, setOpen: (open: boolean) => void }) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Delete</Button>
-      </DialogTrigger>  
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
@@ -16,6 +13,7 @@ export function WarningDialog({ title, description, onConfirm }: { title: string
         </DialogHeader>
         <DialogFooter>
           <Button onClick={onConfirm}>Confirm</Button>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
