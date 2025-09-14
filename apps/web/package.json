@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
+    "contracts:types": "node ./scripts/gen-types-from-openapi.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

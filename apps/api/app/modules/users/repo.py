@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from app.modules.users.schemas import UserCreate, PaginatedUsers, UserOut, UserUpdate
 from app.modules.users.models import User
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
+from sqlalchemy import select, func, delete
 
 
 class UsersRepo:
@@ -69,10 +69,12 @@ class UsersRepo:
             user = await self.session.get(User, id)
             if not user:
                 raise HTTPException(status_code=404, detail="User not found")
-            await self.session.delete(user)
+            # Keep fields for response before deletion
+            email = user.email
+            # Delete by primary key to avoid detached/persistence issues
+            await self.session.execute(delete(User).where(User.id == id))
             await self.session.commit()
-            await self.session.refresh(user)
-            return UserOut(id=id, email=user.email)
+            return UserOut(id=id, email=email)
         except Exception as e:
             await self.session.rollback()
             raise e

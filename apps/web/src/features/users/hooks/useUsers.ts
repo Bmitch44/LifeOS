@@ -1,18 +1,16 @@
 "use client"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import type { paths } from "@/src/core/api/generated/schema"
+import { PaginatedUsers, UserOut, UserCreate, UserUpdate } from "@/src/core/api/generated/types"
 import { api } from "@/src/core/api/client"
 import { useAuthToken } from "@/src/core/auth/useAuthToken"
 
-type UsersListResp = any // replace when contracts define /v1/users
-
-export function useUsers(page = 1, size = 20) {
+export function useAllUsers(page = 1, size = 20) {
   const getToken = useAuthToken()
   return useQuery({
     queryKey: ["users", page, size],
     queryFn: async () => {
       const token = await getToken()
-      return api.getJson<UsersListResp>(`/v1/users?page=${page}&size=${size}`, {
+      return api.getJson<PaginatedUsers>(`/v1/users?page=${page}&size=${size}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },
@@ -20,13 +18,54 @@ export function useUsers(page = 1, size = 20) {
   })
 }
 
+export function useGetUser(id: number) {
+  const getToken = useAuthToken()
+  return useQuery({
+    queryKey: ["users", id],
+    queryFn: async () => {
+      const token = await getToken()
+      return api.getJson<UserOut>(`/v1/users/${id}`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      })
+    },
+  })
+}
+
 export function useCreateUser() {
   const qc = useQueryClient()
   const getToken = useAuthToken()
   return useMutation({
-    mutationFn: async (body: unknown) => {
+    mutationFn: async (body: UserCreate) => {
       const token = await getToken()
-      return api.postJson(`/v1/users`, body, {
+      return api.postJson<UserOut>(`/v1/users`, body, {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      })
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
+  })
+}
+
+export function useUpdateUser() {
+  const qc = useQueryClient()
+  const getToken = useAuthToken()
+  return useMutation({
+    mutationFn: async (payload: { id: number, body: UserUpdate }) => {
+      const token = await getToken()
+      return api.putJson<UserOut>(`/v1/users/${payload.id}`, payload.body, {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      })
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
+  })
+}
+
+export function useDeleteUser() {
+  const qc = useQueryClient()
+  const getToken = useAuthToken()
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const token = await getToken()
+      return api.deleteJson<UserOut>(`/v1/users/${id}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },

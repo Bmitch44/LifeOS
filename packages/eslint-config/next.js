@@ -48,4 +48,19 @@ export const nextJsConfig = [
       "react/prop-types": "off",
     },
   },
+  // Enforce absolute imports (e.g., '@/src/...') instead of relative ('./', '../') in TS/TSX files
+  {
+    files: ["**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            "./*",
+            "../*",
+          ],
+        },
+      ],
+    },
+  },
 ]

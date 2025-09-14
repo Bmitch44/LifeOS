@@ -11,7 +11,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "contracts:export": "cd apps/api && uv run -q python -m scripts.export_openapi",
     "contracts:gen:web": "openapi-typescript packages/shared-contracts/openapi/openapi.json -o apps/web/src/core/api/generated/schema.ts",
-    "contracts:build": "pnpm contracts:export && pnpm contracts:gen:web"
+    "contracts:types": "pnpm --filter web contracts:types",
+    "contracts:build": "pnpm contracts:export && pnpm contracts:gen:web && pnpm contracts:types"
   },
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",
