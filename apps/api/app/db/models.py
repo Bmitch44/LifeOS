@@ -7,3 +7,4 @@ Keep this file small: only import models from feature modules so that
 from app.modules.users.models import User  # noqa: F401
 from app.modules.school.assesments.models import Assesment  # noqa: F401
 from app.modules.school.courses.models import Course  # noqa: F401
+from app.modules.school.lectures.models import Lecture  # noqa: F401
