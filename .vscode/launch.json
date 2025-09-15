@@ -10,7 +10,7 @@
         "cwd": "${workspaceFolder}/apps/api",
         "env": { "PYTHONPATH": "${workspaceFolder}/apps/api" },
         "envFile": "${workspaceFolder}/apps/api/.env",
-        "justMyCode": true
+        "justMyCode": false
       }
     ]
   }

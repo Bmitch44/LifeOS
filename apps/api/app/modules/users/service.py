@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.users.repo import UsersRepo
 from app.modules.users.schemas import PaginatedUsers, UserUpdate
-from app.modules.users.models import User
+from app.db.models import User
 
 
 class UsersService:

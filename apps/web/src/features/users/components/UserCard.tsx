@@ -16,11 +16,17 @@ export function UserCard({ user }: { user: User }) {
   const { mutate: deleteUser } = useDeleteUser()
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
+
+  const handleDelete = () => {
+    deleteUser(user.id!)
+    setDeleteOpen(false)
+  }
+
   return (
     <Card>
       <CardHeader>
         <div className="flex justify-between items-center w-full">
-          <CardTitle>{user.email}</CardTitle>
+          <CardTitle>{user.first_name} {user.last_name}</CardTitle>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="hover:bg-muted/60">
@@ -35,7 +41,7 @@ export function UserCard({ user }: { user: User }) {
             <WarningDialog 
                 title="Delete User"
                 description="Are you sure you want to delete this user?"
-                onConfirm={() => deleteUser(user.id!)}
+                onConfirm={handleDelete}
                 open={deleteOpen}
                 setOpen={setDeleteOpen}
             />
@@ -44,7 +50,7 @@ export function UserCard({ user }: { user: User }) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-2">
-          <p>{user.first_name} {user.last_name}</p>
+          <p>{user.email}</p>
           <p>{user.phone}</p>
         </div>
       </CardContent>

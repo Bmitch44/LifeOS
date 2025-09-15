@@ -5,9 +5,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 export function CourseFormDialog({ id, edit, open, setOpen }: { id: number, edit: boolean, open: boolean, setOpen: (open: boolean) => void }) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button>{edit ? "Edit Course" : "Add Course"}</Button>
-            </DialogTrigger>
+            {!edit && (
+                <DialogTrigger asChild>
+                    <Button onClick={() => setOpen(true)}>{edit ? "Edit Course" : "Add Course"}</Button>
+                </DialogTrigger>
+            )}
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>{edit ? "Edit Course" : "Add Course"}</DialogTitle>

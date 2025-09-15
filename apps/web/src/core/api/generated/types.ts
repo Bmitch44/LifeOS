@@ -5,10 +5,14 @@
 
 import type { components } from '@/src/core/api/generated/schema';
 
+export type Assesment = components['schemas']['Assesment'];
+export type AssesmentCreate = components['schemas']['AssesmentCreate'];
+export type AssesmentUpdate = components['schemas']['AssesmentUpdate'];
 export type Course = components['schemas']['Course'];
 export type CourseCreate = components['schemas']['CourseCreate'];
 export type CourseUpdate = components['schemas']['CourseUpdate'];
 export type HTTPValidationError = components['schemas']['HTTPValidationError'];
+export type PaginatedAssesments = components['schemas']['PaginatedAssesments'];
 export type PaginatedCourses = components['schemas']['PaginatedCourses'];
 export type PaginatedUsers = components['schemas']['PaginatedUsers'];
 export type User = components['schemas']['User'];

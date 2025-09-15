@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.school.courses.repo import CoursesRepo
 from app.modules.school.courses.schemas import CourseCreate, PaginatedCourses, CourseUpdate
-from app.modules.school.courses.models import Course
+from app.db.models import Course
 
 
 class CoursesService:

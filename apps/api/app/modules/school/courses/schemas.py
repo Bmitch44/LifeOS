@@ -1,7 +1,7 @@
 
 from pydantic import BaseModel
 from typing import List
-from app.modules.school.courses.models import Course
+from app.db.models import Course
 
 
 class CourseCreate(BaseModel):

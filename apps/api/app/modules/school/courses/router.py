@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Query
 from app.modules.school.courses.schemas import CourseCreate, CourseUpdate, PaginatedCourses
 from app.modules.school.courses.service import CoursesService
 from app.deps import get_courses_service, get_current_user
-from app.modules.school.courses.models import Course
+from app.db.models import Course
 
 router = APIRouter(prefix="/v1/courses", tags=["courses"])
 

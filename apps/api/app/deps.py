@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from app.core.auth import verify_bearer_token, AuthenticatedUser
 from app.db.base import get_session
-from app.modules.users.models import User
+from app.db.models import User
 
 async def get_current_user(
     authorization: Optional[str] = Header(default=None),
@@ -55,4 +55,7 @@ def get_courses_service(session: Annotated[AsyncSession, Depends(get_session)]):
     from app.modules.school.courses.service import CoursesService
     return CoursesService(session)
 
+def get_assesments_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.school.assesments.service import AssesmentsService
+    return AssesmentsService(session)
 

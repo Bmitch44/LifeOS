@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, Query
 
-from app.modules.users.models import User
+
 from app.modules.users.schemas import PaginatedUsers, UserUpdate
 from app.modules.users.service import UsersService
 from app.deps import get_current_user, get_users_service
+from app.db.models import User
 
 
 router = APIRouter(prefix="/v1/users", tags=["users"])

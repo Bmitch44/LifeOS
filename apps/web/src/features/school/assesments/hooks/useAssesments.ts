@@ -1,16 +1,16 @@
 "use client"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { PaginatedCourses, Course, CourseCreate, CourseUpdate } from "@/src/core/api/generated/types"
+import { PaginatedAssesments, Assesment, AssesmentCreate, AssesmentUpdate } from "@/src/core/api/generated/types"
 import { api } from "@/src/core/api/client"
 import { useAuthToken } from "@/src/core/auth/useAuthToken"
 
-export function useAllCourses(page = 1, size = 20) {
+export function useAllAssesments(page = 1, size = 20) {
   const getToken = useAuthToken()
   return useQuery({
-    queryKey: ["courses", page, size],
+    queryKey: ["assesments", page, size],
     queryFn: async () => {
       const token = await getToken()
-      return api.getJson<PaginatedCourses>(`/v1/courses?page=${page}&size=${size}`, {
+      return api.getJson<PaginatedAssesments>(`/v1/assesments?page=${page}&size=${size}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },
@@ -18,58 +18,58 @@ export function useAllCourses(page = 1, size = 20) {
   })
 }
 
-export function useGetCourse(id: number, enabled: boolean = true) {
+export function useGetAssesment(id: number, enabled: boolean = true) {
   const getToken = useAuthToken()
   return useQuery({
-    queryKey: ["courses", id],
+    queryKey: ["assesments", id],
     queryFn: async () => {
       const token = await getToken()
-      return api.getJson<Course>(`/v1/courses/${id}`, {
+      return api.getJson<Assesment>(`/v1/assesments/${id}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },
-    enabled: enabled,
+    enabled,
   })
 }
 
-export function useCreateCourse() {
+export function useCreateAssesment() {
   const qc = useQueryClient()
   const getToken = useAuthToken()
   return useMutation({
-    mutationFn: async (body: CourseCreate) => {
+    mutationFn: async (body: AssesmentCreate) => {
       const token = await getToken()
-      return api.postJson<Course>(`/v1/courses`, body, {
+      return api.postJson<Assesment>(`/v1/assesments`, body, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["courses"] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["assesments"] }),
   })
 }
 
-export function useUpdateCourse() {
+export function useUpdateAssesment() {
   const qc = useQueryClient()
   const getToken = useAuthToken()
   return useMutation({
-    mutationFn: async (payload: { id: number, body: CourseUpdate }) => {
+    mutationFn: async (payload: { id: number, body: AssesmentUpdate }) => {
       const token = await getToken()
-      return api.putJson<Course>(`/v1/courses/${payload.id}`, payload.body, {
+      return api.putJson<Assesment>(`/v1/assesments/${payload.id}`, payload.body, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["courses"] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["assesments"] }),
   })
 }
 
-export function useDeleteCourse() {
+export function useDeleteAssesment() {
   const qc = useQueryClient()
   const getToken = useAuthToken()
   return useMutation({
     mutationFn: async (id: number) => {
       const token = await getToken()
-      return api.deleteJson<{message: string}>(`/v1/courses/${id}`, {
+      return api.deleteJson<{message: string}>(`/v1/assesments/${id}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["courses"] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["assesments"] }),
   })
 }

@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from app.modules.school.courses.schemas import CourseCreate, PaginatedCourses, CourseUpdate
-from app.modules.school.courses.models import Course
+from app.db.models import Course
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 

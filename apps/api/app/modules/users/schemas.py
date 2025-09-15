@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List
-from app.modules.users.models import User
+from app.db.models import User
 
 
 class UserUpdate(BaseModel):
