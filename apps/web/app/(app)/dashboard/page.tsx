@@ -2,6 +2,7 @@
 import { UserList } from "@/src/features/users/components/UserList"
 import { CourseList } from "@/src/features/school/courses/components/CourseList"
 import { AssesmentList } from "@/src/features/school/assesments/components/AssesmentList"
+import { LectureList } from "@/src/features/school/lectures/components/LectureList"
 
 export default function Page() {
   return (
@@ -10,6 +11,7 @@ export default function Page() {
       <UserList />
       <CourseList />
       <AssesmentList />
+      <LectureList />
     </div>
   )
 }

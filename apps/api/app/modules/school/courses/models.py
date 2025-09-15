@@ -7,6 +7,7 @@ from pydantic import ConfigDict
 
 if TYPE_CHECKING:
     from app.modules.school.assesments.models import Assesment
+    from app.modules.school.lectures.models import Lecture
 
 
 class Course(SQLModel, table=True):
@@ -31,5 +32,9 @@ class Course(SQLModel, table=True):
     assesments: List["Assesment"] = Relationship(
         back_populates="course",
         sa_relationship={"argument": "assesment"}
+    )
+    lectures: List["Lecture"] = Relationship(
+        back_populates="course",
+        sa_relationship={"argument": "lecture"}
     )
     
