@@ -59,3 +59,26 @@ def get_assesments_service(session: Annotated[AsyncSession, Depends(get_session)
     from app.modules.school.assesments.service import AssesmentsService
     return AssesmentsService(session)
 
+def get_snaptrade_connection_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.integrations.snaptrade.services import SnaptradeConnectionService
+    return SnaptradeConnectionService(session)
+
+def get_plaid_item_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.integrations.plaid.services import PlaidItemService
+    return PlaidItemService(session)
+
+def get_plaid_account_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.integrations.plaid.services import PlaidAccountService
+    return PlaidAccountService(session)
+
+def get_snaptrade_account_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.integrations.snaptrade.services import SnaptradeAccountService
+    return SnaptradeAccountService(session)
+
+def get_plaid_auth_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.integrations.plaid.services import PlaidAuthService
+    return PlaidAuthService(session)
+
+def get_snaptrade_auth_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.integrations.snaptrade.services import SnaptradeAuthService
+    return SnaptradeAuthService(session)

@@ -8,6 +8,12 @@ class Settings(BaseSettings):
     clerk_jwks_url: str | None = None
     clerk_issuer: str | None = None
     database_url: str | None = None
+    snaptrade_consumer_key: str | None = None
+    snaptrade_client_id: str | None = None
+    snaptrade_custom_redirect_url: str | None = "http://localhost:3000/"
+    plaid_client_id: str | None = None
+    plaid_prod_secret: str | None = None
+    plaid_sandbox_secret: str | None = None
 
     model_config = {
         "env_file": ".env",

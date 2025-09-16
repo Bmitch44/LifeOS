@@ -24,6 +24,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
+    "react-plaid-link": "^4.1.1",
+    "snaptrade-react": "^3.2.4",
     "zod": "^3.25.76"
   },
   "devDependencies": {

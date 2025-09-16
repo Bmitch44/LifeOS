@@ -1,8 +1,8 @@
 from fastapi import HTTPException
-from app.modules.users.schemas import PaginatedUsers, UserUpdate
-from app.db.models import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, delete
+from app.modules.users.schemas import PaginatedUsers, UserUpdate
+from app.db.models import User
 
 
 class UsersRepo:
