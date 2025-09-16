@@ -12,8 +12,8 @@ export function useExchangePlaidPublicToken() {
     mutationFn: async ({ public_token }) => {
       const token = await getToken()
       return api.postJson(
-        "/v1/plaid/exchange",
-        { public_token },
+        "/v1/plaid/auth/exchange-public-token",
+        public_token,
         { headers: token ? { Authorization: `Bearer ${token}` } : undefined }
       )
     },

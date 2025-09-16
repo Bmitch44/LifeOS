@@ -1,10 +1,10 @@
 from pydantic import BaseModel
-
+from typing import Optional
 class SnaptradeConnectionCreate(BaseModel):
     clerk_user_id: str
-    connection_id: str
-    user_secret: str = None
-    brokerage_name: str = None
+    connection_id: Optional[str] = None
+    user_secret: Optional[str] = None
+    brokerage_name: Optional[str] = None
 
 class SnaptradeConnectionUpdate(SnaptradeConnectionCreate):
     pass

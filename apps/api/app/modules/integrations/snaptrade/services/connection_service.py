@@ -33,20 +33,25 @@ class SnaptradeConnectionService:
         if not connections:
             return {"message": "No connections to sync"}
 
-        ext_connections = await self.snaptrade_client.get_connections(clerk_user_id)
+        ext_connections = self.snaptrade_client.get_connections(clerk_user_id, connections[0].user_secret)
+
+        if not ext_connections:
+            return {"message": "No connections to sync"}
 
         # Upsert by external connection_id
         for ext in ext_connections:
             # Find existing by Snaptrade connection_id
             existing_result = await self.session.execute(
-                select(SnaptradeConnection).where(SnaptradeConnection.connection_id == ext.get("connection_id"))
+                select(SnaptradeConnection).where(SnaptradeConnection.connection_id == ext.get("id"))
             )
-            existing = existing_result.scalar_one_or_none()
+            existing = existing_result.scalar_one_or_none() or connections[0]
 
+            brokerage = ext.get("brokerage")
             payload = SnaptradeConnectionCreate(
                 clerk_user_id=clerk_user_id,
-                connection_id=ext.get("connection_id"),
-                brokerage_name=ext.get("brokerage_name")
+                connection_id=ext.get("id"),
+                brokerage_name=brokerage.get("name"),
+                user_secret= existing.user_secret if existing else connections[0].user_secret
             )
 
             if existing:

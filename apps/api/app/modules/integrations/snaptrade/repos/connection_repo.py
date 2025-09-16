@@ -11,7 +11,12 @@ class SnaptradeConnectionRepo:
 
     async def create(self, payload: SnaptradeConnectionCreate) -> SnaptradeConnection:
         try:
-            connection = SnaptradeConnection(clerk_user_id=payload.clerk_user_id, connection_id=payload.connection_id, brokerage_name=payload.brokerage_name)
+            connection = SnaptradeConnection(
+                clerk_user_id=payload.clerk_user_id,
+                connection_id=payload.connection_id,
+                brokerage_name=payload.brokerage_name,
+                user_secret=payload.user_secret
+            )
             self.session.add(connection)
             await self.session.commit()
             await self.session.refresh(connection)
@@ -46,6 +51,7 @@ class SnaptradeConnectionRepo:
             connection.clerk_user_id = payload.clerk_user_id
             connection.connection_id = payload.connection_id
             connection.brokerage_name = payload.brokerage_name
+            connection.user_secret = payload.user_secret
             await self.session.commit()
             await self.session.refresh(connection)
             return connection

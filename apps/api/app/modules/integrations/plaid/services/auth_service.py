@@ -12,7 +12,7 @@ class PlaidAuthService:
         self.plaid_client = PlaidClient()
         self.plaid_item_repo = PlaidItemRepo(session)
 
-    async def create_link_token(self, clerk_user_id: str) -> str:
+    async def get_link_token(self, clerk_user_id: str) -> str:
         link_token_response = await self.plaid_client.create_link_token(clerk_user_id)
         link_token = link_token_response.get("link_token")
         return link_token

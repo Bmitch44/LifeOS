@@ -16,6 +16,13 @@ async def create_item(
 ):
     return await svc.create_item(payload)
 
+@router.get("/sync", response_model=dict)
+async def sync_items(
+    svc: PlaidItemService = Depends(get_plaid_item_service),
+    auth_user: AuthenticatedUser = Depends(get_current_user),
+):
+    return await svc.sync_items(auth_user.user_id)
+
 @router.get("/{id}", response_model=PlaidItem)
 async def get_item(
     id: int,
@@ -43,10 +50,3 @@ async def delete_item(
     _=Depends(get_current_user),
 ):
     return await svc.delete_item(id)
-
-@router.get("/sync", response_model=dict)
-async def sync_items(
-    svc: PlaidItemService = Depends(get_plaid_item_service),
-    auth_user: AuthenticatedUser = Depends(get_current_user),
-):
-    return await svc.sync_items(auth_user.user_id)

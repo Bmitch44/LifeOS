@@ -1247,6 +1247,57 @@
         }
       }
     },
+    "/v1/snaptrade/connections/sync": {
+      "get": {
+        "tags": [
+          "snaptrade connections"
+        ],
+        "summary": "Sync Connections",
+        "operationId": "sync_connections_v1_snaptrade_connections_sync_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Sync Connections V1 Snaptrade Connections Sync Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/snaptrade/connections/{id}": {
       "get": {
         "tags": [
@@ -1439,57 +1490,6 @@
         }
       }
     },
-    "/v1/snaptrade/connections/sync": {
-      "get": {
-        "tags": [
-          "snaptrade connections"
-        ],
-        "summary": "Sync Connections",
-        "operationId": "sync_connections_v1_snaptrade_connections_sync_get",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true,
-                  "title": "Response Sync Connections V1 Snaptrade Connections Sync Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/snaptrade/accounts": {
       "post": {
         "tags": [
@@ -1532,6 +1532,57 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SnaptradeAccount"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/snaptrade/accounts/sync": {
+      "get": {
+        "tags": [
+          "snaptrade accounts"
+        ],
+        "summary": "Sync Accounts",
+        "operationId": "sync_accounts_v1_snaptrade_accounts_sync_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Sync Accounts V1 Snaptrade Accounts Sync Get"
                 }
               }
             }
@@ -1741,64 +1792,13 @@
         }
       }
     },
-    "/v1/snaptrade/accounts/sync": {
-      "get": {
-        "tags": [
-          "snaptrade accounts"
-        ],
-        "summary": "Sync Accounts",
-        "operationId": "sync_accounts_v1_snaptrade_accounts_sync_get",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true,
-                  "title": "Response Sync Accounts V1 Snaptrade Accounts Sync Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/snaptrade/auth/connection-portal": {
-      "post": {
+      "get": {
         "tags": [
           "snaptrade auth"
         ],
-        "summary": "Create Connection Portal",
-        "operationId": "create_connection_portal_v1_snaptrade_auth_connection_portal_post",
+        "summary": "Get Connection Portal",
+        "operationId": "get_connection_portal_v1_snaptrade_auth_connection_portal_get",
         "parameters": [
           {
             "name": "authorization",
@@ -1824,7 +1824,7 @@
               "application/json": {
                 "schema": {
                   "type": "string",
-                  "title": "Response Create Connection Portal V1 Snaptrade Auth Connection Portal Post"
+                  "title": "Response Get Connection Portal V1 Snaptrade Auth Connection Portal Get"
                 }
               }
             }
@@ -1884,6 +1884,57 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PlaidItem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/plaid/items/sync": {
+      "get": {
+        "tags": [
+          "plaid items"
+        ],
+        "summary": "Sync Items",
+        "operationId": "sync_items_v1_plaid_items_sync_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Sync Items V1 Plaid Items Sync Get"
                 }
               }
             }
@@ -2093,57 +2144,6 @@
         }
       }
     },
-    "/v1/plaid/items/sync": {
-      "get": {
-        "tags": [
-          "plaid items"
-        ],
-        "summary": "Sync Items",
-        "operationId": "sync_items_v1_plaid_items_sync_get",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true,
-                  "title": "Response Sync Items V1 Plaid Items Sync Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/plaid/accounts": {
       "post": {
         "tags": [
@@ -2186,6 +2186,57 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PlaidAccount"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/plaid/accounts/sync": {
+      "get": {
+        "tags": [
+          "plaid accounts"
+        ],
+        "summary": "Sync Accounts",
+        "operationId": "sync_accounts_v1_plaid_accounts_sync_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Sync Accounts V1 Plaid Accounts Sync Get"
                 }
               }
             }
@@ -2395,64 +2446,13 @@
         }
       }
     },
-    "/v1/plaid/accounts/sync": {
-      "get": {
-        "tags": [
-          "plaid accounts"
-        ],
-        "summary": "Sync Accounts",
-        "operationId": "sync_accounts_v1_plaid_accounts_sync_get",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true,
-                  "title": "Response Sync Accounts V1 Plaid Accounts Sync Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/plaid/auth/link-token": {
-      "post": {
+      "get": {
         "tags": [
           "plaid auth"
         ],
-        "summary": "Create Link Token",
-        "operationId": "create_link_token_v1_plaid_auth_link_token_post",
+        "summary": "Get Link Token",
+        "operationId": "get_link_token_v1_plaid_auth_link_token_get",
         "parameters": [
           {
             "name": "authorization",
@@ -2478,7 +2478,7 @@
               "application/json": {
                 "schema": {
                   "type": "string",
-                  "title": "Response Create Link Token V1 Plaid Auth Link Token Post"
+                  "title": "Response Get Link Token V1 Plaid Auth Link Token Get"
                 }
               }
             }
@@ -3838,11 +3838,25 @@
             "title": "Connection Id"
           },
           "user_secret": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "User Secret"
           },
           "brokerage_name": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Brokerage Name"
           }
         },
@@ -3864,11 +3878,25 @@
             "title": "Connection Id"
           },
           "user_secret": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "User Secret"
           },
           "brokerage_name": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Brokerage Name"
           }
         },

@@ -36,7 +36,7 @@ class SnaptradeClient:
             )
             if not response.body:
                 raise HTTPException(status_code=500, detail=f"Failed to register user: {response.body}")
-            return {"user_secret": response.body["user_secret"], "user_id": response.body["user_id"]}
+            return {"user_secret": response.body["userSecret"], "user_id": response.body["userId"]}
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to register user: {e}") from e
 
@@ -44,11 +44,11 @@ class SnaptradeClient:
         """Get all connections for a user"""
         try:
             response = self.client.connections.list_brokerage_authorizations(query_params={
-                "userId":clerk_user_id,
-                "userSecret":snaptrade_user_secret
+                "userId": clerk_user_id,
+                "userSecret": snaptrade_user_secret
             })
-            if not response.body:
-                raise HTTPException(status_code=500, detail=f"Failed to get connections: {response.body}")
+            if response.status != 200:
+                raise HTTPException(status_code=response.status, detail=f"Failed to get connections: {response.body}")
             return response.body
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to get connections: {e}") from e

@@ -13,7 +13,7 @@ export function usePlaid() {
   const exchangePublicToken = useExchangePlaidPublicToken()
 
   const config: PlaidLinkOptions = {
-    token: createLinkToken.data?.link_token ?? null,
+    token: createLinkToken.data ?? null,
     onSuccess: (token) => {
       setPublicToken(token)
       exchangePublicToken.mutate({ public_token: token })
@@ -26,7 +26,7 @@ export function usePlaid() {
 
   const connect = useCallback(async () => {
     setShouldOpen(true)
-    if (!createLinkToken.data?.link_token && !createLinkToken.isPending) {
+    if (!createLinkToken.data && !createLinkToken.isPending) {
       try {
         await createLinkToken.mutateAsync()
       } catch (e) {
@@ -37,18 +37,18 @@ export function usePlaid() {
   }, [createLinkToken])
 
   useEffect(() => {
-    if (shouldOpen && ready && createLinkToken.data?.link_token) {
+    if (shouldOpen && ready && createLinkToken.data) {
       open()
       setShouldOpen(false)
     }
-  }, [shouldOpen, ready, createLinkToken.data?.link_token, open])
+  }, [shouldOpen, ready, createLinkToken.data, open])
 
   return {
     connect,
     exit,
     ready,
     publicToken,
-    linkToken: createLinkToken.data?.link_token ?? null,
+    linkToken: createLinkToken.data ?? null,
     isCreating: createLinkToken.isPending,
     isExchanging: exchangePublicToken.isPending,
     error: createLinkToken.error ?? exchangePublicToken.error ?? null,

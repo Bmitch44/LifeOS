@@ -16,6 +16,13 @@ async def create_connection(
 ):
     return await svc.create_connection(payload)
 
+@router.get("/sync", response_model=dict)
+async def sync_connections(
+    svc: SnaptradeConnectionService = Depends(get_snaptrade_connection_service),
+    auth_user: AuthenticatedUser = Depends(get_current_user),
+):
+    return await svc.sync_connections(auth_user.user_id)
+
 @router.get("/{id}", response_model=SnaptradeConnection)
 async def get_connection(
     id: int,
@@ -43,10 +50,3 @@ async def delete_connection(
     _=Depends(get_current_user),
 ):
     return await svc.delete_connection(id)
-
-@router.get("/sync", response_model=dict)
-async def sync_connections(
-    svc: SnaptradeConnectionService = Depends(get_snaptrade_connection_service),
-    auth_user: AuthenticatedUser = Depends(get_current_user),
-):
-    return await svc.sync_connections(auth_user.user_id)

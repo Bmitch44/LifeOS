@@ -10,17 +10,17 @@ class SnaptradeAuthService:
         self.snaptrade_connection_repo = SnaptradeConnectionRepo(session)
         self.snaptrade_client = SnaptradeClient()
 
-    async def create_connection_portal(self, clerk_user_id: str) -> str:
+    async def get_connection_portal(self, clerk_user_id: str) -> str:
         connection = await self.snaptrade_connection_repo.get_by_clerk_user_id(clerk_user_id)
         if not connection:
-            new_snaptrade_user = await self.snaptrade_client.register_user(clerk_user_id)
+            new_snaptrade_user = self.snaptrade_client.register_user(clerk_user_id)
             payload = SnaptradeConnectionCreate(
                 clerk_user_id=clerk_user_id,
-                connection_id=new_snaptrade_user.get("user_id"),
                 user_secret=new_snaptrade_user.get("user_secret"),
+                connection_id=None,
                 brokerage_name=None
             )
             connection = await self.snaptrade_connection_repo.create(payload)
 
-        redirect_uri = await self.snaptrade_client.create_connection_portal(clerk_user_id, connection.user_secret)
+        redirect_uri = self.snaptrade_client.create_connection_portal(clerk_user_id, connection.user_secret)
         return redirect_uri

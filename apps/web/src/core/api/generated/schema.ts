@@ -168,6 +168,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/snaptrade/connections/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sync Connections */
+        get: operations["sync_connections_v1_snaptrade_connections_sync_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/snaptrade/connections/{id}": {
         parameters: {
             query?: never;
@@ -187,23 +204,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/snaptrade/connections/sync": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Sync Connections */
-        get: operations["sync_connections_v1_snaptrade_connections_sync_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/snaptrade/accounts": {
         parameters: {
             query?: never;
@@ -215,6 +215,23 @@ export interface paths {
         put?: never;
         /** Create Account */
         post: operations["create_account_v1_snaptrade_accounts_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/snaptrade/accounts/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sync Accounts */
+        get: operations["sync_accounts_v1_snaptrade_accounts_sync_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -240,23 +257,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/snaptrade/accounts/sync": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Sync Accounts */
-        get: operations["sync_accounts_v1_snaptrade_accounts_sync_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/snaptrade/auth/connection-portal": {
         parameters: {
             query?: never;
@@ -264,10 +264,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Get Connection Portal */
+        get: operations["get_connection_portal_v1_snaptrade_auth_connection_portal_get"];
         put?: never;
-        /** Create Connection Portal */
-        post: operations["create_connection_portal_v1_snaptrade_auth_connection_portal_post"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -285,6 +285,23 @@ export interface paths {
         put?: never;
         /** Create Item */
         post: operations["create_item_v1_plaid_items_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/plaid/items/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sync Items */
+        get: operations["sync_items_v1_plaid_items_sync_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -310,23 +327,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/plaid/items/sync": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Sync Items */
-        get: operations["sync_items_v1_plaid_items_sync_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/plaid/accounts": {
         parameters: {
             query?: never;
@@ -338,6 +338,23 @@ export interface paths {
         put?: never;
         /** Create Account */
         post: operations["create_account_v1_plaid_accounts_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/plaid/accounts/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sync Accounts */
+        get: operations["sync_accounts_v1_plaid_accounts_sync_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -363,23 +380,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/plaid/accounts/sync": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Sync Accounts */
-        get: operations["sync_accounts_v1_plaid_accounts_sync_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/plaid/auth/link-token": {
         parameters: {
             query?: never;
@@ -387,10 +387,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Get Link Token */
+        get: operations["get_link_token_v1_plaid_auth_link_token_get"];
         put?: never;
-        /** Create Link Token */
-        post: operations["create_link_token_v1_plaid_auth_link_token_post"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -982,9 +982,9 @@ export interface components {
             /** Connection Id */
             connection_id: string;
             /** User Secret */
-            user_secret?: string;
+            user_secret?: string | null;
             /** Brokerage Name */
-            brokerage_name?: string;
+            brokerage_name?: string | null;
         };
         /** SnaptradeConnectionUpdate */
         SnaptradeConnectionUpdate: {
@@ -993,9 +993,9 @@ export interface components {
             /** Connection Id */
             connection_id: string;
             /** User Secret */
-            user_secret?: string;
+            user_secret?: string | null;
             /** Brokerage Name */
-            brokerage_name?: string;
+            brokerage_name?: string | null;
         };
         /** User */
         User: {
@@ -1747,6 +1747,39 @@ export interface operations {
             };
         };
     };
+    sync_connections_v1_snaptrade_connections_sync_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     get_connection_v1_snaptrade_connections__id__get: {
         parameters: {
             query?: {
@@ -1854,39 +1887,6 @@ export interface operations {
             };
         };
     };
-    sync_connections_v1_snaptrade_connections_sync_get: {
-        parameters: {
-            query?: never;
-            header?: {
-                authorization?: string | null;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
     create_account_v1_snaptrade_accounts_post: {
         parameters: {
             query?: never;
@@ -1909,6 +1909,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SnaptradeAccount"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sync_accounts_v1_snaptrade_accounts_sync_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
@@ -2029,40 +2062,7 @@ export interface operations {
             };
         };
     };
-    sync_accounts_v1_snaptrade_accounts_sync_get: {
-        parameters: {
-            query?: never;
-            header?: {
-                authorization?: string | null;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    create_connection_portal_v1_snaptrade_auth_connection_portal_post: {
+    get_connection_portal_v1_snaptrade_auth_connection_portal_get: {
         parameters: {
             query?: never;
             header?: {
@@ -2115,6 +2115,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PlaidItem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sync_items_v1_plaid_items_sync_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
@@ -2235,39 +2268,6 @@ export interface operations {
             };
         };
     };
-    sync_items_v1_plaid_items_sync_get: {
-        parameters: {
-            query?: never;
-            header?: {
-                authorization?: string | null;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
     create_account_v1_plaid_accounts_post: {
         parameters: {
             query?: never;
@@ -2290,6 +2290,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PlaidAccount"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sync_accounts_v1_plaid_accounts_sync_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
@@ -2410,40 +2443,7 @@ export interface operations {
             };
         };
     };
-    sync_accounts_v1_plaid_accounts_sync_get: {
-        parameters: {
-            query?: never;
-            header?: {
-                authorization?: string | null;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    create_link_token_v1_plaid_auth_link_token_post: {
+    get_link_token_v1_plaid_auth_link_token_get: {
         parameters: {
             query?: never;
             header?: {

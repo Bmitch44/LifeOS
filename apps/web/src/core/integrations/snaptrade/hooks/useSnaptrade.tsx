@@ -1,18 +1,15 @@
 "use client"
 
 import { useCallback } from "react"
-import { useSnaptradeRegister } from "@/src/core/integrations/snaptrade/hooks/useSnaptradeRegister"
 import { useSnaptradeCreatePortal } from "@/src/core/integrations/snaptrade/hooks/useSnaptradeCreatePortal"
 
 export function useSnaptrade() {
-  const register = useSnaptradeRegister()
   const createPortal = useSnaptradeCreatePortal()
 
   const getRedirectLink = useCallback(async () => {
-    const { user_secret } = await register.mutateAsync()
-    const { redirectURI } = await createPortal.mutateAsync({ user_secret })
+    const redirectURI = await createPortal.mutateAsync()
     return redirectURI
-  }, [register, createPortal])
+  }, [createPortal])
 
   const connect = useCallback(async () => {
     const redirectURI = await getRedirectLink()
@@ -22,8 +19,8 @@ export function useSnaptrade() {
   return {
     connect,
     getRedirectLink,
-    isConnecting: register.isPending || createPortal.isPending,
-    error: register.error ?? createPortal.error ?? null,
+    isConnecting: createPortal.isPending,
+    error: createPortal.error ?? null,
   }
 }
 

@@ -16,6 +16,13 @@ async def create_account(
 ):
     return await svc.create_account(payload)
 
+@router.get("/sync", response_model=dict)
+async def sync_accounts(
+    svc: PlaidAccountService = Depends(get_plaid_account_service),
+    auth_user: AuthenticatedUser = Depends(get_current_user),
+):
+    return await svc.sync_accounts(auth_user.user_id)
+
 @router.get("/{id}", response_model=PlaidAccount)
 async def get_account(
     id: int,
@@ -43,10 +50,3 @@ async def delete_account(
     _=Depends(get_current_user),
 ):
     return await svc.delete_account(id)
-
-@router.get("/sync", response_model=dict)
-async def sync_accounts(
-    svc: PlaidAccountService = Depends(get_plaid_account_service),
-    auth_user: AuthenticatedUser = Depends(get_current_user),
-):
-    return await svc.sync_accounts(auth_user.user_id)
