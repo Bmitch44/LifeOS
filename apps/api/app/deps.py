@@ -82,3 +82,7 @@ def get_plaid_auth_service(session: Annotated[AsyncSession, Depends(get_session)
 def get_snaptrade_auth_service(session: Annotated[AsyncSession, Depends(get_session)]):
     from app.modules.integrations.snaptrade.services import SnaptradeAuthService
     return SnaptradeAuthService(session)
+
+def get_financial_account_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.finances.services import FinancialAccountService
+    return FinancialAccountService(session)

@@ -1,16 +1,25 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.integrations.snaptrade.repos.account_repo import SnaptradeAccountRepo
-from app.modules.integrations.snaptrade.schemas import SnaptradeAccountCreate, SnaptradeAccountUpdate
+from app.modules.integrations.snaptrade.schemas import SnaptradeAccountCreate, SnaptradeAccountUpdate, PaginatedSnaptradeAccounts
 from app.modules.integrations.snaptrade.models import SnaptradeAccount
 from app.clients.snaptrade_client import SnaptradeClient
+from app.modules.integrations.snaptrade.mappers.snaptrade_account_mapper import SnaptradeAccountMapper
+from app.modules.finances.repos.financial_account_repo import FinancialAccountRepo
+from app.modules.integrations.snaptrade.repos.connection_repo import SnaptradeConnectionRepo
 
 
 class SnaptradeAccountService:
     def __init__(self, session: AsyncSession):
         self.session = session
         self.repo = SnaptradeAccountRepo(session)
+        self.mapper = SnaptradeAccountMapper()
+        self.connection_repo = SnaptradeConnectionRepo(session)
+        self.financial_account_repo = FinancialAccountRepo(session)
         self.snaptrade_client = SnaptradeClient()
+
+    async def list_accounts(self, clerk_user_id: str, page: int, size: int) -> PaginatedSnaptradeAccounts:
+        return await self.repo.paginate(clerk_user_id, page, size)
         
     async def create_account(self, payload: SnaptradeAccountCreate) -> SnaptradeAccount:
         return await self.repo.create(payload)
@@ -25,41 +34,34 @@ class SnaptradeAccountService:
         return await self.repo.delete(id)
 
     async def sync_accounts(self, clerk_user_id: str) -> dict:
-        # Fetch all Snaptrade accounts to get their account_ids for the given clerk_user_id
-        accounts_result = await self.session.execute(select(SnaptradeAccount).where(SnaptradeAccount.clerk_user_id == clerk_user_id))
-        accounts = accounts_result.scalars().all()
+        # Fetch all Snaptrade connections to get their connection_ids for the given clerk_user_id
+        connections = await self.connection_repo.paginate(clerk_user_id, 1, 100)
 
-        # If no accounts, return
-        if not accounts:
-            return {"message": "No accounts to sync"}
+        # If no connections, return
+        if not connections:
+            return {"message": "No connections to sync"}
 
-        ext_accounts = await self.snaptrade_client.get_accounts(clerk_user_id)
+        for connection in connections:
+            ext_accounts = await self.snaptrade_client.get_accounts(clerk_user_id, connection.user_secret)
 
-        # Upsert by external account_id
-        for ext in ext_accounts:
-            # Find existing by Snaptrade account_id
-            existing_result = await self.session.execute(
-                select(SnaptradeAccount).where(SnaptradeAccount.account_id == ext.get("account_id"))
-            )
-            existing = existing_result.scalar_one_or_none()
+            # Upsert by external account_id
+            for ext_account in ext_accounts:
+                # Find existing by Snaptrade account_id
+                existing_account = await self.repo.get_by_account_id(ext_account.id)
+                existing_financial_account = await self.financial_account_repo.get_by_source_account_id(ext_account.id)
 
-            payload = SnaptradeAccountCreate(
-                clerk_user_id=clerk_user_id,
-                account_id=ext.get("account_id"),
-                connection_id=ext.get("connection_id"),
-                name=ext.get("name"),
-                number=ext.get("number"),
-                institution_name=ext.get("institution_name"),
-                status=ext.get("status"),
-                type=ext.get("type"),
-                current_balance=ext.get("current_balance"),
-                currency=ext.get("currency")
-            )
+                payload = self.mapper.map_api_account_to_snaptrade_account(clerk_user_id, ext_account)
 
-            if existing:
-                await self.repo.update(existing.id, payload)
-            else:
-                await self.repo.create(payload)
+                if existing_account:
+                    updated_account = await self.repo.update(existing_account.id, payload)
+                else:
+                    updated_account = await self.repo.create(payload)
+
+                if existing_financial_account:
+                    await self.financial_account_repo.update(existing_financial_account.id, self.mapper.map_snaptrade_account_to_financial_account(updated_account))
+                else:
+                    await self.financial_account_repo.create(self.mapper.map_snaptrade_account_to_financial_account(updated_account))
+
 
         return {"message": "Accounts synced successfully"}
         

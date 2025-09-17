@@ -9,18 +9,18 @@ class PlaidAccountRepo:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def paginate(self, page: int, size: int) -> PaginatedPlaidAccounts:
+    async def paginate(self, clerk_user_id: str, page: int, size: int) -> PaginatedPlaidAccounts:
         try:
             # Calculate offset for pagination
             offset = (page - 1) * size
             
             # Get total count for pagination metadata (SQLAlchemy 2.x)
-            total_query = select(func.count()).select_from(PlaidAccount)
+            total_query = select(func.count()).select_from(PlaidAccount).where(PlaidAccount.clerk_user_id == clerk_user_id)
             total_result = await self.session.execute(total_query)
             total = total_result.scalar_one()
             
             # Fetch only the accounts for the current page
-            plaid_accounts_query = select(PlaidAccount).offset(offset).limit(size)
+            plaid_accounts_query = select(PlaidAccount).where(PlaidAccount.clerk_user_id == clerk_user_id).offset(offset).limit(size)
             plaid_accounts_result = await self.session.execute(plaid_accounts_query)
             plaid_accounts = plaid_accounts_result.scalars().all()
             
@@ -57,6 +57,16 @@ class PlaidAccountRepo:
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
             return account
+        except Exception as e:
+            await self.session.rollback()
+            raise e
+
+    async def get_by_account_id(self, account_id: str) -> PlaidAccount:
+        try:
+            account = await self.session.execute(select(PlaidAccount).where(PlaidAccount.account_id == account_id)) 
+            if not account:
+                raise HTTPException(status_code=404, detail="Account not found")
+            return account.scalar_one_or_none()
         except Exception as e:
             await self.session.rollback()
             raise e

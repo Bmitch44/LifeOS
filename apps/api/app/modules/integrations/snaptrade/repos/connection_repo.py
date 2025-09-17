@@ -1,13 +1,27 @@
 from fastapi import HTTPException
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql import func, select
 from app.modules.integrations.snaptrade.models import SnaptradeConnection
-from app.modules.integrations.snaptrade.schemas import SnaptradeConnectionCreate, SnaptradeConnectionUpdate
+from app.modules.integrations.snaptrade.schemas import SnaptradeConnectionCreate, SnaptradeConnectionUpdate, PaginatedSnaptradeConnections
 
 
 class SnaptradeConnectionRepo:
     def __init__(self, session: AsyncSession):
         self.session = session
+
+    async def paginate(self, clerk_user_id: str, page: int, size: int) -> PaginatedSnaptradeConnections:
+        try:
+            offset = (page - 1) * size
+            total_query = select(func.count()).select_from(SnaptradeConnection).where(SnaptradeConnection.clerk_user_id == clerk_user_id)
+            total_result = await self.session.execute(total_query)
+            total = total_result.scalar_one()
+            connections_query = select(SnaptradeConnection).where(SnaptradeConnection.clerk_user_id == clerk_user_id).offset(offset).limit(size)
+            connections_result = await self.session.execute(connections_query)
+            connections = connections_result.scalars().all()
+            return PaginatedSnaptradeConnections(items=connections, page=page, size=size, total=total)
+        except Exception as e:
+            await self.session.rollback()
+            raise e
 
     async def create(self, payload: SnaptradeConnectionCreate) -> SnaptradeConnection:
         try:

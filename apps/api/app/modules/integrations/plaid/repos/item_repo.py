@@ -9,18 +9,18 @@ class PlaidItemRepo:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def paginate(self, page: int, size: int) -> PaginatedPlaidItems:
+    async def paginate(self, clerk_user_id: str, page: int, size: int) -> PaginatedPlaidItems:
         try:
             # Calculate offset for pagination
             offset = (page - 1) * size
             
             # Get total count for pagination metadata (SQLAlchemy 2.x)
-            total_query = select(func.count()).select_from(PlaidItem)
+            total_query = select(func.count()).select_from(PlaidItem).where(PlaidItem.clerk_user_id == clerk_user_id)
             total_result = await self.session.execute(total_query)
             total = total_result.scalar_one()
             
             # Fetch only the items for the current page
-            plaid_items_query = select(PlaidItem).offset(offset).limit(size)
+            plaid_items_query = select(PlaidItem).where(PlaidItem.clerk_user_id == clerk_user_id).offset(offset).limit(size)
             plaid_items_result = await self.session.execute(plaid_items_query)
             plaid_items = plaid_items_result.scalars().all()
             

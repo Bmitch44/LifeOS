@@ -1,4 +1,6 @@
+from typing import List
 from pydantic import BaseModel
+from app.db.models import SnaptradeAccount
 
 class SnaptradeAccountCreate(BaseModel):
     clerk_user_id: str
@@ -14,3 +16,9 @@ class SnaptradeAccountCreate(BaseModel):
 
 class SnaptradeAccountUpdate(SnaptradeAccountCreate):
     pass
+
+class PaginatedSnaptradeAccounts(BaseModel):
+    items: List[SnaptradeAccount]
+    page: int
+    size: int
+    total: int

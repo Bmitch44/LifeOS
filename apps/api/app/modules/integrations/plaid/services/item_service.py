@@ -11,8 +11,8 @@ class PlaidItemService:
         self.repo = PlaidItemRepo(session)
         self.plaid_client = PlaidClient()
 
-    async def list_items(self, page: int, size: int) -> PaginatedPlaidItems:
-        return await self.repo.paginate(page, size)
+    async def list_items(self, clerk_user_id: str, page: int, size: int) -> PaginatedPlaidItems:
+        return await self.repo.paginate(clerk_user_id, page, size)
         
     async def create_item(self, payload: PlaidItemCreate) -> PlaidItem:
         return await self.repo.create(payload)

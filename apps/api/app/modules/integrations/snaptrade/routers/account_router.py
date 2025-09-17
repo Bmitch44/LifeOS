@@ -1,12 +1,21 @@
 from fastapi import APIRouter, Depends, Query
 
-from app.modules.integrations.snaptrade.schemas import SnaptradeAccountCreate, SnaptradeAccountUpdate
+from app.modules.integrations.snaptrade.schemas import SnaptradeAccountCreate, SnaptradeAccountUpdate, PaginatedSnaptradeAccounts
 from app.modules.integrations.snaptrade.services import SnaptradeAccountService
 from app.deps import get_current_user, get_snaptrade_account_service
 from app.db.models import SnaptradeAccount
 from app.core.auth import AuthenticatedUser
 
 router = APIRouter(prefix="/v1/snaptrade/accounts", tags=["snaptrade accounts"])
+
+@router.get("", response_model=PaginatedSnaptradeAccounts)
+async def list_accounts(
+    page: int = Query(1),
+    size: int = Query(10),
+    svc: SnaptradeAccountService = Depends(get_snaptrade_account_service),
+    auth_user: AuthenticatedUser = Depends(get_current_user),
+):
+    return await svc.list_accounts(clerk_user_id=auth_user.user_id, page=page, size=size)
 
 @router.post("", response_model=SnaptradeAccount, status_code=201)
 async def create_account(

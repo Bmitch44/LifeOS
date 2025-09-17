@@ -1,6 +1,8 @@
 from fastapi import HTTPException
+from typing import List
 from app.settings import settings
 from snaptrade_client import SnapTrade
+from snaptrade_client.type.account import Account
 
 
 class SnaptradeClient:
@@ -63,7 +65,7 @@ class SnaptradeClient:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to get users: {e}") from e
 
-    def get_accounts(self, clerk_user_id: str, snaptrade_user_secret: str) -> dict:
+    def get_accounts(self, clerk_user_id: str, snaptrade_user_secret: str) -> List[Account]:
         """Get all accounts for a user"""
         try:
             response = self.client.account_information.list_user_accounts(query_params={

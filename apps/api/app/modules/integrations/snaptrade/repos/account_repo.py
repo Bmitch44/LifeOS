@@ -1,12 +1,27 @@
 from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql import func, select
 from app.modules.integrations.snaptrade.models import SnaptradeAccount
-from app.modules.integrations.snaptrade.schemas import SnaptradeAccountCreate, SnaptradeAccountUpdate
+from app.modules.integrations.snaptrade.schemas import SnaptradeAccountCreate, SnaptradeAccountUpdate, PaginatedSnaptradeAccounts
 
 
 class SnaptradeAccountRepo:
     def __init__(self, session: AsyncSession):
         self.session = session
+
+    async def paginate(self, clerk_user_id: str, page: int, size: int) -> PaginatedSnaptradeAccounts:
+        try:
+            offset = (page - 1) * size
+            total_query = select(func.count()).select_from(SnaptradeAccount).where(SnaptradeAccount.clerk_user_id == clerk_user_id)
+            total_result = await self.session.execute(total_query)
+            total = total_result.scalar_one()
+            accounts_query = select(SnaptradeAccount).where(SnaptradeAccount.clerk_user_id == clerk_user_id).offset(offset).limit(size)
+            accounts_result = await self.session.execute(accounts_query)
+            accounts = accounts_result.scalars().all()
+            return PaginatedSnaptradeAccounts(items=accounts, page=page, size=size, total=total)
+        except Exception as e:
+            await self.session.rollback()
+            raise e
 
     async def create(self, payload: SnaptradeAccountCreate) -> SnaptradeAccount:
         try:
@@ -36,6 +51,16 @@ class SnaptradeAccountRepo:
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
             return account
+        except Exception as e:
+            await self.session.rollback()
+            raise e
+
+    async def get_by_account_id(self, account_id: str) -> SnaptradeAccount:
+        try:
+            account = await self.session.execute(select(SnaptradeAccount).where(SnaptradeAccount.account_id == account_id))
+            if not account:
+                raise HTTPException(status_code=404, detail="Account not found")
+            return account.scalar_one_or_none()
         except Exception as e:
             await self.session.rollback()
             raise e

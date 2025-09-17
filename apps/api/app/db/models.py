@@ -12,6 +12,7 @@ from app.modules.integrations.plaid.models import PlaidItem
 from app.modules.integrations.plaid.models import PlaidAccount
 from app.modules.integrations.snaptrade.models import SnaptradeConnection
 from app.modules.integrations.snaptrade.models import SnaptradeAccount
+from app.modules.finances.models import FinancialAccount
 
 __all__ = [
     User.__name__,
@@ -22,4 +23,5 @@ __all__ = [
     PlaidAccount.__name__,
     SnaptradeConnection.__name__,
     SnaptradeAccount.__name__,
+    FinancialAccount.__name__
 ]

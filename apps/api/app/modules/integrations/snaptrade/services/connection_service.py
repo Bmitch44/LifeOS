@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.integrations.snaptrade.repos.connection_repo import SnaptradeConnectionRepo
-from app.modules.integrations.snaptrade.schemas import SnaptradeConnectionCreate, SnaptradeConnectionUpdate
+from app.modules.integrations.snaptrade.schemas import SnaptradeConnectionCreate, SnaptradeConnectionUpdate, PaginatedSnaptradeConnections
 from app.modules.integrations.snaptrade.models import SnaptradeConnection
 from app.clients.snaptrade_client import SnaptradeClient
 
@@ -11,6 +11,9 @@ class SnaptradeConnectionService:
         self.session = session
         self.repo = SnaptradeConnectionRepo(session)
         self.snaptrade_client = SnaptradeClient()
+
+    async def list_connections(self, clerk_user_id: str, page: int, size: int) -> PaginatedSnaptradeConnections:
+        return await self.repo.paginate(clerk_user_id, page, size)
 
     async def create_connection(self, payload: SnaptradeConnectionCreate) -> SnaptradeConnection:
         return await self.repo.create(payload)

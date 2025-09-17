@@ -1,12 +1,22 @@
 from fastapi import APIRouter, Depends, Query
 
-from app.modules.integrations.plaid.schemas import PlaidItemCreate, PlaidItemUpdate
+from app.modules.integrations.plaid.schemas import PlaidItemCreate, PlaidItemUpdate, PaginatedPlaidItems
 from app.modules.integrations.plaid.services import PlaidItemService
 from app.deps import get_current_user, get_plaid_item_service
 from app.db.models import PlaidItem
 from app.core.auth import AuthenticatedUser
 
 router = APIRouter(prefix="/v1/plaid/items", tags=["plaid items"])
+
+@router.get("", response_model=PaginatedPlaidItems)
+async def list_items(
+    page: int = Query(1),
+    size: int = Query(10),
+    svc: PlaidItemService = Depends(get_plaid_item_service),
+    auth_user: AuthenticatedUser = Depends(get_current_user),
+):
+    return await svc.list_items(clerk_user_id=auth_user.user_id, page=page, size=size)
+
 
 @router.post("", response_model=PlaidItem, status_code=201)
 async def create_item(

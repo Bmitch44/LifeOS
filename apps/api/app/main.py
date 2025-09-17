@@ -17,6 +17,7 @@ from app.modules.integrations.plaid.routers import (
     account_router as plaid_account_router,
     auth_router as plaid_auth_router
 )
+from app.modules.finances.routers import financial_account_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -34,12 +35,16 @@ def create_app() -> FastAPI:
     app.include_router(assesments_router)
     app.include_router(lectures_router)
 
+    # Integrations
     app.include_router(snaptrade_connection_router)
     app.include_router(snaptrade_account_router)
     app.include_router(snaptrade_auth_router)
     app.include_router(plaid_item_router)
     app.include_router(plaid_account_router)
     app.include_router(plaid_auth_router)
+
+    # Finances
+    app.include_router(financial_account_router)
 
     @app.get("/health", tags=["health"])  # simple readiness probe
     async def health() -> dict[str, str]:
