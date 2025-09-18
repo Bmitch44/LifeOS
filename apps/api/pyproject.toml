@@ -23,3 +23,8 @@ dependencies = [
 
 [project.scripts]
 export-openapi = "scripts.export_openapi:main"
+
+[tool.ruff]
+extend-exclude = [
+    "alembic"
+]

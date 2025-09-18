@@ -4,7 +4,6 @@ from app.modules.finances.schemas import FinancialAccountCreate, FinancialAccoun
 from app.modules.finances.services import FinancialAccountService
 from app.modules.finances.deps import get_financial_account_service
 from app.db.models import FinancialAccount
-from app.core.auth import AuthenticatedUser
 
 router = APIRouter(prefix="/v1/finances/accounts", tags=["financial accounts"])
 
