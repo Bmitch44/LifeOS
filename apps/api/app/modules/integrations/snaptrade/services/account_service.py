@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.integrations.snaptrade.repos.account_repo import SnaptradeAccountRepo
 from app.modules.integrations.snaptrade.schemas import SnaptradeAccountCreate, SnaptradeAccountUpdate, PaginatedSnaptradeAccounts
 from app.modules.integrations.snaptrade.models import SnaptradeAccount
-from app.clients.snaptrade_client import SnaptradeClient
+from app.clients.snaptrade_api_client import SnaptradeClient
 from app.modules.integrations.snaptrade.mappers.snaptrade_account_mapper import SnaptradeAccountMapper
 from app.modules.finances.repos.financial_account_repo import FinancialAccountRepo
 from app.modules.integrations.snaptrade.repos.connection_repo import SnaptradeConnectionRepo

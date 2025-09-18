@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.integrations.plaid.repos.account_repo import PlaidAccountRepo
 from app.modules.integrations.plaid.schemas import PlaidAccountCreate, PlaidAccountUpdate, PaginatedPlaidAccounts
 from app.modules.integrations.plaid.models import PlaidAccount
-from app.clients.plaid_client import PlaidClient
+from app.clients.plaid_api_client import PlaidClient
 from app.modules.finances.repos.financial_account_repo import FinancialAccountRepo
 from app.modules.integrations.plaid.repos.item_repo import PlaidItemRepo
 from app.modules.integrations.plaid.mappers.plaid_account_mapper import PlaidAccountToFinancialAccountMapper

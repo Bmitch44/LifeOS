@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.clients.snaptrade_client import SnaptradeClient
+from app.clients.snaptrade_api_client import SnaptradeClient
 from app.modules.integrations.snaptrade.repos.connection_repo import SnaptradeConnectionRepo
 from app.modules.integrations.snaptrade.schemas import SnaptradeConnectionCreate
 

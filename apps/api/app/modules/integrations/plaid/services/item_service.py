@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.integrations.plaid.repos.item_repo import PlaidItemRepo
 from app.modules.integrations.plaid.schemas import PlaidItemCreate, PlaidItemUpdate, PaginatedPlaidItems
 from app.db.models import PlaidItem
-from app.clients.plaid_client import PlaidClient
+from app.clients.plaid_api_client import PlaidClient
 
 class PlaidItemService:
     def __init__(self, session: AsyncSession, clerk_user_id: str):

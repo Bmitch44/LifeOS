@@ -3964,24 +3964,20 @@
           },
           "start_date": {
             "type": "string",
-            "minLength": 3,
             "format": "date-time",
             "title": "Start Date"
           },
           "end_date": {
             "type": "string",
-            "minLength": 3,
             "format": "date-time",
             "title": "End Date"
           },
           "weight": {
             "type": "number",
-            "minLength": 3,
             "title": "Weight"
           },
           "final_grade": {
             "type": "number",
-            "minLength": 3,
             "title": "Final Grade"
           }
         },
@@ -4015,24 +4011,20 @@
           },
           "start_date": {
             "type": "string",
-            "minLength": 3,
             "format": "date-time",
             "title": "Start Date"
           },
           "end_date": {
             "type": "string",
-            "minLength": 3,
             "format": "date-time",
             "title": "End Date"
           },
           "weight": {
             "type": "number",
-            "minLength": 3,
             "title": "Weight"
           },
           "final_grade": {
             "type": "number",
-            "minLength": 3,
             "title": "Final Grade"
           }
         },
