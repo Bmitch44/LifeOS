@@ -25,16 +25,17 @@ class SnaptradeAccountMapper:
 
     def map_api_account_to_snaptrade_account(self, api_account: Account) -> SnaptradeAccountCreate:
         try:
-            balance_total = api_account.balance.get("total")
+            balance_total = api_account.get("balance", {})
+            balance_total = balance_total.get("total", {})
             return SnaptradeAccountCreate(
                 clerk_user_id=self.clerk_user_id,
-                account_id=api_account.id,
-                connection_id=api_account.brokerage_authorization,
-                name=api_account.name,  
-                number=api_account.number,
-                institution_name=api_account.institution_name,
-                status=api_account.status,
-                type=api_account.raw_type,
+                account_id=api_account.get("id"),
+                connection_id=api_account.get("brokerage_authorization"),
+                name=api_account.get("name"),  
+                number=api_account.get("number"),
+                institution_name=api_account.get("institution_name"),
+                status=api_account.get("status"),
+                type=api_account.get("raw_type"),
                 current_balance=balance_total.get("amount") if balance_total else 0,
                 currency=balance_total.get("currency") if balance_total else "CAD",
             )

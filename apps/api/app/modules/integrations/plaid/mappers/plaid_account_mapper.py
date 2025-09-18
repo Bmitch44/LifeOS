@@ -26,17 +26,19 @@ class PlaidAccountToFinancialAccountMapper:
 
     def map_api_account_to_plaid_account(self, api_account: AccountBase) -> PlaidAccountCreate:
         try:
-            balances = getattr(api_account, "balances", None)
+            balances = getattr(api_account, "balances", {})
+            type = api_account.get("type", {})
+            subtype = api_account.get("subtype", {})
             plaid_account = PlaidAccountCreate(
                 clerk_user_id=self.clerk_user_id,
                 account_id=api_account.get("account_id"),
                 name=api_account.get("name"),
                 official_name=api_account.get("official_name"),
-                type=api_account.get("type"),
-                subtype=api_account.get("subtype"),
+                type=type.get("value", None),
+                subtype=subtype.get("value", None),
                 current_balance=getattr(balances, "current", None) if balances else None,
                 available_balance=getattr(balances, "available", None) if balances else None,
-                iso_currency_code=getattr(balances, "iso_currency_code", None) if balances else None,
+                iso_currency_code=getattr(balances, "iso_currency_code", "CAD") if balances else None,
                 mask=api_account.get("mask"),
             )
             return plaid_account

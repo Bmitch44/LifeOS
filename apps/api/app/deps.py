@@ -17,7 +17,7 @@ async def get_current_user(
     try:
         auth_user = verify_bearer_token(token)
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, message=str(f"Invalid token: {e}"))
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(f"Invalid token: {e}"))
 
     # Ensure 1:1 mapping in DB by Clerk user id (token.sub -> User.client_id)
     try:

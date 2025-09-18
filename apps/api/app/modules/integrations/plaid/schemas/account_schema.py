@@ -1,17 +1,18 @@
+from typing import Optional
 from pydantic import BaseModel
 from app.db.models import PlaidAccount
 
 class PlaidAccountCreate(BaseModel):
     clerk_user_id: str
     account_id: str
-    name: str
-    official_name: str
-    type: str
-    subtype: str
-    current_balance: float
-    available_balance: float
-    iso_currency_code: str
-    mask: str
+    name: Optional[str]
+    official_name: Optional[str]
+    type: Optional[str]
+    subtype: Optional[str]
+    current_balance: Optional[float]
+    available_balance: Optional[float]
+    iso_currency_code: Optional[str]
+    mask: Optional[str]
 
 class PlaidAccountUpdate(PlaidAccountCreate):
     pass

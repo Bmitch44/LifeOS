@@ -3,23 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { api } from "@/src/core/api/client"
 import { useAuthToken } from "@/src/core/auth/useAuthToken"
-
-export type PlaidAccount = any
-
-export type PlaidAccountCreate = {
-  clerk_user_id: string
-  account_id: string
-  name: string
-  official_name: string
-  type: string
-  subtype: string
-  current_balance: number
-  available_balance: number
-  iso_currency_code: string
-  mask: string
-}
-
-export type PlaidAccountUpdate = PlaidAccountCreate
+import { PlaidAccountCreate, PlaidAccountUpdate, PlaidAccount } from "@/src/core/api/generated/types"
 
 export function useGetPlaidAccount(id: number, refresh: boolean = false, enabled: boolean = true) {
   const getToken = useAuthToken()

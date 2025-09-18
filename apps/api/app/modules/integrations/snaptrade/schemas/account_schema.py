@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
 from app.db.models import SnaptradeAccount
 
@@ -6,13 +6,13 @@ class SnaptradeAccountCreate(BaseModel):
     clerk_user_id: str
     account_id: str
     connection_id: str
-    name: str
-    number: str
-    institution_name: str
-    status: str
-    type: str
-    current_balance: float
-    currency: str
+    name: Optional[str]
+    number: Optional[str]
+    institution_name: Optional[str]
+    status: Optional[str]
+    type: Optional[str]
+    current_balance: Optional[float]
+    currency: Optional[str]
 
 class SnaptradeAccountUpdate(SnaptradeAccountCreate):
     pass

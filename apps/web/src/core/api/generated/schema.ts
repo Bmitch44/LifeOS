@@ -969,21 +969,21 @@ export interface components {
             /** Account Id */
             account_id: string;
             /** Name */
-            name: string;
+            name: string | null;
             /** Official Name */
-            official_name: string;
+            official_name: string | null;
             /** Type */
-            type: string;
+            type: string | null;
             /** Subtype */
-            subtype: string;
+            subtype: string | null;
             /** Current Balance */
-            current_balance: number;
+            current_balance: number | null;
             /** Available Balance */
-            available_balance: number;
+            available_balance: number | null;
             /** Iso Currency Code */
-            iso_currency_code: string;
+            iso_currency_code: string | null;
             /** Mask */
-            mask: string;
+            mask: string | null;
         };
         /** PlaidAccountUpdate */
         PlaidAccountUpdate: {
@@ -992,21 +992,21 @@ export interface components {
             /** Account Id */
             account_id: string;
             /** Name */
-            name: string;
+            name: string | null;
             /** Official Name */
-            official_name: string;
+            official_name: string | null;
             /** Type */
-            type: string;
+            type: string | null;
             /** Subtype */
-            subtype: string;
+            subtype: string | null;
             /** Current Balance */
-            current_balance: number;
+            current_balance: number | null;
             /** Available Balance */
-            available_balance: number;
+            available_balance: number | null;
             /** Iso Currency Code */
-            iso_currency_code: string;
+            iso_currency_code: string | null;
             /** Mask */
-            mask: string;
+            mask: string | null;
         };
         /** PlaidItem */
         PlaidItem: {
@@ -1049,7 +1049,7 @@ export interface components {
             /** Item Id */
             item_id: string;
             /** Access Token */
-            access_token: string;
+            access_token?: string | null;
             /** Institution Name */
             institution_name?: string | null;
         };
@@ -1097,19 +1097,19 @@ export interface components {
             /** Connection Id */
             connection_id: string;
             /** Name */
-            name: string;
+            name: string | null;
             /** Number */
-            number: string;
+            number: string | null;
             /** Institution Name */
-            institution_name: string;
+            institution_name: string | null;
             /** Status */
-            status: string;
+            status: string | null;
             /** Type */
-            type: string;
+            type: string | null;
             /** Current Balance */
-            current_balance: number;
+            current_balance: number | null;
             /** Currency */
-            currency: string;
+            currency: string | null;
         };
         /** SnaptradeAccountUpdate */
         SnaptradeAccountUpdate: {
@@ -1120,19 +1120,19 @@ export interface components {
             /** Connection Id */
             connection_id: string;
             /** Name */
-            name: string;
+            name: string | null;
             /** Number */
-            number: string;
+            number: string | null;
             /** Institution Name */
-            institution_name: string;
+            institution_name: string | null;
             /** Status */
-            status: string;
+            status: string | null;
             /** Type */
-            type: string;
+            type: string | null;
             /** Current Balance */
-            current_balance: number;
+            current_balance: number | null;
             /** Currency */
-            currency: string;
+            currency: string | null;
         };
         /** SnaptradeConnection */
         SnaptradeConnection: {
@@ -2931,9 +2931,7 @@ export interface operations {
     };
     get_financial_account_v1_finances_accounts__id__get: {
         parameters: {
-            query?: {
-                refresh?: boolean;
-            };
+            query?: never;
             header?: {
                 authorization?: string | null;
             };

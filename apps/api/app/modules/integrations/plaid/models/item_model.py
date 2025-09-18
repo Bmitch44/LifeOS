@@ -7,7 +7,7 @@ from sqlmodel import Field, SQLModel
 class PlaidItem(SQLModel, table=True):
     __tablename__ = "plaid_item"
     id: Optional[int] = Field(default=None, primary_key=True)
-    clerk_user_id: str = Field(unique=True, index=True)
+    clerk_user_id: str = Field(index=True)
     item_id: str = Field(nullable=True)
     access_token: str = Field(nullable=True)
     institution_name: str = Field(nullable=True)

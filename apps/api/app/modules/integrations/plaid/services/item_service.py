@@ -29,19 +29,18 @@ class PlaidItemService:
 
     async def sync_items(self) -> dict:
         
-        # Fetch all Plaid items to get their access tokens
         items_result = await self.repo.paginate(1, 100)
 
-        # If no items, return
-        if not items_result:
+        if items_result.total == 0:
             return {"message": "No items to sync"}
 
-        # Update each item with the new item_id and institution_name
-        for item in items_result:
+        for item in items_result.items:
             ext_item = await self.plaid_client.get_item(item.access_token)
             payload = PlaidItemUpdate(
+                clerk_user_id=self.clerk_user_id,
                 item_id=ext_item.get("item_id"),
-                institution_name=ext_item.get("institution_name")
+                institution_name=ext_item.get("institution_name"),
+                access_token=item.access_token
             )
             await self.repo.update(item.id, payload)
 

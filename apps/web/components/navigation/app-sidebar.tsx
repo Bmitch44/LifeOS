@@ -38,18 +38,18 @@ const data = {
   ],
   navMain: [
     {
-      title: "Banking",
-      url: "/banking",
+      title: "Finances  ",
+      url: "/finances",
       icon: Banknote,
       isActive: true,
       items: [
         {
           title: "Accounts",
-          url: "/banking/accounts",
+          url: "/finances/accounts",
         },
         {
           title: "Transactions",
-          url: "/banking/transactions",
+          url: "/finances/transactions",
         }
       ],
     },

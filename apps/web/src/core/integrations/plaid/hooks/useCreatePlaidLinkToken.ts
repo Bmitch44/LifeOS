@@ -11,9 +11,8 @@ export function useCreatePlaidLinkToken() {
   return useMutation<CreateLinkTokenResponse, Error, void>({
     mutationFn: async () => {
       const token = await getToken()
-      return api.postJson<CreateLinkTokenResponse>(
+      return api.getJson<CreateLinkTokenResponse>(
         "/v1/plaid/auth/link-token",
-        {},
         { headers: token ? { Authorization: `Bearer ${token}` } : undefined }
       )
     },

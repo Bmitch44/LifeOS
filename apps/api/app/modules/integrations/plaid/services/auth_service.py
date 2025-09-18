@@ -10,11 +10,11 @@ class PlaidAuthService:
     def __init__(self, session: AsyncSession, clerk_user_id: str):
         self.session = session
         self.clerk_user_id = clerk_user_id
-        self.plaid_client = PlaidClient()
+        self.plaid_client = PlaidClient(clerk_user_id)
         self.plaid_item_repo = PlaidItemRepo(session, clerk_user_id)
 
     async def get_link_token(self) -> str:
-        link_token_response = await self.plaid_client.create_link_token(self.clerk_user_id)
+        link_token_response = await self.plaid_client.create_link_token()
         link_token = link_token_response.get("link_token")
         return link_token
 

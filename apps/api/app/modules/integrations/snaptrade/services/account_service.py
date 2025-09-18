@@ -35,21 +35,17 @@ class SnaptradeAccountService:
         return await self.repo.delete(id)
 
     async def sync_accounts(self) -> dict:
-        # Fetch all Snaptrade connections to get their connection_ids for the given clerk_user_id
-        connections = await self.connection_repo.paginate(1, 100)
+        connections_result = await self.connection_repo.paginate(1, 100)
 
-        # If no connections, return
-        if not connections:
+        if connections_result.total == 0:
             return {"message": "No connections to sync"}
 
-        for connection in connections:
-            ext_accounts = await self.snaptrade_client.get_accounts(connection.user_secret)
+        for connection in connections_result.items:
+            ext_accounts = self.snaptrade_client.get_accounts(connection.user_secret)
 
-            # Upsert by external account_id
             for ext_account in ext_accounts:
-                # Find existing by Snaptrade account_id
-                existing_account = await self.repo.get_by_account_id(ext_account.id)
-                existing_financial_account = await self.financial_account_repo.get_by_source_account_id(ext_account.id)
+                existing_account = await self.repo.get_by_account_id(ext_account.get("id"))
+                existing_financial_account = await self.financial_account_repo.get_by_source_account_id(ext_account.get("id"))
 
                 payload = self.mapper.map_api_account_to_snaptrade_account(ext_account)
 

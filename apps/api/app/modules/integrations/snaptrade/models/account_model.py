@@ -7,7 +7,7 @@ from sqlmodel import Field, SQLModel
 class SnaptradeAccount(SQLModel, table=True):
     __tablename__ = "snaptrade_account"
     id: Optional[int] = Field(default=None, primary_key=True)
-    clerk_user_id: str = Field(unique=True, index=True)
+    clerk_user_id: str = Field(index=True)
     account_id: str = Field(nullable=True)
     connection_id: str = Field(nullable=True)
     name: str = Field(nullable=True)

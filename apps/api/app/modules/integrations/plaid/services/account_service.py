@@ -33,21 +33,15 @@ class PlaidAccountService:
         return await self.repo.delete(id)
 
     async def sync_accounts(self) -> dict:
-        # Fetch all Plaid items to get their access tokens for the given clerk_user_id
-        items = await self.item_repo.paginate(1, 100)
+        items_result = await self.item_repo.paginate(1, 100)
 
-        # If no items, return
-        if not items:
+        if items_result.total == 0:
             return {"message": "No items to sync"}
 
-        # Sync each item
-        for item in items:
-            # One call per item: get all accounts from Plaid
+        for item in items_result.items:
             ext_accounts = await self.plaid_client.get_accounts(access_token=item.access_token)
 
-            # Upsert by external account_id
             for ext in ext_accounts:
-                # Find existing by Plaid account_id
                 existing_account = await self.repo.get_by_account_id(ext.account_id)
                 existing_financial_account = await self.financial_account_repo.get_by_source_account_id(ext.account_id)
 

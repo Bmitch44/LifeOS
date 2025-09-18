@@ -3,16 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { api } from "@/src/core/api/client"
 import { useAuthToken } from "@/src/core/auth/useAuthToken"
-
-export type SnaptradeConnection = any
-
-export type SnaptradeConnectionCreate = {
-  clerk_user_id: string
-  connection_id: string
-  brokerage_name: string
-}
-
-export type SnaptradeConnectionUpdate = SnaptradeConnectionCreate
+import { SnaptradeConnectionCreate, SnaptradeConnectionUpdate, SnaptradeConnection } from "@/src/core/api/generated/types"
 
 export function useGetSnaptradeConnection(id: number, refresh: boolean = false, enabled: boolean = true) {
   const getToken = useAuthToken()

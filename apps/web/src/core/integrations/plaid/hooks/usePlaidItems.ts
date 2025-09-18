@@ -3,17 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { api } from "@/src/core/api/client"
 import { useAuthToken } from "@/src/core/auth/useAuthToken"
-
-export type PlaidItem = any
-
-export type PlaidItemCreate = {
-  clerk_user_id: string
-  item_id: string
-  access_token: string
-  institution_name: string
-}
-
-export type PlaidItemUpdate = PlaidItemCreate
+import { PlaidItemCreate, PlaidItemUpdate, PlaidItem } from "@/src/core/api/generated/types"
 
 export function useGetPlaidItem(id: number, refresh: boolean = false, enabled: boolean = true) {
   const getToken = useAuthToken()

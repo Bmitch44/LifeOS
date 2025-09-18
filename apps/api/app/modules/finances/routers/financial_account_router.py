@@ -32,11 +32,8 @@ async def sync_financial_accounts(
 @router.get("/{id}", response_model=FinancialAccount)
 async def get_financial_account(
     id: int,
-    refresh: bool = Query(False),
     svc: FinancialAccountService = Depends(get_financial_account_service),
 ):
-    if refresh:
-        return await svc.sync_financial_accounts()
     return await svc.get_financial_account(id)
 
 @router.put("/{id}", response_model=FinancialAccount)

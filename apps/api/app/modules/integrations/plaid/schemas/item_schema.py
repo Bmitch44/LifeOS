@@ -9,7 +9,7 @@ class PlaidItemCreate(BaseModel):
     institution_name: Optional[str] = None
 
 class PlaidItemUpdate(PlaidItemCreate):
-    pass
+    access_token: Optional[str] = None
 
 class PaginatedPlaidItems(BaseModel):
     items: list[PlaidItem]

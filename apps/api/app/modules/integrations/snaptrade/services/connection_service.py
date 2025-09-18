@@ -34,10 +34,10 @@ class SnaptradeConnectionService:
         connections_result = await self.repo.paginate(1, 100)
 
         # If no connections, return
-        if not connections_result:
+        if connections_result.total == 0:
             return {"message": "No connections to sync"}
 
-        for connection in connections_result:
+        for connection in connections_result.items:
 
             ext_connections = self.snaptrade_client.get_connections(connection.user_secret)
 
