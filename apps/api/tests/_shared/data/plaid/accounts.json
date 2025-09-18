@@ -1,0 +1,15 @@
+[
+  {
+    "account_id": "pa_1",
+    "name": "Checking",
+    "official_name": "My Checking",
+    "type": "depository",
+    "subtype": "checking",
+    "balances": {
+      "current": 200.0,
+      "available": 190.0,
+      "iso_currency_code": "CAD"
+    },
+    "mask": "1111"
+  }
+]
