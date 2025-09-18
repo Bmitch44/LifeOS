@@ -12,10 +12,15 @@ export function FinancialAccountList() {
 
   return (
     <div>
-        <Button onClick={() => syncFinancialAccounts()}>Sync Financial Accounts</Button>
-      {data?.items?.map((financialAccount: FinancialAccount) => (
-        <FinancialAccountCard financialAccount={financialAccount} />
-      ))}
+        <div className="flex justify-between items-center">
+          <h1 className="text-xl font-bold">Financial Accounts</h1>
+          <Button onClick={() => syncFinancialAccounts()}>Sync Financial Accounts</Button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4"> 
+          {data?.items?.map((financialAccount: FinancialAccount) => (
+              <FinancialAccountCard key={financialAccount.id} financialAccount={financialAccount} />
+          ))}
+        </div>
     </div>
   )
 }

@@ -2,10 +2,5 @@ import { FinancialAccountList } from "@/src/features/finances/financial-accounts
 
 
 export default function FinancesAccountsPage() {
-  return (
-    <div>
-      <h1>Finances Accounts</h1>
-      <FinancialAccountList />
-    </div>
-  )
+  return <FinancialAccountList />
 }
