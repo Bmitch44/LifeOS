@@ -158,7 +158,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** List Connections */
+        get: operations["list_connections_v1_snaptrade_connections_get"];
         put?: never;
         /** Create Connection */
         post: operations["create_connection_v1_snaptrade_connections_post"];
@@ -211,7 +212,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** List Accounts */
+        get: operations["list_accounts_v1_snaptrade_accounts_get"];
         put?: never;
         /** Create Account */
         post: operations["create_account_v1_snaptrade_accounts_post"];
@@ -281,7 +283,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** List Items */
+        get: operations["list_items_v1_plaid_items_get"];
         put?: never;
         /** Create Item */
         post: operations["create_item_v1_plaid_items_post"];
@@ -334,7 +337,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** List Accounts */
+        get: operations["list_accounts_v1_plaid_accounts_get"];
         put?: never;
         /** Create Account */
         post: operations["create_account_v1_plaid_accounts_post"];
@@ -409,6 +413,60 @@ export interface paths {
         /** Exchange Public Token */
         post: operations["exchange_public_token_v1_plaid_auth_exchange_public_token_post"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/finances/accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Financial Accounts */
+        get: operations["list_financial_accounts_v1_finances_accounts_get"];
+        put?: never;
+        /** Create Financial Account */
+        post: operations["create_financial_account_v1_finances_accounts_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/finances/accounts/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sync Financial Accounts */
+        get: operations["sync_financial_accounts_v1_finances_accounts_sync_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/finances/accounts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Financial Account */
+        get: operations["get_financial_account_v1_finances_accounts__id__get"];
+        /** Update Financial Account */
+        put: operations["update_financial_account_v1_finances_accounts__id__put"];
+        post?: never;
+        /** Delete Financial Account */
+        delete: operations["delete_financial_account_v1_finances_accounts__id__delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -615,6 +673,75 @@ export interface components {
             /** Final Grade */
             final_grade: number;
         };
+        /** FinancialAccount */
+        FinancialAccount: {
+            /** Id */
+            id?: number | null;
+            /** Clerk User Id */
+            clerk_user_id: string;
+            /** Type */
+            type: string | null;
+            /** Name */
+            name: string | null;
+            /** Institution Name */
+            institution_name: string | null;
+            /** Currency */
+            currency: string | null;
+            /** Current Balance */
+            current_balance: number | null;
+            /** Source */
+            source: string;
+            /** Source Account Id */
+            source_account_id: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at?: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at?: string;
+        };
+        /** FinancialAccountCreate */
+        FinancialAccountCreate: {
+            /** Clerk User Id */
+            clerk_user_id: string;
+            /** Type */
+            type?: string | null;
+            /** Name */
+            name?: string | null;
+            /** Institution Name */
+            institution_name?: string | null;
+            /** Currency */
+            currency?: string | null;
+            /** Current Balance */
+            current_balance?: number | null;
+            /** Source */
+            source: string;
+            /** Source Account Id */
+            source_account_id: string;
+        };
+        /** FinancialAccountUpdate */
+        FinancialAccountUpdate: {
+            /** Clerk User Id */
+            clerk_user_id: string;
+            /** Type */
+            type?: string | null;
+            /** Name */
+            name?: string | null;
+            /** Institution Name */
+            institution_name?: string | null;
+            /** Currency */
+            currency?: string | null;
+            /** Current Balance */
+            current_balance?: number | null;
+            /** Source */
+            source: string;
+            /** Source Account Id */
+            source_account_id: string;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -723,10 +850,65 @@ export interface components {
             /** Total */
             total: number;
         };
+        /** PaginatedFinancialAccounts */
+        PaginatedFinancialAccounts: {
+            /** Items */
+            items: components["schemas"]["FinancialAccount"][];
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+            /** Total */
+            total: number;
+        };
         /** PaginatedLectures */
         PaginatedLectures: {
             /** Items */
             items: components["schemas"]["Lecture"][];
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+            /** Total */
+            total: number;
+        };
+        /** PaginatedPlaidAccounts */
+        PaginatedPlaidAccounts: {
+            /** Items */
+            items: components["schemas"]["PlaidAccount"][];
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+            /** Total */
+            total: number;
+        };
+        /** PaginatedPlaidItems */
+        PaginatedPlaidItems: {
+            /** Items */
+            items: components["schemas"]["PlaidItem"][];
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+            /** Total */
+            total: number;
+        };
+        /** PaginatedSnaptradeAccounts */
+        PaginatedSnaptradeAccounts: {
+            /** Items */
+            items: components["schemas"]["SnaptradeAccount"][];
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+            /** Total */
+            total: number;
+        };
+        /** PaginatedSnaptradeConnections */
+        PaginatedSnaptradeConnections: {
+            /** Items */
+            items: components["schemas"]["SnaptradeConnection"][];
             /** Page */
             page: number;
             /** Size */
@@ -858,7 +1040,7 @@ export interface components {
             /** Access Token */
             access_token: string;
             /** Institution Name */
-            institution_name?: string;
+            institution_name?: string | null;
         };
         /** PlaidItemUpdate */
         PlaidItemUpdate: {
@@ -869,7 +1051,7 @@ export interface components {
             /** Access Token */
             access_token: string;
             /** Institution Name */
-            institution_name?: string;
+            institution_name?: string | null;
         };
         /** SnaptradeAccount */
         SnaptradeAccount: {
@@ -980,7 +1162,7 @@ export interface components {
             /** Clerk User Id */
             clerk_user_id: string;
             /** Connection Id */
-            connection_id: string;
+            connection_id?: string | null;
             /** User Secret */
             user_secret?: string | null;
             /** Brokerage Name */
@@ -991,7 +1173,7 @@ export interface components {
             /** Clerk User Id */
             clerk_user_id: string;
             /** Connection Id */
-            connection_id: string;
+            connection_id?: string | null;
             /** User Secret */
             user_secret?: string | null;
             /** Brokerage Name */
@@ -1712,6 +1894,40 @@ export interface operations {
             };
         };
     };
+    list_connections_v1_snaptrade_connections_get: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedSnaptradeConnections"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     create_connection_v1_snaptrade_connections_post: {
         parameters: {
             query?: never;
@@ -1874,6 +2090,40 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_accounts_v1_snaptrade_accounts_get: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedSnaptradeAccounts"];
                 };
             };
             /** @description Validation Error */
@@ -2093,6 +2343,40 @@ export interface operations {
             };
         };
     };
+    list_items_v1_plaid_items_get: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPlaidItems"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     create_item_v1_plaid_items_post: {
         parameters: {
             query?: never;
@@ -2255,6 +2539,40 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_accounts_v1_plaid_accounts_get: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPlaidAccounts"];
                 };
             };
             /** @description Validation Error */
@@ -2496,6 +2814,215 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PlaidItem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_financial_accounts_v1_finances_accounts_get: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedFinancialAccounts"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_financial_account_v1_finances_accounts_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FinancialAccountCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FinancialAccount"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sync_financial_accounts_v1_finances_accounts_sync_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_financial_account_v1_finances_accounts__id__get: {
+        parameters: {
+            query?: {
+                refresh?: boolean;
+            };
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FinancialAccount"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_financial_account_v1_finances_accounts__id__put: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FinancialAccountUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FinancialAccount"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_financial_account_v1_finances_accounts__id__delete: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
