@@ -1,0 +1,12 @@
+[
+  {
+    "id": "sa_1",
+    "brokerage_authorization": "conn_1",
+    "name": "Brokerage Account",
+    "number": "****1111",
+    "institution_name": "Broker One",
+    "status": "ACTIVE",
+    "raw_type": "cash",
+    "balance": {"total": {"amount": 5000.0, "currency": "CAD"}}
+  }
+]
