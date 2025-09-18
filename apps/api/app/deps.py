@@ -58,3 +58,7 @@ def get_courses_service(session: Annotated[AsyncSession, Depends(get_session)]):
 def get_assesments_service(session: Annotated[AsyncSession, Depends(get_session)]):
     from app.modules.school.assesments.service import AssesmentsService
     return AssesmentsService(session)
+
+def get_lectures_service(session: Annotated[AsyncSession, Depends(get_session)]):
+    from app.modules.school.lectures.service import LecturesService
+    return LecturesService(session)

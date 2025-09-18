@@ -18,6 +18,7 @@ dependencies = [
     "debugpy>=1.8.0",
     "snaptrade-python-sdk==11.0.132",
     "plaid-python>=36.1.0",
+    "pytest>=8.4.2",
 ]
 
 [project.scripts]

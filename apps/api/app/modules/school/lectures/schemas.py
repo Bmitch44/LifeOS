@@ -8,10 +8,10 @@ class LectureCreate(BaseModel):
     course_id: int
     name: str = Field(..., min_length=3)
     description: str = Field(..., min_length=3)
-    start_date: datetime = Field(..., min_length=3)
-    end_date: datetime = Field(..., min_length=3)
-    weight: float = Field(..., min_length=3)
-    final_grade: float = Field(..., min_length=3)
+    start_date: datetime
+    end_date: datetime
+    weight: float
+    final_grade: float
 
 
 class LectureUpdate(LectureCreate):
