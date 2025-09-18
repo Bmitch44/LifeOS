@@ -7,17 +7,18 @@ from app.db.models import PlaidItem
 
 
 class PlaidAuthService:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession, clerk_user_id: str):
         self.session = session
+        self.clerk_user_id = clerk_user_id
         self.plaid_client = PlaidClient()
-        self.plaid_item_repo = PlaidItemRepo(session)
+        self.plaid_item_repo = PlaidItemRepo(session, clerk_user_id)
 
-    async def get_link_token(self, clerk_user_id: str) -> str:
-        link_token_response = await self.plaid_client.create_link_token(clerk_user_id)
+    async def get_link_token(self) -> str:
+        link_token_response = await self.plaid_client.create_link_token(self.clerk_user_id)
         link_token = link_token_response.get("link_token")
         return link_token
 
-    async def exchange_public_token(self, clerk_user_id: str, public_token: str) -> PlaidItem:
+    async def exchange_public_token(self, public_token: str) -> PlaidItem:
         if not public_token:
             raise HTTPException(status_code=400, detail="Public token is required")
             
@@ -26,7 +27,7 @@ class PlaidAuthService:
         access_token = exchange_response.get("access_token")
         item_id = exchange_response.get("item_id")
         payload = PlaidItemCreate(
-            clerk_user_id=clerk_user_id,
+            clerk_user_id=self.clerk_user_id,
             item_id=item_id,
             access_token=access_token,
             institution_name=None,

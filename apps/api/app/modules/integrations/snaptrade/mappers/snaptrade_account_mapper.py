@@ -5,6 +5,9 @@ from app.modules.integrations.snaptrade.schemas import SnaptradeAccountCreate
 from snaptrade_client.type.account import Account
 
 class SnaptradeAccountMapper:
+    def __init__(self, clerk_user_id: str):
+        self.clerk_user_id = clerk_user_id
+
     def map_snaptrade_account_to_financial_account(self, snaptrade_account: SnaptradeAccount) -> FinancialAccountCreate:
         try:
             return FinancialAccountCreate(
@@ -20,11 +23,11 @@ class SnaptradeAccountMapper:
         except Exception as e:
             raise ValidationError(status_code=500, detail=f"Failed to map snaptrade account to financial account: {e}") from e
 
-    def map_api_account_to_snaptrade_account(self, clerk_user_id: str, api_account: Account) -> SnaptradeAccountCreate:
+    def map_api_account_to_snaptrade_account(self, api_account: Account) -> SnaptradeAccountCreate:
         try:
             balance_total = api_account.balance.get("total")
             return SnaptradeAccountCreate(
-                clerk_user_id=clerk_user_id,
+                clerk_user_id=self.clerk_user_id,
                 account_id=api_account.id,
                 connection_id=api_account.brokerage_authorization,
                 name=api_account.name,  

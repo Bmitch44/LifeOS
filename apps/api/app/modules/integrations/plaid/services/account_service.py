@@ -5,19 +5,20 @@ from app.modules.integrations.plaid.models import PlaidAccount
 from app.clients.plaid_client import PlaidClient
 from app.modules.finances.repos.financial_account_repo import FinancialAccountRepo
 from app.modules.integrations.plaid.repos.item_repo import PlaidItemRepo
-from app.modules.integrations.plaid.mappers.plaid_account_to_finacial_account import PlaidAccountToFinancialAccountMapper
+from app.modules.integrations.plaid.mappers.plaid_account_mapper import PlaidAccountToFinancialAccountMapper
 
 class PlaidAccountService:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession, clerk_user_id: str):
         self.session = session
-        self.repo = PlaidAccountRepo(session)
-        self.mapper = PlaidAccountToFinancialAccountMapper()
-        self.financial_account_repo = FinancialAccountRepo(session)
-        self.item_repo = PlaidItemRepo(session)
-        self.plaid_client = PlaidClient()
+        self.clerk_user_id = clerk_user_id
+        self.repo = PlaidAccountRepo(session, clerk_user_id)
+        self.financial_account_repo = FinancialAccountRepo(session, clerk_user_id)
+        self.item_repo = PlaidItemRepo(session, clerk_user_id)
+        self.mapper = PlaidAccountToFinancialAccountMapper(clerk_user_id)
+        self.plaid_client = PlaidClient(clerk_user_id)
 
-    async def list_accounts(self, clerk_user_id: str, page: int, size: int) -> PaginatedPlaidAccounts:
-        return await self.repo.paginate(clerk_user_id, page, size)
+    async def list_accounts(self, page: int, size: int) -> PaginatedPlaidAccounts:
+        return await self.repo.paginate(page, size)
         
     async def create_account(self, payload: PlaidAccountCreate) -> PlaidAccount:
         return await self.repo.create(payload)
@@ -31,9 +32,9 @@ class PlaidAccountService:
     async def delete_account(self, id: int) -> dict:
         return await self.repo.delete(id)
 
-    async def sync_accounts(self, clerk_user_id: str) -> dict:
+    async def sync_accounts(self) -> dict:
         # Fetch all Plaid items to get their access tokens for the given clerk_user_id
-        items = await self.item_repo.paginate(clerk_user_id, 1, 100)
+        items = await self.item_repo.paginate(1, 100)
 
         # If no items, return
         if not items:
@@ -50,7 +51,7 @@ class PlaidAccountService:
                 existing_account = await self.repo.get_by_account_id(ext.account_id)
                 existing_financial_account = await self.financial_account_repo.get_by_source_account_id(ext.account_id)
 
-                payload = self.mapper.map_api_account_to_plaid_account(clerk_user_id, ext)
+                payload = self.mapper.map_api_account_to_plaid_account(ext)
 
                 if existing_account:
                     updated_account = await self.repo.update(existing_account.id, payload)

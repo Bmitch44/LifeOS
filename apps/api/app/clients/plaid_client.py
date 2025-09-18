@@ -23,7 +23,8 @@ class PlaidConnectionType(Enum):
     SANDBOX = "sandbox"
 
 class PlaidClient:
-    def __init__(self):
+    def __init__(self, clerk_user_id: str):
+        self.clerk_user_id = clerk_user_id
         self.client = self._setup_plaid_client(PlaidConnectionType.SANDBOX)
 
     def _setup_plaid_client(self, connection_type: PlaidConnectionType):
@@ -38,7 +39,7 @@ class PlaidClient:
         api_client = plaid.ApiClient(config)
         return plaid_api.PlaidApi(api_client)
 
-    async def create_link_token(self, clerk_user_id: str) -> dict:
+    async def create_link_token(self) -> dict:
         """Create a link token for Plaid Link initialization"""
         try:
             request = LinkTokenCreateRequest(
@@ -46,7 +47,7 @@ class PlaidClient:
                 client_name="LifeOS",
                 country_codes=[CountryCode('CA')],
                 language='en',
-                user=LinkTokenCreateRequestUser(client_user_id=str(clerk_user_id))
+                user=LinkTokenCreateRequestUser(client_user_id=str(self.clerk_user_id))
             )
             response: LinkTokenCreateResponse = self.client.link_token_create(link_token_create_request=request)
             return {"link_token": response.link_token}

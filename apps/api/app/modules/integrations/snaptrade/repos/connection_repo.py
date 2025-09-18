@@ -6,16 +6,17 @@ from app.modules.integrations.snaptrade.schemas import SnaptradeConnectionCreate
 
 
 class SnaptradeConnectionRepo:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession, clerk_user_id: str):
+        self.clerk_user_id = clerk_user_id
         self.session = session
 
-    async def paginate(self, clerk_user_id: str, page: int, size: int) -> PaginatedSnaptradeConnections:
+    async def paginate(self, page: int, size: int) -> PaginatedSnaptradeConnections:
         try:
             offset = (page - 1) * size
-            total_query = select(func.count()).select_from(SnaptradeConnection).where(SnaptradeConnection.clerk_user_id == clerk_user_id)
+            total_query = select(func.count()).select_from(SnaptradeConnection).where(SnaptradeConnection.clerk_user_id == self.clerk_user_id)
             total_result = await self.session.execute(total_query)
             total = total_result.scalar_one()
-            connections_query = select(SnaptradeConnection).where(SnaptradeConnection.clerk_user_id == clerk_user_id).offset(offset).limit(size)
+            connections_query = select(SnaptradeConnection).where(SnaptradeConnection.clerk_user_id == self.clerk_user_id).offset(offset).limit(size)
             connections_result = await self.session.execute(connections_query)
             connections = connections_result.scalars().all()
             return PaginatedSnaptradeConnections(items=connections, page=page, size=size, total=total)
@@ -41,17 +42,31 @@ class SnaptradeConnectionRepo:
 
     async def get(self, id: int) -> SnaptradeConnection:
         try:
-            connection = await self.session.get(SnaptradeConnection, id)
+            connection = await self.session.execute(
+                select(SnaptradeConnection).where(SnaptradeConnection.id == id, SnaptradeConnection.clerk_user_id == self.clerk_user_id)
+            )
             if not connection:
                 raise HTTPException(status_code=404, detail="Connection not found")
-            return connection
+            return connection.scalar_one_or_none()
         except Exception as e:
             await self.session.rollback()
             raise e
 
-    async def get_by_clerk_user_id(self, clerk_user_id: str) -> SnaptradeConnection:
+    async def get_by_clerk_user_id(self) -> SnaptradeConnection:
         try:
-            connection = await self.session.execute(select(SnaptradeConnection).where(SnaptradeConnection.clerk_user_id == clerk_user_id))
+            connection = await self.session.execute(select(SnaptradeConnection).where(SnaptradeConnection.clerk_user_id == self.clerk_user_id))
+            if not connection:
+                raise HTTPException(status_code=404, detail="Connection not found")
+            return connection.scalar_one_or_none()
+        except Exception as e:
+            await self.session.rollback()
+            raise e
+
+    async def get_by_connection_id(self, connection_id: str) -> SnaptradeConnection:
+        try:
+            connection = await self.session.execute(select(SnaptradeConnection).where(SnaptradeConnection.connection_id == connection_id))
+            if not connection:
+                raise HTTPException(status_code=404, detail="Connection not found")
             return connection.scalar_one_or_none()
         except Exception as e:
             await self.session.rollback()
@@ -59,7 +74,7 @@ class SnaptradeConnectionRepo:
 
     async def update(self, id: int, payload: SnaptradeConnectionUpdate) -> SnaptradeConnection:
         try:
-            connection = await self.session.get(SnaptradeConnection, id)
+            connection = await self.get(id)
             if not connection:
                 raise HTTPException(status_code=404, detail="Connection not found")
             connection.clerk_user_id = payload.clerk_user_id
@@ -75,7 +90,7 @@ class SnaptradeConnectionRepo:
 
     async def delete(self, id: int) -> dict:
         try:
-            connection = await self.session.get(SnaptradeConnection, id)
+            connection = await self.get(id)
             if not connection:
                 raise HTTPException(status_code=404, detail="Connection not found")
             await self.session.delete(connection)

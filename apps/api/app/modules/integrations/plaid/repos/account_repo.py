@@ -6,21 +6,22 @@ from app.modules.integrations.plaid.schemas import PlaidAccountCreate, PlaidAcco
 
 
 class PlaidAccountRepo:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession, clerk_user_id: str):
         self.session = session
+        self.clerk_user_id = clerk_user_id
 
-    async def paginate(self, clerk_user_id: str, page: int, size: int) -> PaginatedPlaidAccounts:
+    async def paginate(self, page: int, size: int) -> PaginatedPlaidAccounts:
         try:
             # Calculate offset for pagination
             offset = (page - 1) * size
             
             # Get total count for pagination metadata (SQLAlchemy 2.x)
-            total_query = select(func.count()).select_from(PlaidAccount).where(PlaidAccount.clerk_user_id == clerk_user_id)
+            total_query = select(func.count()).select_from(PlaidAccount).where(PlaidAccount.clerk_user_id == self.clerk_user_id)
             total_result = await self.session.execute(total_query)
             total = total_result.scalar_one()
             
             # Fetch only the accounts for the current page
-            plaid_accounts_query = select(PlaidAccount).where(PlaidAccount.clerk_user_id == clerk_user_id).offset(offset).limit(size)
+            plaid_accounts_query = select(PlaidAccount).where(PlaidAccount.clerk_user_id == self.clerk_user_id).offset(offset).limit(size)
             plaid_accounts_result = await self.session.execute(plaid_accounts_query)
             plaid_accounts = plaid_accounts_result.scalars().all()
             
@@ -53,17 +54,21 @@ class PlaidAccountRepo:
 
     async def get(self, id: int) -> PlaidAccount:
         try:
-            account = await self.session.get(PlaidAccount, id)
+            account = await self.session.execute(
+                select(PlaidAccount).where(PlaidAccount.id == id, PlaidAccount.clerk_user_id == self.clerk_user_id)
+            )
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
-            return account
+            return account.scalar_one_or_none()
         except Exception as e:
             await self.session.rollback()
             raise e
 
     async def get_by_account_id(self, account_id: str) -> PlaidAccount:
         try:
-            account = await self.session.execute(select(PlaidAccount).where(PlaidAccount.account_id == account_id)) 
+            account = await self.session.execute(
+                select(PlaidAccount).where(PlaidAccount.account_id == account_id, PlaidAccount.clerk_user_id == self.clerk_user_id)
+            )
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
             return account.scalar_one_or_none()
@@ -73,7 +78,7 @@ class PlaidAccountRepo:
 
     async def update(self, id: int, payload: PlaidAccountUpdate) -> PlaidAccount:
         try:
-            account = await self.session.get(PlaidAccount, id)
+            account = await self.get(id)
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
             account.account_id = payload.account_id
@@ -94,7 +99,7 @@ class PlaidAccountRepo:
 
     async def delete(self, id: int) -> dict:
         try:
-            account = await self.session.get(PlaidAccount, id)
+            account = await self.get(id)
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
             await self.session.delete(account)

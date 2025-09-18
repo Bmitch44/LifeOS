@@ -5,6 +5,9 @@ from plaid.model.account_base import AccountBase
 from pydantic import ValidationError
 
 class PlaidAccountToFinancialAccountMapper:
+    def __init__(self, clerk_user_id: str):
+        self.clerk_user_id = clerk_user_id
+
     def map_plaid_account_to_financial_account(self, plaid_account: PlaidAccount) -> FinancialAccountCreate:
         try:
             financial_account = FinancialAccountCreate(
@@ -21,11 +24,11 @@ class PlaidAccountToFinancialAccountMapper:
         except Exception as e:
             raise ValidationError(status_code=500, detail=f"Failed to map plaid account to financial account: {e}") from e
 
-    def map_api_account_to_plaid_account(self, clerk_user_id: str, api_account: AccountBase) -> PlaidAccountCreate:
+    def map_api_account_to_plaid_account(self, api_account: AccountBase) -> PlaidAccountCreate:
         try:
             balances = getattr(api_account, "balances", None)
             plaid_account = PlaidAccountCreate(
-                clerk_user_id=clerk_user_id,
+                clerk_user_id=self.clerk_user_id,
                 account_id=api_account.get("account_id"),
                 name=api_account.get("name"),
                 official_name=api_account.get("official_name"),

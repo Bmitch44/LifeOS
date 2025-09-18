@@ -4,16 +4,18 @@ from app.modules.integrations.snaptrade.repos.connection_repo import SnaptradeCo
 from app.modules.integrations.snaptrade.schemas import SnaptradeConnectionCreate, SnaptradeConnectionUpdate, PaginatedSnaptradeConnections
 from app.modules.integrations.snaptrade.models import SnaptradeConnection
 from app.clients.snaptrade_client import SnaptradeClient
+from app.modules.integrations.snaptrade.mappers.snaptrade_connection_mapper import SnaptradeConnectionMapper
 
 
 class SnaptradeConnectionService:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession, clerk_user_id: str):
         self.session = session
-        self.repo = SnaptradeConnectionRepo(session)
-        self.snaptrade_client = SnaptradeClient()
+        self.repo = SnaptradeConnectionRepo(session, clerk_user_id)
+        self.mapper = SnaptradeConnectionMapper(clerk_user_id)
+        self.snaptrade_client = SnaptradeClient(clerk_user_id)
 
-    async def list_connections(self, clerk_user_id: str, page: int, size: int) -> PaginatedSnaptradeConnections:
-        return await self.repo.paginate(clerk_user_id, page, size)
+    async def list_connections(self, page: int, size: int) -> PaginatedSnaptradeConnections:
+        return await self.repo.paginate(page, size)
 
     async def create_connection(self, payload: SnaptradeConnectionCreate) -> SnaptradeConnection:
         return await self.repo.create(payload)
@@ -27,39 +29,28 @@ class SnaptradeConnectionService:
     async def delete_connection(self, id: int) -> dict:
         return await self.repo.delete(id)
 
-    async def sync_connections(self, clerk_user_id: str) -> dict:
+    async def sync_connections(self) -> dict:
         # Fetch all Snaptrade connections to get their connection_ids for the given clerk_user_id
-        connections_result = await self.session.execute(select(SnaptradeConnection).where(SnaptradeConnection.clerk_user_id == clerk_user_id))
-        connections = connections_result.scalars().all()
+        connections_result = await self.repo.paginate(1, 100)
 
         # If no connections, return
-        if not connections:
+        if not connections_result:
             return {"message": "No connections to sync"}
 
-        ext_connections = self.snaptrade_client.get_connections(clerk_user_id, connections[0].user_secret)
+        for connection in connections_result:
 
-        if not ext_connections:
-            return {"message": "No connections to sync"}
+            ext_connections = self.snaptrade_client.get_connections(connection.user_secret)
 
-        # Upsert by external connection_id
-        for ext in ext_connections:
-            # Find existing by Snaptrade connection_id
-            existing_result = await self.session.execute(
-                select(SnaptradeConnection).where(SnaptradeConnection.connection_id == ext.get("id"))
-            )
-            existing = existing_result.scalar_one_or_none() or connections[0]
+            # Upsert by external connection_id
+            for ext in ext_connections:
+                # Find existing by Snaptrade connection_id
+                existing = await self.repo.get_by_connection_id(ext.get("id"))
 
-            brokerage = ext.get("brokerage")
-            payload = SnaptradeConnectionCreate(
-                clerk_user_id=clerk_user_id,
-                connection_id=ext.get("id"),
-                brokerage_name=brokerage.get("name"),
-                user_secret= existing.user_secret if existing else connections[0].user_secret
-            )
+                payload = self.mapper.map_api_connection_to_snaptrade_connection(ext, connection.user_secret)
 
-            if existing:
-                await self.repo.update(existing.id, payload)
-            else:
-                await self.repo.create(payload)
+                if existing:
+                    await self.repo.update(existing.id, payload)
+                else:
+                    await self.repo.create(payload)
 
         return {"message": "Connections synced successfully"}

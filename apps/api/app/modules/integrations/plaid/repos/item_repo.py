@@ -6,21 +6,22 @@ from app.modules.integrations.plaid.schemas import PlaidItemCreate, PlaidItemUpd
 
 
 class PlaidItemRepo:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession, clerk_user_id: str):
         self.session = session
+        self.clerk_user_id = clerk_user_id
 
-    async def paginate(self, clerk_user_id: str, page: int, size: int) -> PaginatedPlaidItems:
+    async def paginate(self, page: int, size: int) -> PaginatedPlaidItems:
         try:
             # Calculate offset for pagination
             offset = (page - 1) * size
             
             # Get total count for pagination metadata (SQLAlchemy 2.x)
-            total_query = select(func.count()).select_from(PlaidItem).where(PlaidItem.clerk_user_id == clerk_user_id)
+            total_query = select(func.count()).select_from(PlaidItem).where(PlaidItem.clerk_user_id == self.clerk_user_id)
             total_result = await self.session.execute(total_query)
             total = total_result.scalar_one()
             
             # Fetch only the items for the current page
-            plaid_items_query = select(PlaidItem).where(PlaidItem.clerk_user_id == clerk_user_id).offset(offset).limit(size)
+            plaid_items_query = select(PlaidItem).where(PlaidItem.clerk_user_id == self.clerk_user_id).offset(offset).limit(size)
             plaid_items_result = await self.session.execute(plaid_items_query)
             plaid_items = plaid_items_result.scalars().all()
             
@@ -42,17 +43,19 @@ class PlaidItemRepo:
 
     async def get(self, id: int) -> PlaidItem:
         try:
-            item = await self.session.get(PlaidItem, id)
+            item = await self.session.execute(
+                select(PlaidItem).where(PlaidItem.id == id, PlaidItem.clerk_user_id == self.clerk_user_id)
+            )
             if not item:
                 raise HTTPException(status_code=404, detail="Item not found")
-            return item
+            return item.scalar_one_or_none()
         except Exception as e:
             await self.session.rollback()
             raise e
 
     async def update(self, id: int, payload: PlaidItemUpdate) -> PlaidItem:
         try:
-            item = await self.session.get(PlaidItem, id)
+            item = await self.get(id)
             if not item:
                 raise HTTPException(status_code=404, detail="Item not found")
             item.item_id = payload.item_id
@@ -68,7 +71,7 @@ class PlaidItemRepo:
 
     async def delete(self, id: int) -> dict:
         try:
-            item = await self.session.get(PlaidItem, id)
+            item = await self.get(id)
             if not item:
                 raise HTTPException(status_code=404, detail="Item not found")
             await self.session.delete(item)

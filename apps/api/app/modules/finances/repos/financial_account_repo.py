@@ -6,21 +6,22 @@ from app.db.models import FinancialAccount
 
 
 class FinancialAccountRepo:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession, clerk_user_id: str):
         self.session = session
+        self.clerk_user_id = clerk_user_id
 
-    async def paginate(self, clerk_user_id: str, page: int, size: int) -> PaginatedFinancialAccounts:
+    async def paginate(self, page: int, size: int) -> PaginatedFinancialAccounts:
         try:
             # Calculate offset for pagination
             offset = (page - 1) * size
             
             # Get total count for pagination metadata (SQLAlchemy 2.x)
-            total_query = select(func.count()).select_from(FinancialAccount).where(FinancialAccount.clerk_user_id == clerk_user_id)
+            total_query = select(func.count()).select_from(FinancialAccount).where(FinancialAccount.clerk_user_id == self.clerk_user_id)
             total_result = await self.session.execute(total_query)
             total = total_result.scalar_one()
             
             # Fetch only the users for the current page
-            financial_accounts_query = select(FinancialAccount).where(FinancialAccount.clerk_user_id == clerk_user_id).offset(offset).limit(size)
+            financial_accounts_query = select(FinancialAccount).where(FinancialAccount.clerk_user_id == self.clerk_user_id).offset(offset).limit(size)
             financial_accounts_result = await self.session.execute(financial_accounts_query)
             financial_accounts = financial_accounts_result.scalars().all()
             
@@ -51,17 +52,21 @@ class FinancialAccountRepo:
 
     async def get(self, id: int) -> FinancialAccount:
         try:
-            financial_account = await self.session.get(FinancialAccount, id)
+            financial_account = await self.session.execute(
+                select(FinancialAccount).where(FinancialAccount.id == id, FinancialAccount.clerk_user_id == self.clerk_user_id)
+            )
             if not financial_account:
                 raise HTTPException(status_code=404, detail="Financial account not found")
-            return financial_account
+            return financial_account.scalar_one_or_none()
         except Exception as e:
             await self.session.rollback()
             raise e
 
     async def get_by_source_account_id(self, source_account_id: str) -> FinancialAccount:
         try:
-            financial_account = await self.session.execute(select(FinancialAccount).where(FinancialAccount.source_account_id == source_account_id))
+            financial_account = await self.session.execute(
+                select(FinancialAccount).where(FinancialAccount.source_account_id == source_account_id, FinancialAccount.clerk_user_id == self.clerk_user_id)
+            )
             if not financial_account:
                 raise HTTPException(status_code=404, detail="Financial account not found")
             return financial_account.scalar_one_or_none()
@@ -71,7 +76,7 @@ class FinancialAccountRepo:
 
     async def update(self, id: int, payload: FinancialAccountUpdate) -> FinancialAccount:
         try:
-            financial_account = await self.session.get(FinancialAccount, id)
+            financial_account = await self.get(id)
             if not financial_account:
                 raise HTTPException(status_code=404, detail="Financial account not found")
             financial_account.clerk_user_id = payload.clerk_user_id
@@ -91,7 +96,7 @@ class FinancialAccountRepo:
 
     async def delete(self, id: int) -> dict:
         try:
-            financial_account = await self.session.get(FinancialAccount, id)
+            financial_account = await self.get(id)
             if not financial_account:
                 raise HTTPException(status_code=404, detail="Financial account not found")
             await self.session.execute(delete(FinancialAccount).where(FinancialAccount.id == id))

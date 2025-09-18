@@ -6,16 +6,17 @@ from app.modules.integrations.snaptrade.schemas import SnaptradeAccountCreate, S
 
 
 class SnaptradeAccountRepo:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession, clerk_user_id: str):
         self.session = session
+        self.clerk_user_id = clerk_user_id
 
-    async def paginate(self, clerk_user_id: str, page: int, size: int) -> PaginatedSnaptradeAccounts:
+    async def paginate(self, page: int, size: int) -> PaginatedSnaptradeAccounts:
         try:
             offset = (page - 1) * size
-            total_query = select(func.count()).select_from(SnaptradeAccount).where(SnaptradeAccount.clerk_user_id == clerk_user_id)
+            total_query = select(func.count()).select_from(SnaptradeAccount).where(SnaptradeAccount.clerk_user_id == self.clerk_user_id)
             total_result = await self.session.execute(total_query)
             total = total_result.scalar_one()
-            accounts_query = select(SnaptradeAccount).where(SnaptradeAccount.clerk_user_id == clerk_user_id).offset(offset).limit(size)
+            accounts_query = select(SnaptradeAccount).where(SnaptradeAccount.clerk_user_id == self.clerk_user_id).offset(offset).limit(size)
             accounts_result = await self.session.execute(accounts_query)
             accounts = accounts_result.scalars().all()
             return PaginatedSnaptradeAccounts(items=accounts, page=page, size=size, total=total)
@@ -47,17 +48,21 @@ class SnaptradeAccountRepo:
 
     async def get(self, id: int) -> SnaptradeAccount:
         try:
-            account = await self.session.get(SnaptradeAccount, id)
+            account = await self.session.execute(
+                select(SnaptradeAccount).where(SnaptradeAccount.id == id, SnaptradeAccount.clerk_user_id == self.clerk_user_id)
+            )
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
-            return account
+            return account.scalar_one_or_none()
         except Exception as e:
             await self.session.rollback()
             raise e
 
     async def get_by_account_id(self, account_id: str) -> SnaptradeAccount:
         try:
-            account = await self.session.execute(select(SnaptradeAccount).where(SnaptradeAccount.account_id == account_id))
+            account = await self.session.execute(
+                select(SnaptradeAccount).where(SnaptradeAccount.account_id == account_id, SnaptradeAccount.clerk_user_id == self.clerk_user_id)
+            )
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
             return account.scalar_one_or_none()
@@ -67,7 +72,7 @@ class SnaptradeAccountRepo:
 
     async def update(self, id: int, payload: SnaptradeAccountUpdate) -> SnaptradeAccount:
         try:
-            account = await self.session.get(SnaptradeAccount, id)
+            account = await self.get(id)
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
             account.clerk_user_id = payload.clerk_user_id
@@ -89,7 +94,7 @@ class SnaptradeAccountRepo:
 
     async def delete(self, id: int) -> dict:
         try:
-            account = await self.session.get(SnaptradeAccount, id)
+            account = await self.get(id)
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
             await self.session.delete(account)

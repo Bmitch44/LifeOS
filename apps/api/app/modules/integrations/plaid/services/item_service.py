@@ -6,13 +6,14 @@ from app.db.models import PlaidItem
 from app.clients.plaid_client import PlaidClient
 
 class PlaidItemService:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession, clerk_user_id: str):
         self.session = session
-        self.repo = PlaidItemRepo(session)
-        self.plaid_client = PlaidClient()
+        self.clerk_user_id = clerk_user_id
+        self.repo = PlaidItemRepo(session, clerk_user_id)
+        self.plaid_client = PlaidClient(clerk_user_id)
 
-    async def list_items(self, clerk_user_id: str, page: int, size: int) -> PaginatedPlaidItems:
-        return await self.repo.paginate(clerk_user_id, page, size)
+    async def list_items(self, page: int, size: int) -> PaginatedPlaidItems:
+        return await self.repo.paginate(page, size)
         
     async def create_item(self, payload: PlaidItemCreate) -> PlaidItem:
         return await self.repo.create(payload)
@@ -26,21 +27,22 @@ class PlaidItemService:
     async def delete_item(self, id: int) -> dict:
         return await self.repo.delete(id)
 
-    async def sync_items(self, clerk_user_id: str) -> dict:
+    async def sync_items(self) -> dict:
         
         # Fetch all Plaid items to get their access tokens
-        items_result = await self.session.execute(select(PlaidItem).where(PlaidItem.clerk_user_id == clerk_user_id))
-        items = items_result.scalars().all()
+        items_result = await self.repo.paginate(1, 100)
 
         # If no items, return
-        if not items:
+        if not items_result:
             return {"message": "No items to sync"}
 
         # Update each item with the new item_id and institution_name
-        for item in items:
+        for item in items_result:
             ext_item = await self.plaid_client.get_item(item.access_token)
-            item.item_id = ext_item.get("item_id")
-            item.institution_name = ext_item.get("institution_name")
-            await self.repo.update(item.id, item)
+            payload = PlaidItemUpdate(
+                item_id=ext_item.get("item_id"),
+                institution_name=ext_item.get("institution_name")
+            )
+            await self.repo.update(item.id, payload)
 
         return {"message": "Items synced successfully"}
