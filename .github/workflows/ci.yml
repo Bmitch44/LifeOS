@@ -31,7 +31,7 @@ jobs:
         run: |
           pip install \
             fastapi uvicorn pydantic pydantic-settings pytest PyJWT[crypto] \
-            sqlmodel sqlalchemy asyncpg alembic ruff httpx snaptrade-python-sdk plaid-python
+            sqlmodel sqlalchemy asyncpg alembic ruff httpx snaptrade-python-sdk plaid-python aiosqlite
       - name: Typecheck & Lint (JS + Py)
         run: |
           pnpm typecheck
