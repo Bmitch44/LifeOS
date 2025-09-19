@@ -2,7 +2,7 @@
 import { useAllCourses } from "@/src/features/school/courses/hooks/useCourses"
 import { Course } from "@/src/core/api/generated/types"
 import { CourseCard } from "@/src/features/school/courses/components/CourseCard"
-import { CourseFormDialog } from "./CourseFormDialog"
+import { CourseFormDialog } from "@/src/features/school/courses/components/CourseFormDialog"
 import { useState } from "react"
 
 

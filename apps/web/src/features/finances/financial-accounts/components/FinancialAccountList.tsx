@@ -1,5 +1,5 @@
 "use client"
-import { FinancialAccountCard } from "./FinancialAccountCard"
+import { FinancialAccountCard } from "@/src/features/finances/financial-accounts/components/FinancialAccountCard"
 import { useAllFinancialAccounts, useSyncFinancialAccounts } from "@/src/features/finances/financial-accounts/hooks/useFinacialAccounts"
 import { FinancialAccount } from "@/src/core/api/generated/types"
 import { Button } from "@workspace/ui/components/button"

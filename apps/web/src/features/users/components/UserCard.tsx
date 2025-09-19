@@ -3,7 +3,7 @@
 import { User } from "@/src/core/api/generated/types"
 import { useDeleteUser } from "@/src/features/users/hooks/useUsers"
 import { WarningDialog } from "@/components/dialogs/WarningDialog"
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@workspace/ui/components/card"
+import { Card, CardHeader, CardTitle, CardContent } from "@workspace/ui/components/card"
 import { UserFormDialog } from "@/src/features/users/components/UserFormDialog"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@workspace/ui/components/dropdown-menu"
 import { Button } from "@workspace/ui/components/button"

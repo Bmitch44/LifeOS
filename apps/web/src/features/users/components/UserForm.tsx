@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@workspace/ui/components/form"
 import { Input } from "@workspace/ui/components/input"
-import { useGetUser, useUpdateUser } from "../hooks/useUsers"
+import { useGetUser, useUpdateUser } from "@/src/features/users/hooks/useUsers"
 import { Button } from "@workspace/ui/components/button"
 import { useEffect } from "react"
 

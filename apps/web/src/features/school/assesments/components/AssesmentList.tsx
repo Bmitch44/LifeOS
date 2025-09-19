@@ -1,7 +1,7 @@
 import { useAllAssesments } from "@/src/features/school/assesments/hooks/useAssesments"
 import { AssesmentCard } from "@/src/features/school/assesments/components/AssesmentCard"
 import { Assesment } from "@/src/core/api/generated/types"
-import { AssesmentFormDialog } from "./AssesmentFormDialog"
+import { AssesmentFormDialog } from "@/src/features/school/assesments/components/AssesmentFormDialog"
 import { useState } from "react"
 
 export function AssesmentList() {

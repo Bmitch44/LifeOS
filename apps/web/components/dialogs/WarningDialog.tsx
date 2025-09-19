@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@workspace/ui/components/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "@workspace/ui/components/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@workspace/ui/components/dialog"
 
 export function WarningDialog({ title, description, onConfirm, open, setOpen }: { title: string, description: string, onConfirm: () => void, open: boolean, setOpen: (open: boolean) => void }) {
   return (
