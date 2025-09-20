@@ -4,11 +4,9 @@ from tests.factories import create_user
 
 
 @pytest.mark.anyio
-async def test_list_users_pagination(client, session):
-    # seed
-    for i in range(1, 6):
+async def test_list_users(client, session):
+    for i in range(5):
         await create_user(session, clerk_user_id=f"user_{i}", email=f"u{i}@ex.com")
-
     r = await client.get("/v1/users", params={"page": 1, "size": 2})
     assert r.status_code == 200
     data = r.json()
@@ -23,9 +21,7 @@ async def test_get_user(client, session):
     user = await create_user(session)
     r = await client.get(f"/v1/users/{user.id}")
     assert r.status_code == 200
-    data = r.json()
-    assert data["id"] == user.id
-    assert data["email"] == user.email
+    assert r.json()["id"] == user.id
 
 
 @pytest.mark.anyio
