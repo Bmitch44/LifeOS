@@ -767,10 +767,6 @@ export interface components {
              * Format: date-time
              */
             end_date: string;
-            /** Weight */
-            weight: number;
-            /** Final Grade */
-            final_grade: number;
             /**
              * Created At
              * Format: date-time
@@ -800,10 +796,6 @@ export interface components {
              * Format: date-time
              */
             end_date: string;
-            /** Weight */
-            weight: number;
-            /** Final Grade */
-            final_grade: number;
         };
         /** LectureUpdate */
         LectureUpdate: {
@@ -823,10 +815,6 @@ export interface components {
              * Format: date-time
              */
             end_date: string;
-            /** Weight */
-            weight: number;
-            /** Final Grade */
-            final_grade: number;
         };
         /** PaginatedAssesments */
         PaginatedAssesments: {

@@ -1,3 +1,9 @@
+import logfire
+from app.settings import settings
+
+logfire.configure(token=settings.logfire_token)
+logfire.install_auto_tracing(modules=['modules.*'], min_duration=0.01)
+
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 

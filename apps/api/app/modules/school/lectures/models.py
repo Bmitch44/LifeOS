@@ -17,8 +17,6 @@ class Lecture(SQLModel, table=True):
     description: str = Field(nullable=True)
     start_date: datetime = Field(nullable=True)
     end_date: datetime = Field(nullable=True)
-    weight: float = Field(nullable=True)
-    final_grade: float = Field(nullable=True)
     created_at: datetime = Field(nullable=True, default_factory=lambda: datetime.now())
     updated_at: datetime = Field(nullable=True, default_factory=lambda: datetime.now(), sa_column_kwargs={"onupdate": lambda: datetime.now()})
 

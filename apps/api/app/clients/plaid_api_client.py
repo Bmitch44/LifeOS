@@ -25,7 +25,7 @@ class PlaidConnectionType(Enum):
 class PlaidClient:
     def __init__(self, clerk_user_id: str):
         self.clerk_user_id = clerk_user_id
-        self.client = self._setup_plaid_client(PlaidConnectionType.SANDBOX)
+        self.client = self._setup_plaid_client(PlaidConnectionType.PRODUCTION)
 
     def _setup_plaid_client(self, connection_type: PlaidConnectionType):
         host = plaid.Environment.Production if connection_type == PlaidConnectionType.PRODUCTION else plaid.Environment.Sandbox

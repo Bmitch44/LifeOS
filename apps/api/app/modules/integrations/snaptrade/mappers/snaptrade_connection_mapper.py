@@ -1,7 +1,6 @@
 from snaptrade_client.type.brokerage_authorization import BrokerageAuthorization
 from app.modules.integrations.snaptrade.schemas import SnaptradeConnectionCreate
 
-
 class SnaptradeConnectionMapper:
     def __init__(self, clerk_user_id: str):
         self.clerk_user_id = clerk_user_id

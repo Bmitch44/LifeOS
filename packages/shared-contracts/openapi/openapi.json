@@ -3915,14 +3915,6 @@
             "format": "date-time",
             "title": "End Date"
           },
-          "weight": {
-            "type": "number",
-            "title": "Weight"
-          },
-          "final_grade": {
-            "type": "number",
-            "title": "Final Grade"
-          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -3940,9 +3932,7 @@
           "name",
           "description",
           "start_date",
-          "end_date",
-          "weight",
-          "final_grade"
+          "end_date"
         ],
         "title": "Lecture"
       },
@@ -3971,14 +3961,6 @@
             "type": "string",
             "format": "date-time",
             "title": "End Date"
-          },
-          "weight": {
-            "type": "number",
-            "title": "Weight"
-          },
-          "final_grade": {
-            "type": "number",
-            "title": "Final Grade"
           }
         },
         "type": "object",
@@ -3987,9 +3969,7 @@
           "name",
           "description",
           "start_date",
-          "end_date",
-          "weight",
-          "final_grade"
+          "end_date"
         ],
         "title": "LectureCreate"
       },
@@ -4018,14 +3998,6 @@
             "type": "string",
             "format": "date-time",
             "title": "End Date"
-          },
-          "weight": {
-            "type": "number",
-            "title": "Weight"
-          },
-          "final_grade": {
-            "type": "number",
-            "title": "Final Grade"
           }
         },
         "type": "object",
@@ -4034,9 +4006,7 @@
           "name",
           "description",
           "start_date",
-          "end_date",
-          "weight",
-          "final_grade"
+          "end_date"
         ],
         "title": "LectureUpdate"
       },

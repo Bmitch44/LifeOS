@@ -31,7 +31,7 @@ class LecturesRepo:
 
     async def create(self, payload: LectureCreate) -> Lecture:
         try:
-            lecture = Lecture(course_id=payload.course_id, name=payload.name, description=payload.description, start_date=payload.start_date, end_date=payload.end_date, weight=payload.weight, final_grade=payload.final_grade)
+            lecture = Lecture(course_id=payload.course_id, name=payload.name, description=payload.description, start_date=payload.start_date, end_date=payload.end_date)
             self.session.add(lecture)
             await self.session.commit()
             await self.session.refresh(lecture)
@@ -60,8 +60,6 @@ class LecturesRepo:
             lecture.description = payload.description
             lecture.start_date = payload.start_date
             lecture.end_date = payload.end_date
-            lecture.weight = payload.weight
-            lecture.final_grade = payload.final_grade
             await self.session.commit()
             await self.session.refresh(lecture)
             return lecture

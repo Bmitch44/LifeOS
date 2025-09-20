@@ -43,7 +43,7 @@ export function useCreateFinancialAccount() {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["financial-account"] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["financial-accounts"] }),
   })
 }
 
@@ -58,7 +58,7 @@ export function useUpdateFinancialAccount() {
       })
     },
     onSuccess: (_data, variables) => {
-      qc.invalidateQueries({ queryKey: ["financial-account", variables.id] })
+      qc.invalidateQueries({ queryKey: ["financial-accounts"] })
     },
   })
 }
@@ -73,7 +73,7 @@ export function useDeleteFinancialAccount() {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["financial-account"] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["financial-accounts"] }),
   })
 }
 
@@ -87,7 +87,7 @@ export function useSyncFinancialAccounts() {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["financial-account"] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["financial-accounts"] }),
   })
 }
 

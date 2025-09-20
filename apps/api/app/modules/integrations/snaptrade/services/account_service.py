@@ -40,7 +40,7 @@ class SnaptradeAccountService:
             return {"message": "No connections to sync"}
 
         for connection in connections_result.items:
-            ext_accounts = self.snaptrade_client.get_accounts(connection.user_secret)
+            ext_accounts = self.snaptrade_client.get_all_accounts(connection.user_secret)
 
             for ext_account in ext_accounts:
                 existing_account = await self.repo.get_by_account_id(ext_account.get("id"))

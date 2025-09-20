@@ -19,6 +19,7 @@ dependencies = [
     "snaptrade-python-sdk==11.0.132",
     "plaid-python>=36.1.0",
     "pytest>=8.4.2",
+    "logfire>=4.8.0",
 ]
 
 [project.scripts]

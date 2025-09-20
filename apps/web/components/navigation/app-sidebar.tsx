@@ -55,20 +55,16 @@ const data = {
     },
     {
       title: "School",
-      url: "#",
+      url: "/school",
       icon: School,
       items: [
-        {
-          title: "Overview",
-          url: "/school",
-        },
         {
           title: "Courses",
           url: "/school/courses",
         },
         {
-          title: "Classes",
-          url: "/school/classes",
+          title: "Lectures",
+          url: "/school/lectures",
         },
         {
           title: "Assessments",

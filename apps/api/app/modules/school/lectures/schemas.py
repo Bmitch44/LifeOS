@@ -10,8 +10,6 @@ class LectureCreate(BaseModel):
     description: str = Field(..., min_length=3)
     start_date: datetime
     end_date: datetime
-    weight: float
-    final_grade: float
 
 
 class LectureUpdate(LectureCreate):

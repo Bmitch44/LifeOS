@@ -57,8 +57,8 @@ class SnaptradeClient:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to get connections: {e}") from e
 
-    def get_users(self) -> dict:
-        """Get all users for a user"""
+    def get_all_users(self) -> dict:
+        """Get all users"""
         try:
             response = self.client.authentication.list_snap_trade_users()
             if not response.body:
@@ -67,7 +67,7 @@ class SnaptradeClient:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to get users: {e}") from e
 
-    def get_accounts(self, snaptrade_user_secret: str) -> List[Account]:
+    def get_all_accounts(self, snaptrade_user_secret: str) -> List[Account]:
         """Get all accounts for a user"""
         try:
             response = self.client.account_information.list_user_accounts(query_params={
@@ -79,3 +79,13 @@ class SnaptradeClient:
             return response.body
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to get accounts: {e}") from e
+
+    def delete_user(self, clerk_user_id: str) -> dict:
+        """Delete a user"""
+        try:
+            response = self.client.authentication.delete_snap_trade_user(user_id=clerk_user_id)
+            if response.status != 200:
+                raise HTTPException(status_code=500, detail=f"Failed to delete user: {response.body}")
+            return response.body
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to delete user: {e}") from e

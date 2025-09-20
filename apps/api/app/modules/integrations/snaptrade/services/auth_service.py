@@ -13,6 +13,11 @@ class SnaptradeAuthService:
     async def get_connection_portal(self) -> str:
         connection = await self.snaptrade_connection_repo.get_by_clerk_user_id()
         if not connection:
+            all_users = self.snaptrade_client.get_all_users()
+            
+            if self.clerk_user_id in all_users:
+                self.snaptrade_client.delete_user(self.clerk_user_id)
+
             new_snaptrade_user = self.snaptrade_client.register_user()
             payload = SnaptradeConnectionCreate(
                 clerk_user_id=self.clerk_user_id,
