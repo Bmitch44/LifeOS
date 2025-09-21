@@ -1,5 +1,4 @@
 import pytest
-from types import SimpleNamespace
 
 from app.modules.integrations.snaptrade.mappers.snaptrade_account_mapper import SnaptradeAccountMapper
 from app.db.models import SnaptradeAccount

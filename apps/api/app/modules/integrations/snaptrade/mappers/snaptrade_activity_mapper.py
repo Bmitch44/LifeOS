@@ -1,5 +1,4 @@
 from pydantic import ValidationError
-from app.modules.integrations.snaptrade.models import SnaptradeActivity
 from app.modules.integrations.snaptrade.schemas import SnaptradeActivityCreate
 from snaptrade_client.type.paginated_universal_activity import AccountUniversalActivity
 
@@ -32,4 +31,4 @@ class SnaptradeActivityMapper:
                 institution=api_activity.get("institution") or None,
             )
         except Exception as e:
-            raise ValueError(f"Failed to map snaptrade activity: {e}") from e
+            raise ValidationError(f"Failed to map snaptrade activity: {e}") from e
