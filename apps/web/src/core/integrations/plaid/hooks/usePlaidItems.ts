@@ -5,14 +5,13 @@ import { api } from "@/src/core/api/client"
 import { useAuthToken } from "@/src/core/auth/useAuthToken"
 import { PlaidItemCreate, PlaidItemUpdate, PlaidItem } from "@/src/core/api/generated/types"
 
-export function useGetPlaidItem(id: number, refresh: boolean = false, enabled: boolean = true) {
+export function useGetPlaidItem(id: number, enabled: boolean = true) {
   const getToken = useAuthToken()
   return useQuery({
-    queryKey: ["plaid-item", id, refresh],
+    queryKey: ["plaid-item", id],
     queryFn: async () => {
       const token = await getToken()
-      const qs = refresh ? "?refresh=true" : ""
-      return api.getJson<PlaidItem>(`/v1/plaid/items/${id}${qs}`, {
+      return api.getJson<PlaidItem>(`/v1/plaid/items/${id}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },

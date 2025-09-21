@@ -5,14 +5,13 @@ import { api } from "@/src/core/api/client"
 import { useAuthToken } from "@/src/core/auth/useAuthToken"
 import { SnaptradeConnectionCreate, SnaptradeConnectionUpdate, SnaptradeConnection } from "@/src/core/api/generated/types"
 
-export function useGetSnaptradeConnection(id: number, refresh: boolean = false, enabled: boolean = true) {
+export function useGetSnaptradeConnection(id: number, enabled: boolean = true) {
   const getToken = useAuthToken()
   return useQuery({
-    queryKey: ["snaptrade-connection", id, refresh],
+    queryKey: ["snaptrade-connection", id],
     queryFn: async () => {
       const token = await getToken()
-      const qs = refresh ? "?refresh=true" : ""
-      return api.getJson<SnaptradeConnection>(`/v1/snaptrade/connections/${id}${qs}`, {
+      return api.getJson<SnaptradeConnection>(`/v1/snaptrade/connections/${id}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },

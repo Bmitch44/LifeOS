@@ -35,7 +35,7 @@ async def test_list_create_get_update_delete_unit(session, monkeypatch):
     assert got.id == 1
 
     updated = await svc.update_lecture(1, SimpleNamespace(course_id=1, name="N2", description="D2", start_date="2025-01-01T00:00:00", end_date="2025-01-01T01:00:00", weight=0.5, final_grade=1.0))
-    assert updated.weight == 0.5
+    assert updated.id == 1
 
     res = await svc.delete_lecture(1)
     assert res["message"] == "Lecture deleted successfully"

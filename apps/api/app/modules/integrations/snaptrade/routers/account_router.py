@@ -31,11 +31,8 @@ async def sync_accounts(
 @router.get("/{id}", response_model=SnaptradeAccount)
 async def get_account(
     id: int,
-    refresh: bool = Query(False),
     svc: SnaptradeAccountService = Depends(get_snaptrade_account_service),
 ):
-    if refresh:
-        return await svc.sync_accounts()
     return await svc.get_account(id)
 
 @router.put("/{id}", response_model=SnaptradeAccount)

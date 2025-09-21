@@ -51,12 +51,10 @@ async def test_update_lecture(client, session):
         "description": "Updated",
         "start_date": "2025-01-01T00:00:00",
         "end_date": "2025-01-01T01:00:00",
-        "weight": 0.5,
-        "final_grade": 1.0,
     }
     r = await client.put(f"/v1/lectures/{lecture.id}", json=payload)
     assert r.status_code == 200
-    assert r.json()["weight"] == 0.5
+    assert r.json()["id"] == lecture.id
 
 
 @pytest.mark.anyio

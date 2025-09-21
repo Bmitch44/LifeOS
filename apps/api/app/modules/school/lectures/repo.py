@@ -31,7 +31,13 @@ class LecturesRepo:
 
     async def create(self, payload: LectureCreate) -> Lecture:
         try:
-            lecture = Lecture(course_id=payload.course_id, name=payload.name, description=payload.description, start_date=payload.start_date, end_date=payload.end_date)
+            lecture = Lecture(
+                course_id=payload.course_id,
+                name=payload.name,
+                description=payload.description,
+                start_date=payload.start_date,
+                end_date=payload.end_date
+            )
             self.session.add(lecture)
             await self.session.commit()
             await self.session.refresh(lecture)

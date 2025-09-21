@@ -77,7 +77,7 @@ class FakeMapper:
 
 
 class FakeClient:
-    def get_accounts(self, user_secret: str):
+    def get_all_accounts(self, user_secret: str):
         return [{
             "id": "s1",
             "brokerage_authorization": "c1",

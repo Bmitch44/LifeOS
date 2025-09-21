@@ -16,7 +16,8 @@ from app.modules.school.lectures.router import router as lectures_router
 from app.modules.integrations.snaptrade.routers import (
     connection_router as snaptrade_connection_router,
     account_router as snaptrade_account_router,
-    auth_router as snaptrade_auth_router
+    auth_router as snaptrade_auth_router,
+    activity_router as snaptrade_activity_router
 )
 from app.modules.integrations.plaid.routers import (
     item_router as plaid_item_router,
@@ -48,7 +49,8 @@ def create_app() -> FastAPI:
     app.include_router(plaid_item_router)
     app.include_router(plaid_account_router)
     app.include_router(plaid_auth_router)
-
+    app.include_router(snaptrade_activity_router)
+    
     # Finances
     app.include_router(financial_account_router)
 

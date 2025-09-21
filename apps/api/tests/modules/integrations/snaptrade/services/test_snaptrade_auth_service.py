@@ -20,6 +20,7 @@ class FakeConnRepo:
 
 class FakeClient:
     def __init__(self, redirect="http://redirect"): self._redirect = redirect
+    def get_all_users(self): return {"users": []}
     def register_user(self): return {"user_secret": "secret_1", "user_id": "u1"}
     def create_connection_portal(self, user_secret: str): return self._redirect
 

@@ -6,14 +6,13 @@ import { useAuthToken } from "@/src/core/auth/useAuthToken"
 import { SnaptradeAccountCreate, SnaptradeAccountUpdate, SnaptradeAccount } from "@/src/core/api/generated/types"
 
 
-export function useGetSnaptradeAccount(id: number, refresh: boolean = false, enabled: boolean = true) {
+export function useGetSnaptradeAccount(id: number, enabled: boolean = true) {
   const getToken = useAuthToken()
   return useQuery({
-    queryKey: ["snaptrade-account", id, refresh],
+    queryKey: ["snaptrade-account", id],
     queryFn: async () => {
       const token = await getToken()
-      const qs = refresh ? "?refresh=true" : ""
-      return api.getJson<SnaptradeAccount>(`/v1/snaptrade/accounts/${id}${qs}`, {
+      return api.getJson<SnaptradeAccount>(`/v1/snaptrade/accounts/${id}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },

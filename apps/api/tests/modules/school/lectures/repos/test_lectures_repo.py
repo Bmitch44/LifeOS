@@ -25,9 +25,7 @@ async def test_create_get_update_delete(session):
         "name": "N",
         "description": "D",
         "start_date": datetime(2025, 1, 1, 0, 0, 0),
-        "end_date": datetime(2025, 1, 1, 1, 0, 0),
-        "weight": 0.3,
-        "final_grade": 0.0,
+        "end_date": datetime(2025, 1, 1, 1, 0, 0)
     })())
     assert created.id is not None
     got = await repo.get(created.id)
@@ -39,10 +37,8 @@ async def test_create_get_update_delete(session):
         "description": "D2",
         "start_date": datetime(2025, 1, 1, 0, 0, 0),
         "end_date": datetime(2025, 1, 1, 1, 0, 0),
-        "weight": 0.5,
-        "final_grade": 1.0,
     })())
-    assert updated.weight == 0.5
+    assert updated.id == created.id
 
     res = await repo.delete(created.id)
     assert res["message"] == "Lecture deleted successfully"

@@ -5,14 +5,13 @@ import { api } from "@/src/core/api/client"
 import { useAuthToken } from "@/src/core/auth/useAuthToken"
 import { PlaidAccountCreate, PlaidAccountUpdate, PlaidAccount } from "@/src/core/api/generated/types"
 
-export function useGetPlaidAccount(id: number, refresh: boolean = false, enabled: boolean = true) {
+export function useGetPlaidAccount(id: number, enabled: boolean = true) {
   const getToken = useAuthToken()
   return useQuery({
-    queryKey: ["plaid-account", id, refresh],
+    queryKey: ["plaid-account", id], 
     queryFn: async () => {
       const token = await getToken()
-      const qs = refresh ? "?refresh=true" : ""
-      return api.getJson<PlaidAccount>(`/v1/plaid/accounts/${id}${qs}`, {
+      return api.getJson<PlaidAccount>(`/v1/plaid/accounts/${id}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
     },

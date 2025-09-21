@@ -31,11 +31,8 @@ async def sync_connections(
 @router.get("/{id}", response_model=SnaptradeConnection)
 async def get_connection(
     id: int,
-    refresh: bool = Query(False),
     svc: SnaptradeConnectionService = Depends(get_snaptrade_connection_service),
 ):
-    if refresh:
-        return await svc.sync_connections()
     return await svc.get_connection(id)
 
 @router.put("/{id}", response_model=SnaptradeConnection)

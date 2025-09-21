@@ -1,9 +1,11 @@
 from fastapi import HTTPException
 from typing import List
+from datetime import date
 from app.settings import settings
 from snaptrade_client import SnapTrade
 from snaptrade_client.type.account import Account
 from snaptrade_client.type.brokerage_authorization import BrokerageAuthorization
+from snaptrade_client.type.paginated_universal_activity import PaginatedUniversalActivity
 
 
 class SnaptradeClient:
@@ -67,6 +69,16 @@ class SnaptradeClient:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to get users: {e}") from e
 
+    def delete_user(self, clerk_user_id: str) -> dict:
+        """Delete a user"""
+        try:
+            response = self.client.authentication.delete_snap_trade_user(user_id=clerk_user_id)
+            if response.status != 200:
+                raise HTTPException(status_code=500, detail=f"Failed to delete user: {response.body}")
+            return response.body
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to delete user: {e}") from e
+
     def get_all_accounts(self, snaptrade_user_secret: str) -> List[Account]:
         """Get all accounts for a user"""
         try:
@@ -80,12 +92,34 @@ class SnaptradeClient:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to get accounts: {e}") from e
 
-    def delete_user(self, clerk_user_id: str) -> dict:
-        """Delete a user"""
+    def get_account_activities(
+            self, 
+            snaptrade_user_secret: str, 
+            account_id: int, 
+            offset: int = 0, 
+            limit: int = 1000, 
+            activity_type: str = None, 
+            start_date: date = None, 
+            end_date: date = None
+        ) -> List[PaginatedUniversalActivity]:
+        """Get all activities for an account"""
         try:
-            response = self.client.authentication.delete_snap_trade_user(user_id=clerk_user_id)
-            if response.status != 200:
-                raise HTTPException(status_code=500, detail=f"Failed to delete user: {response.body}")
+            query_params = {
+                "userId":self.clerk_user_id,
+                "userSecret":snaptrade_user_secret,
+                "accountId":account_id,
+                "offset":offset,
+                "limit":limit
+            }
+            if start_date:
+                query_params["startDate"] = start_date
+            if end_date:
+                query_params["endDate"] = end_date
+            if activity_type:
+                query_params["activityType"] = activity_type
+            response = self.client.account_information.get_account_activities(query_params=query_params)
+            if not response.body:
+                raise HTTPException(status_code=500, detail=f"Failed to get activities: {response.body}")
             return response.body
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Failed to delete user: {e}") from e
+            raise HTTPException(status_code=500, detail=f"Failed to get activities: {e}") from e

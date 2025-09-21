@@ -1,8 +1,11 @@
 from __future__ import annotations
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List, TYPE_CHECKING
 
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, SQLModel, Relationship
+
+if TYPE_CHECKING:
+    from app.modules.integrations.snaptrade.models.account_model import SnaptradeAccount
 
 class SnaptradeConnection(SQLModel, table=True):
     __tablename__ = "snaptrade_connection"
@@ -13,3 +16,9 @@ class SnaptradeConnection(SQLModel, table=True):
     brokerage_name: str = Field(nullable=True)
     updated_at: datetime = Field(nullable=True, default_factory=lambda: datetime.now(), sa_column_kwargs={"onupdate": lambda: datetime.now()})
     created_at: datetime = Field(nullable=True, default_factory=lambda: datetime.now())
+
+    accounts: List["SnaptradeAccount"] = Relationship(
+        back_populates="connection",
+        sa_relationship={"argument": "snaptrade_account"},
+        cascade_delete=True
+    )

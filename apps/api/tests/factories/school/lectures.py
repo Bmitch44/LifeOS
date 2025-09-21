@@ -14,9 +14,7 @@ async def create_lecture(
     name: str = "Lecture 1",
     description: str = "Desc",
     start_date: datetime | None = None,
-    end_date: datetime | None = None,
-    weight: float = 0.0,
-    final_grade: float = 0.0,
+    end_date: datetime | None = None
 ) -> Lecture:
     if course_id is None:
         course = await create_course(session)
@@ -28,8 +26,6 @@ async def create_lecture(
         description=description,
         start_date=start_date or now,
         end_date=end_date or (now + timedelta(hours=1)),
-        weight=weight,
-        final_grade=final_grade,
     )
     session.add(lecture)
     await session.commit()

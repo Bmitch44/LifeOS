@@ -31,11 +31,8 @@ async def sync_items(
 @router.get("/{id}", response_model=PlaidItem)
 async def get_item(
     id: int,
-    refresh: bool = Query(False),
     svc: PlaidItemService = Depends(get_plaid_item_service),
 ):
-    if refresh:
-        return await svc.sync_items()
     return await svc.get_item(id)
 
 @router.put("/{id}", response_model=PlaidItem)
