@@ -25,23 +25,36 @@ export function usePlaid() {
   const { open, exit, ready } = usePlaidLink(config)
 
   const connect = useCallback(async () => {
-    setShouldOpen(true)
+    // Ensure token is created ahead of time to avoid popup blockers
     if (!createLinkToken.data && !createLinkToken.isPending) {
       try {
         await createLinkToken.mutateAsync()
       } catch (e) {
-        setShouldOpen(false)
         throw e
       }
+    }
+
+    if (ready) {
+      open()
+    } else {
+      // Fallback: open once Link is ready
+      setShouldOpen(true)
+    }
+  }, [createLinkToken, ready, open])
+
+  // Pre-initialize Link as soon as possible for lower latency
+  useEffect(() => {
+    if (!createLinkToken.data && !createLinkToken.isPending) {
+      createLinkToken.mutate()
     }
   }, [createLinkToken])
 
   useEffect(() => {
-    if (shouldOpen && ready && createLinkToken.data) {
+    if (shouldOpen && ready) {
       open()
       setShouldOpen(false)
     }
-  }, [shouldOpen, ready, createLinkToken.data, open])
+  }, [shouldOpen, ready, open])
 
   return {
     connect,

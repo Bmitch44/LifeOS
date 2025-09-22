@@ -418,6 +418,164 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/snaptrade/activities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Activities */
+        get: operations["list_activities_v1_snaptrade_activities_get"];
+        put?: never;
+        /** Create Activity */
+        post: operations["create_activity_v1_snaptrade_activities_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/snaptrade/activities/sync/{account_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sync Activities */
+        get: operations["sync_activities_v1_snaptrade_activities_sync__account_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/snaptrade/activities/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Activity */
+        get: operations["get_activity_v1_snaptrade_activities__id__get"];
+        /** Update Activity */
+        put: operations["update_activity_v1_snaptrade_activities__id__put"];
+        post?: never;
+        /** Delete Activity */
+        delete: operations["delete_activity_v1_snaptrade_activities__id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/soundcloud/auth/authorize": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Authorize */
+        get: operations["get_authorize_v1_soundcloud_auth_authorize_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/soundcloud/auth/exchange": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Exchange Code */
+        post: operations["exchange_code_v1_soundcloud_auth_exchange_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/soundcloud/auth/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Refresh Token */
+        post: operations["refresh_token_v1_soundcloud_auth_refresh_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/soundcloud/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Me */
+        post: operations["create_me_v1_soundcloud_me_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/soundcloud/me/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sync Me */
+        get: operations["sync_me_v1_soundcloud_me_sync_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/soundcloud/me/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Me */
+        get: operations["get_me_v1_soundcloud_me__id__get"];
+        /** Update Me */
+        put: operations["update_me_v1_soundcloud_me__id__put"];
+        post?: never;
+        /** Delete Me */
+        delete: operations["delete_me_v1_soundcloud_me__id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/finances/accounts": {
         parameters: {
             query?: never;
@@ -579,6 +737,15 @@ export interface components {
             weight: number;
             /** Final Grade */
             final_grade: number;
+        };
+        /** Body_exchange_code_v1_soundcloud_auth_exchange_post */
+        Body_exchange_code_v1_soundcloud_auth_exchange_post: {
+            /** Code */
+            code: string;
+            /** Code Verifier */
+            code_verifier: string;
+            /** State */
+            state?: string | null;
         };
         /** Course */
         Course: {
@@ -893,6 +1060,17 @@ export interface components {
             /** Total */
             total: number;
         };
+        /** PaginatedSnaptradeActivities */
+        PaginatedSnaptradeActivities: {
+            /** Items */
+            items: components["schemas"]["SnaptradeActivity"][];
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+            /** Total */
+            total: number;
+        };
         /** PaginatedSnaptradeConnections */
         PaginatedSnaptradeConnections: {
             /** Items */
@@ -921,8 +1099,8 @@ export interface components {
             id?: number | null;
             /** Clerk User Id */
             clerk_user_id: string;
-            /** Account Id */
-            account_id: string;
+            /** Plaid Account Id */
+            plaid_account_id: string;
             /** Name */
             name: string;
             /** Official Name */
@@ -954,8 +1132,8 @@ export interface components {
         PlaidAccountCreate: {
             /** Clerk User Id */
             clerk_user_id: string;
-            /** Account Id */
-            account_id: string;
+            /** Plaid Account Id */
+            plaid_account_id: string;
             /** Name */
             name: string | null;
             /** Official Name */
@@ -977,8 +1155,8 @@ export interface components {
         PlaidAccountUpdate: {
             /** Clerk User Id */
             clerk_user_id: string;
-            /** Account Id */
-            account_id: string;
+            /** Plaid Account Id */
+            plaid_account_id: string;
             /** Name */
             name: string | null;
             /** Official Name */
@@ -1047,10 +1225,10 @@ export interface components {
             id?: number | null;
             /** Clerk User Id */
             clerk_user_id: string;
-            /** Account Id */
-            account_id: string;
+            /** Snaptrade Account Id */
+            snaptrade_account_id: string;
             /** Connection Id */
-            connection_id: string;
+            connection_id: number;
             /** Name */
             name: string;
             /** Number */
@@ -1080,10 +1258,10 @@ export interface components {
         SnaptradeAccountCreate: {
             /** Clerk User Id */
             clerk_user_id: string;
-            /** Account Id */
-            account_id: string;
+            /** Snaptrade Account Id */
+            snaptrade_account_id: string;
             /** Connection Id */
-            connection_id: string;
+            connection_id: number;
             /** Name */
             name: string | null;
             /** Number */
@@ -1103,10 +1281,10 @@ export interface components {
         SnaptradeAccountUpdate: {
             /** Clerk User Id */
             clerk_user_id: string;
-            /** Account Id */
-            account_id: string;
+            /** Snaptrade Account Id */
+            snaptrade_account_id: string;
             /** Connection Id */
-            connection_id: string;
+            connection_id: number;
             /** Name */
             name: string | null;
             /** Number */
@@ -1122,6 +1300,135 @@ export interface components {
             /** Currency */
             currency: string | null;
         };
+        /** SnaptradeActivity */
+        SnaptradeActivity: {
+            /** Id */
+            id?: number | null;
+            /** Clerk User Id */
+            clerk_user_id: string;
+            /** Account Id */
+            account_id: number;
+            /** Activity Id */
+            activity_id: string;
+            /** Symbol Id */
+            symbol_id: string;
+            /** Option Symbol Id */
+            option_symbol_id: string;
+            /** Type */
+            type: string;
+            /** Option Type */
+            option_type: string;
+            /** Price */
+            price: number;
+            /** Units */
+            units: number;
+            /** Amount */
+            amount: number;
+            /** Description */
+            description: string;
+            /**
+             * Trade Date
+             * Format: date-time
+             */
+            trade_date: string;
+            /**
+             * Settlement Date
+             * Format: date-time
+             */
+            settlement_date: string;
+            /** Currency */
+            currency: string;
+            /** Fees */
+            fees: number;
+            /** Fx Rate */
+            fx_rate: number;
+            /** Institution */
+            institution: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at?: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at?: string;
+        };
+        /** SnaptradeActivityCreate */
+        SnaptradeActivityCreate: {
+            /** Clerk User Id */
+            clerk_user_id: string;
+            /** Activity Id */
+            activity_id: string;
+            /** Account Id */
+            account_id: number;
+            /** Symbol Id */
+            symbol_id: string | null;
+            /** Option Symbol Id */
+            option_symbol_id: string | null;
+            /** Type */
+            type: string | null;
+            /** Option Type */
+            option_type: string | null;
+            /** Price */
+            price?: number | null;
+            /** Units */
+            units?: number | null;
+            /** Amount */
+            amount: number | null;
+            /** Description */
+            description?: string | null;
+            /** Trade Date */
+            trade_date: string | null;
+            /** Settlement Date */
+            settlement_date?: string | null;
+            /** Currency */
+            currency: string;
+            /** Fees */
+            fees?: number | null;
+            /** Fx Rate */
+            fx_rate: number | null;
+            /** Institution */
+            institution?: string | null;
+        };
+        /** SnaptradeActivityUpdate */
+        SnaptradeActivityUpdate: {
+            /** Clerk User Id */
+            clerk_user_id: string;
+            /** Activity Id */
+            activity_id: string;
+            /** Account Id */
+            account_id: number;
+            /** Symbol Id */
+            symbol_id: string | null;
+            /** Option Symbol Id */
+            option_symbol_id: string | null;
+            /** Type */
+            type: string | null;
+            /** Option Type */
+            option_type: string | null;
+            /** Price */
+            price?: number | null;
+            /** Units */
+            units?: number | null;
+            /** Amount */
+            amount: number | null;
+            /** Description */
+            description?: string | null;
+            /** Trade Date */
+            trade_date: string | null;
+            /** Settlement Date */
+            settlement_date?: string | null;
+            /** Currency */
+            currency: string;
+            /** Fees */
+            fees?: number | null;
+            /** Fx Rate */
+            fx_rate: number | null;
+            /** Institution */
+            institution?: string | null;
+        };
         /** SnaptradeConnection */
         SnaptradeConnection: {
             /** Id */
@@ -1130,8 +1437,8 @@ export interface components {
             clerk_user_id: string;
             /** User Secret */
             user_secret: string;
-            /** Connection Id */
-            connection_id: string;
+            /** Snaptrade Connection Id */
+            snaptrade_connection_id: string;
             /** Brokerage Name */
             brokerage_name: string;
             /**
@@ -1149,8 +1456,8 @@ export interface components {
         SnaptradeConnectionCreate: {
             /** Clerk User Id */
             clerk_user_id: string;
-            /** Connection Id */
-            connection_id?: string | null;
+            /** Snaptrade Connection Id */
+            snaptrade_connection_id?: string | null;
             /** User Secret */
             user_secret?: string | null;
             /** Brokerage Name */
@@ -1160,12 +1467,177 @@ export interface components {
         SnaptradeConnectionUpdate: {
             /** Clerk User Id */
             clerk_user_id: string;
-            /** Connection Id */
-            connection_id?: string | null;
+            /** Snaptrade Connection Id */
+            snaptrade_connection_id?: string | null;
             /** User Secret */
             user_secret?: string | null;
             /** Brokerage Name */
             brokerage_name?: string | null;
+        };
+        /** SoundcloudMe */
+        SoundcloudMe: {
+            /** Id */
+            id?: number | null;
+            /** Clerk User Id */
+            clerk_user_id: string;
+            /** Urn */
+            urn: string;
+            /** Avatar Url */
+            avatar_url: string;
+            /** City */
+            city: string;
+            /** Country */
+            country: string;
+            /** Description */
+            description: string;
+            /** First Name */
+            first_name: string;
+            /** Followers Count */
+            followers_count: number;
+            /** Following Count */
+            following_count: number;
+            /** Full Name */
+            full_name: string;
+            /** Last Name */
+            last_name: string;
+            /** Likes Count */
+            likes_count: number;
+            /** Permalink */
+            permalink: string;
+            /** Permalink Url */
+            permalink_url: string;
+            /** Plan */
+            plan: string;
+            /** Playlist Count */
+            playlist_count: number;
+            /** Private Playlists Count */
+            private_playlists_count: number;
+            /** Public Favorites Count */
+            public_favorites_count: number;
+            /** Track Count */
+            track_count: number;
+            /** Private Tracks Count */
+            private_tracks_count: number;
+            /** Reposts Count */
+            reposts_count: number;
+            /** Username */
+            username: string;
+            /** Website */
+            website: string;
+            /** Website Title */
+            website_title: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at?: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at?: string;
+        };
+        /** SoundcloudMeCreate */
+        SoundcloudMeCreate: {
+            /** Clerk User Id */
+            clerk_user_id: string;
+            /** Urn */
+            urn?: string | null;
+            /** Avatar Url */
+            avatar_url?: string | null;
+            /** City */
+            city?: string | null;
+            /** Country */
+            country?: string | null;
+            /** Description */
+            description?: string | null;
+            /** First Name */
+            first_name?: string | null;
+            /** Followers Count */
+            followers_count?: number | null;
+            /** Following Count */
+            following_count?: number | null;
+            /** Full Name */
+            full_name?: string | null;
+            /** Last Name */
+            last_name?: string | null;
+            /** Likes Count */
+            likes_count?: number | null;
+            /** Permalink */
+            permalink?: string | null;
+            /** Permalink Url */
+            permalink_url?: string | null;
+            /** Plan */
+            plan?: string | null;
+            /** Playlist Count */
+            playlist_count?: number | null;
+            /** Private Playlists Count */
+            private_playlists_count?: number | null;
+            /** Private Tracks Count */
+            private_tracks_count?: number | null;
+            /** Public Favorites Count */
+            public_favorites_count?: number | null;
+            /** Reposts Count */
+            reposts_count?: number | null;
+            /** Track Count */
+            track_count?: number | null;
+            /** Username */
+            username?: string | null;
+            /** Website */
+            website?: string | null;
+            /** Website Title */
+            website_title?: string | null;
+        };
+        /** SoundcloudMeUpdate */
+        SoundcloudMeUpdate: {
+            /** Clerk User Id */
+            clerk_user_id: string;
+            /** Urn */
+            urn?: string | null;
+            /** Avatar Url */
+            avatar_url?: string | null;
+            /** City */
+            city?: string | null;
+            /** Country */
+            country?: string | null;
+            /** Description */
+            description?: string | null;
+            /** First Name */
+            first_name?: string | null;
+            /** Followers Count */
+            followers_count?: number | null;
+            /** Following Count */
+            following_count?: number | null;
+            /** Full Name */
+            full_name?: string | null;
+            /** Last Name */
+            last_name?: string | null;
+            /** Likes Count */
+            likes_count?: number | null;
+            /** Permalink */
+            permalink?: string | null;
+            /** Permalink Url */
+            permalink_url?: string | null;
+            /** Plan */
+            plan?: string | null;
+            /** Playlist Count */
+            playlist_count?: number | null;
+            /** Private Playlists Count */
+            private_playlists_count?: number | null;
+            /** Private Tracks Count */
+            private_tracks_count?: number | null;
+            /** Public Favorites Count */
+            public_favorites_count?: number | null;
+            /** Reposts Count */
+            reposts_count?: number | null;
+            /** Track Count */
+            track_count?: number | null;
+            /** Username */
+            username?: string | null;
+            /** Website */
+            website?: string | null;
+            /** Website Title */
+            website_title?: string | null;
         };
         /** User */
         User: {
@@ -1986,9 +2458,7 @@ export interface operations {
     };
     get_connection_v1_snaptrade_connections__id__get: {
         parameters: {
-            query?: {
-                refresh?: boolean;
-            };
+            query?: never;
             header?: {
                 authorization?: string | null;
             };
@@ -2195,9 +2665,7 @@ export interface operations {
     };
     get_account_v1_snaptrade_accounts__id__get: {
         parameters: {
-            query?: {
-                refresh?: boolean;
-            };
+            query?: never;
             header?: {
                 authorization?: string | null;
             };
@@ -2435,9 +2903,7 @@ export interface operations {
     };
     get_item_v1_plaid_items__id__get: {
         parameters: {
-            query?: {
-                refresh?: boolean;
-            };
+            query?: never;
             header?: {
                 authorization?: string | null;
             };
@@ -2644,9 +3110,7 @@ export interface operations {
     };
     get_account_v1_plaid_accounts__id__get: {
         parameters: {
-            query?: {
-                refresh?: boolean;
-            };
+            query?: never;
             header?: {
                 authorization?: string | null;
             };
@@ -2802,6 +3266,491 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PlaidItem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_activities_v1_snaptrade_activities_get: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedSnaptradeActivities"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_activity_v1_snaptrade_activities_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SnaptradeActivityCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SnaptradeActivity"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sync_activities_v1_snaptrade_activities_sync__account_id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                account_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_activity_v1_snaptrade_activities__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SnaptradeActivity"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_activity_v1_snaptrade_activities__id__put: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SnaptradeActivityUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SnaptradeActivity"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_activity_v1_snaptrade_activities__id__delete: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_authorize_v1_soundcloud_auth_authorize_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    exchange_code_v1_soundcloud_auth_exchange_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Body_exchange_code_v1_soundcloud_auth_exchange_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    refresh_token_v1_soundcloud_auth_refresh_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_me_v1_soundcloud_me_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SoundcloudMeCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SoundcloudMe"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sync_me_v1_soundcloud_me_sync_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_me_v1_soundcloud_me__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SoundcloudMe"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_me_v1_soundcloud_me__id__put: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SoundcloudMeUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SoundcloudMe"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_me_v1_soundcloud_me__id__delete: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */

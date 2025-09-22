@@ -28,7 +28,7 @@ class SnaptradeAccountRepo:
         try:
             account = SnaptradeAccount(
                 clerk_user_id=payload.clerk_user_id,
-                account_id=payload.account_id,
+                snaptrade_account_id=payload.snaptrade_account_id,
                 connection_id=payload.connection_id,
                 name=payload.name,
                 number=payload.number,
@@ -58,10 +58,10 @@ class SnaptradeAccountRepo:
             await self.session.rollback()
             raise e
 
-    async def get_by_account_id(self, account_id: str) -> SnaptradeAccount:
+    async def get_by_account_id(self, account_id: int) -> SnaptradeAccount:
         try:
             account = await self.session.execute(
-                select(SnaptradeAccount).where(SnaptradeAccount.account_id == account_id, SnaptradeAccount.clerk_user_id == self.clerk_user_id)
+                select(SnaptradeAccount).where(SnaptradeAccount.snaptrade_account_id == account_id, SnaptradeAccount.clerk_user_id == self.clerk_user_id)
             )
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
@@ -76,7 +76,7 @@ class SnaptradeAccountRepo:
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
             account.clerk_user_id = payload.clerk_user_id
-            account.account_id = payload.account_id
+            account.snaptrade_account_id = payload.snaptrade_account_id
             account.connection_id = payload.connection_id
             account.name = payload.name
             account.number = payload.number

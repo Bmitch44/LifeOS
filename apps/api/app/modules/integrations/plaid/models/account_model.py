@@ -8,7 +8,7 @@ class PlaidAccount(SQLModel, table=True):
     __tablename__ = "plaid_account"
     id: Optional[int] = Field(default=None, primary_key=True)
     clerk_user_id: str = Field(index=True)
-    account_id: str = Field(nullable=True)
+    plaid_account_id: str = Field(nullable=True)
     name: str = Field(nullable=True)
     official_name: str = Field(nullable=True)
     type: str = Field(nullable=True)

@@ -8,7 +8,7 @@ class FakeApiActivity(dict):
 
 
 @pytest.mark.anyio
-async def test_map_api_account_to_snaptrade_activity_full():
+async def test_map_api_activity_to_snaptrade_activity_full():
     mapper = SnaptradeActivityMapper("test_user")
     api = FakeApiActivity(
         id="a1",
@@ -27,7 +27,7 @@ async def test_map_api_account_to_snaptrade_activity_full():
         fx_rate=1.0,
         institution="Broker",
     )
-    p = mapper.map_api_account_to_snaptrade_account(api, account_id=1)
+    p = mapper.map_api_activity_to_snaptrade_activity(api, account_id=1)
 
     assert p.clerk_user_id == "test_user"
     assert p.account_id == 1
@@ -47,10 +47,10 @@ async def test_map_api_account_to_snaptrade_activity_full():
 
 
 @pytest.mark.anyio
-async def test_map_api_account_to_snaptrade_activity_defaults():
+async def test_map_api_activity_to_snaptrade_activity_defaults():
     mapper = SnaptradeActivityMapper("test_user")
     api = FakeApiActivity(id="a2")
-    p = mapper.map_api_account_to_snaptrade_account(api, account_id=1)
+    p = mapper.map_api_activity_to_snaptrade_activity(api, account_id=1)
 
     assert p.clerk_user_id == "test_user"
     assert p.account_id == 1

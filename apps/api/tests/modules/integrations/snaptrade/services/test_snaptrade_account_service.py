@@ -59,7 +59,7 @@ class FakeMapper:
     def map_api_account_to_snaptrade_account(self, ext):
         return SimpleNamespace(
             clerk_user_id=self.user,
-            account_id=ext.get("id"),
+            snaptrade_account_id=ext.get("id"),
             connection_id=ext.get("brokerage_authorization"),
             name=ext.get("name"),
             number=ext.get("number"),
@@ -72,15 +72,15 @@ class FakeMapper:
     def map_snaptrade_account_to_financial_account(self, acc):
         return SimpleNamespace(
             clerk_user_id=self.user, type=acc.type, name=acc.name, institution_name=acc.institution_name,
-            currency=acc.currency, current_balance=acc.current_balance, source="snaptrade", source_account_id=acc.account_id,
+            currency=acc.currency, current_balance=acc.current_balance, source="snaptrade", source_account_id=acc.snaptrade_account_id,
         )
 
 
 class FakeClient:
     def get_all_accounts(self, user_secret: str):
         return [{
-            "id": "s1",
-            "brokerage_authorization": "c1",
+            "id": 1,
+            "brokerage_authorization": 1,
             "name": "N",
             "number": "1",
             "institution_name": "Inst",
@@ -102,13 +102,13 @@ async def test_list_create_get_update_delete_unit(session, monkeypatch):
     page = await svc.list_accounts(1, 10)
     assert page.total == 0
 
-    created = await svc.create_account(SimpleNamespace(clerk_user_id="test_user", account_id="s1", name="N"))
+    created = await svc.create_account(SimpleNamespace(clerk_user_id="test_user", snaptrade_account_id=1, name="N"))
     assert created.id == 1
 
     got = await svc.get_account(1)
     assert got.id == 1
 
-    updated = await svc.update_account(1, SimpleNamespace(clerk_user_id="test_user", account_id="s1", name="N2"))
+    updated = await svc.update_account(1, SimpleNamespace(clerk_user_id="test_user", snaptrade_account_id=1, name="N2"))
     assert updated.name == "N2"
 
     res = await svc.delete_account(1)

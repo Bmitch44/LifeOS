@@ -7,9 +7,9 @@ from tests.factories.integrations.plaid import create_plaid_account
 @pytest.mark.anyio
 async def test_paginate_scoped_by_user(session):
     for i in range(3):
-        await create_plaid_account(session, account_id=f"acc_{i}")
+        await create_plaid_account(session, plaid_account_id=f"acc_{i}")
     for i in range(2):
-        await create_plaid_account(session, clerk_user_id="other", account_id=f"o_acc_{i}")
+        await create_plaid_account(session, clerk_user_id="other", plaid_account_id=f"o_acc_{i}")
 
     repo = PlaidAccountRepo(session, clerk_user_id="test_user")
     page = await repo.paginate(1, 10)
@@ -24,7 +24,7 @@ async def test_create_get_get_by_account_id(session):
     created = await repo.create(
         payload=type("Obj", (), {
             "clerk_user_id": "test_user",
-            "account_id": "acc1",
+            "plaid_account_id": "acc1",
             "name": "Name",
             "official_name": "Official",
             "type": "depository",
@@ -50,7 +50,7 @@ async def test_update(session):
         acc.id,
         payload=type("Obj", (), {
             "clerk_user_id": "test_user",
-            "account_id": acc.account_id,
+            "plaid_account_id": acc.plaid_account_id,
             "name": "New",
             "official_name": "Official",
             "type": "depository",

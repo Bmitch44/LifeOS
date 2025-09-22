@@ -4,7 +4,7 @@ from app.db.models import PlaidAccount
 
 class PlaidAccountCreate(BaseModel):
     clerk_user_id: str
-    account_id: str
+    plaid_account_id: str
     name: Optional[str]
     official_name: Optional[str]
     type: Optional[str]

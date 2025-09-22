@@ -4,8 +4,8 @@ from app.db.models import SnaptradeAccount
 
 class SnaptradeAccountCreate(BaseModel):
     clerk_user_id: str
-    account_id: str
-    connection_id: str
+    snaptrade_account_id: str
+    connection_id: int
     name: Optional[str]
     number: Optional[str]
     institution_name: Optional[str]

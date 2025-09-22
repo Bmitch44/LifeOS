@@ -11,7 +11,7 @@ async def test_plaid_to_financial_account_mapper_basic():
     mapper = PlaidAccountToFinancialAccountMapper("test_user")
     acc = PlaidAccount(
         clerk_user_id="test_user",
-        account_id="acc1",
+        plaid_account_id="acc1",
         name="Name",
         official_name="Off",
         type="depository",
@@ -33,7 +33,7 @@ async def test_snaptrade_to_financial_account_mapper_basic():
     mapper = SnaptradeAccountMapper("test_user")
     acc = SnaptradeAccount(
         clerk_user_id="test_user",
-        account_id="s1",
+        snaptrade_account_id="s1",
         connection_id="c1",
         name="Name",
         number="0001",

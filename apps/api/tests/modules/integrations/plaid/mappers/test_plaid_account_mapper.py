@@ -22,7 +22,7 @@ async def test_map_plaid_account_to_financial_account():
     mapper = PlaidAccountToFinancialAccountMapper("test_user")
     p = PlaidAccount(
         clerk_user_id="test_user",
-        account_id="acc1",
+        plaid_account_id="acc1",
         name="Name",
         official_name="Official",
         type="depository",
@@ -57,7 +57,7 @@ async def test_map_api_account_to_plaid_account_with_balances():
     )
     p = mapper.map_api_account_to_plaid_account(api_acc)
     assert p.clerk_user_id == "test_user"
-    assert p.account_id == "acc_ext"
+    assert p.plaid_account_id == "acc_ext"
     assert p.name == "ExtName"
     assert p.official_name == "ExtOfficial"
     assert p.type == "depository"

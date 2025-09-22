@@ -11,8 +11,8 @@ async def create_snaptrade_account(
     session: AsyncSession,
     *,
     clerk_user_id: str = "test_user",
-    account_id: str = "snap_acc_1",
-    connection_id: str = "conn_1",
+    snaptrade_account_id: str = "s1",
+    connection_id: int = 1,
     name: Optional[str] = "Snap Account",
     number: Optional[str] = "0001",
     institution_name: Optional[str] = "Snap Bank",
@@ -23,7 +23,7 @@ async def create_snaptrade_account(
 ) -> SnaptradeAccount:
     acc = SnaptradeAccount(
         clerk_user_id=clerk_user_id,
-        account_id=account_id,
+        snaptrade_account_id=snaptrade_account_id,
         connection_id=connection_id,
         name=name,
         number=number,

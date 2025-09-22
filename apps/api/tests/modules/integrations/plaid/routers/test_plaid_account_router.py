@@ -6,7 +6,7 @@ from tests.factories.integrations.plaid import create_plaid_account
 @pytest.mark.anyio
 async def test_list_accounts(client, session):
     for i in range(5):
-        await create_plaid_account(session, account_id=f"acc_{i}")
+        await create_plaid_account(session, plaid_account_id=f"acc_{i}")
 
     r = await client.get("/v1/plaid/accounts", params={"page": 1, "size": 2})
     assert r.status_code == 200
@@ -29,7 +29,7 @@ async def test_get_account(client, session):
 async def test_create_account(client):
     payload = {
         "clerk_user_id": "test_user",
-        "account_id": "acc_new",
+        "plaid_account_id": "acc_new",
         "name": "Name",
         "official_name": "Official",
         "type": "depository",
@@ -41,7 +41,7 @@ async def test_create_account(client):
     }
     r = await client.post("/v1/plaid/accounts", json=payload)
     assert r.status_code == 201
-    assert r.json()["account_id"] == "acc_new"
+    assert r.json()["plaid_account_id"] == "acc_new"
 
 
 @pytest.mark.anyio
@@ -49,7 +49,7 @@ async def test_update_account(client, session):
     acc = await create_plaid_account(session)
     payload = {
         "clerk_user_id": "test_user",
-        "account_id": acc.account_id,
+        "plaid_account_id": acc.plaid_account_id,
         "name": "New",
         "official_name": "New",
         "type": "depository",

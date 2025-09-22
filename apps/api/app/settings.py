@@ -14,7 +14,11 @@ class Settings(BaseSettings):
     plaid_client_id: str | None = None
     plaid_prod_secret: str | None = None
     plaid_sandbox_secret: str | None = None
+    plaid_redirect_uri: str | None = None
     logfire_token: str | None = None
+    soundcloud_client_id: str | None = None
+    soundcloud_client_secret: str | None = None
+    soundcloud_redirect_uri: str | None = None
 
     model_config = {
         "env_file": ".env",

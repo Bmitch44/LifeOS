@@ -18,6 +18,10 @@ from app.modules.integrations.plaid.routers import (
     account_router as plaid_account_router,
     auth_router as plaid_auth_router
 )
+from app.modules.integrations.soundcloud.routers import (
+    soundcloud_auth_router,
+    soundcloud_me_router,
+)
 from app.modules.finances.routers import financial_account_router
 
 @asynccontextmanager
@@ -44,6 +48,8 @@ def create_app() -> FastAPI:
     app.include_router(plaid_account_router)
     app.include_router(plaid_auth_router)
     app.include_router(snaptrade_activity_router)
+    app.include_router(soundcloud_auth_router)
+    app.include_router(soundcloud_me_router)
     
     # Finances
     app.include_router(financial_account_router)

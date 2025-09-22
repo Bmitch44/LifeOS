@@ -1,4 +1,4 @@
-from pydantic import ValidationError
+from app.core.exceptions import MapperError
 from app.modules.integrations.snaptrade.schemas import SnaptradeActivityCreate
 from snaptrade_client.type.paginated_universal_activity import AccountUniversalActivity
 
@@ -6,7 +6,7 @@ class SnaptradeActivityMapper:
     def __init__(self, clerk_user_id: str):
         self.clerk_user_id = clerk_user_id
 
-    def map_api_account_to_snaptrade_account(self, api_activity: AccountUniversalActivity, account_id: int) -> SnaptradeActivityCreate:
+    def map_api_activity_to_snaptrade_activity(self, api_activity: AccountUniversalActivity, account_id: int) -> SnaptradeActivityCreate:
         try:
             symbol = api_activity.get("symbol")
             option_symbol = api_activity.get("option_symbol")
@@ -31,4 +31,4 @@ class SnaptradeActivityMapper:
                 institution=api_activity.get("institution") or None,
             )
         except Exception as e:
-            raise ValidationError(f"Failed to map snaptrade activity: {e}") from e
+            raise MapperError(source="snaptrade activity", target="snaptrade activity", e=e) from e

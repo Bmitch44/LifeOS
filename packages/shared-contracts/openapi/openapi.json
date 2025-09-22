@@ -1383,16 +1383,6 @@
             }
           },
           {
-            "name": "refresh",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false,
-              "title": "Refresh"
-            }
-          },
-          {
             "name": "authorization",
             "in": "header",
             "required": false,
@@ -1749,16 +1739,6 @@
             "schema": {
               "type": "integer",
               "title": "Id"
-            }
-          },
-          {
-            "name": "refresh",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false,
-              "title": "Refresh"
             }
           },
           {
@@ -2171,16 +2151,6 @@
             }
           },
           {
-            "name": "refresh",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false,
-              "title": "Refresh"
-            }
-          },
-          {
             "name": "authorization",
             "in": "header",
             "required": false,
@@ -2540,16 +2510,6 @@
             }
           },
           {
-            "name": "refresh",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false,
-              "title": "Refresh"
-            }
-          },
-          {
             "name": "authorization",
             "in": "header",
             "required": false,
@@ -2807,6 +2767,829 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PlaidItem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/snaptrade/activities": {
+      "get": {
+        "tags": [
+          "snaptrade activities"
+        ],
+        "summary": "List Activities",
+        "operationId": "list_activities_v1_snaptrade_activities_get",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "title": "Size"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedSnaptradeActivities"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "snaptrade activities"
+        ],
+        "summary": "Create Activity",
+        "operationId": "create_activity_v1_snaptrade_activities_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SnaptradeActivityCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SnaptradeActivity"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/snaptrade/activities/sync/{account_id}": {
+      "get": {
+        "tags": [
+          "snaptrade activities"
+        ],
+        "summary": "Sync Activities",
+        "operationId": "sync_activities_v1_snaptrade_activities_sync__account_id__get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Sync Activities V1 Snaptrade Activities Sync  Account Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/snaptrade/activities/{id}": {
+      "get": {
+        "tags": [
+          "snaptrade activities"
+        ],
+        "summary": "Get Activity",
+        "operationId": "get_activity_v1_snaptrade_activities__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SnaptradeActivity"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "snaptrade activities"
+        ],
+        "summary": "Update Activity",
+        "operationId": "update_activity_v1_snaptrade_activities__id__put",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SnaptradeActivityUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SnaptradeActivity"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "snaptrade activities"
+        ],
+        "summary": "Delete Activity",
+        "operationId": "delete_activity_v1_snaptrade_activities__id__delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Delete Activity V1 Snaptrade Activities  Id  Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/soundcloud/auth/authorize": {
+      "get": {
+        "tags": [
+          "soundcloud auth"
+        ],
+        "summary": "Get Authorize",
+        "operationId": "get_authorize_v1_soundcloud_auth_authorize_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Authorize V1 Soundcloud Auth Authorize Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/soundcloud/auth/exchange": {
+      "post": {
+        "tags": [
+          "soundcloud auth"
+        ],
+        "summary": "Exchange Code",
+        "operationId": "exchange_code_v1_soundcloud_auth_exchange_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_exchange_code_v1_soundcloud_auth_exchange_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Exchange Code V1 Soundcloud Auth Exchange Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/soundcloud/auth/refresh": {
+      "post": {
+        "tags": [
+          "soundcloud auth"
+        ],
+        "summary": "Refresh Token",
+        "operationId": "refresh_token_v1_soundcloud_auth_refresh_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Refresh Token V1 Soundcloud Auth Refresh Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/soundcloud/me": {
+      "post": {
+        "tags": [
+          "soundcloud me"
+        ],
+        "summary": "Create Me",
+        "operationId": "create_me_v1_soundcloud_me_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SoundcloudMeCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoundcloudMe"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/soundcloud/me/sync": {
+      "get": {
+        "tags": [
+          "soundcloud me"
+        ],
+        "summary": "Sync Me",
+        "operationId": "sync_me_v1_soundcloud_me_sync_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Sync Me V1 Soundcloud Me Sync Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/soundcloud/me/{id}": {
+      "get": {
+        "tags": [
+          "soundcloud me"
+        ],
+        "summary": "Get Me",
+        "operationId": "get_me_v1_soundcloud_me__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoundcloudMe"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "soundcloud me"
+        ],
+        "summary": "Update Me",
+        "operationId": "update_me_v1_soundcloud_me__id__put",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SoundcloudMeUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoundcloudMe"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "soundcloud me"
+        ],
+        "summary": "Delete Me",
+        "operationId": "delete_me_v1_soundcloud_me__id__delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Delete Me V1 Soundcloud Me  Id  Delete"
                 }
               }
             }
@@ -3381,6 +4164,35 @@
           "final_grade"
         ],
         "title": "AssesmentUpdate"
+      },
+      "Body_exchange_code_v1_soundcloud_auth_exchange_post": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "code_verifier": {
+            "type": "string",
+            "title": "Code Verifier"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "code_verifier"
+        ],
+        "title": "Body_exchange_code_v1_soundcloud_auth_exchange_post"
       },
       "Course": {
         "properties": {
@@ -4227,6 +5039,37 @@
         ],
         "title": "PaginatedSnaptradeAccounts"
       },
+      "PaginatedSnaptradeActivities": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SnaptradeActivity"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "title": "Size"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "page",
+          "size",
+          "total"
+        ],
+        "title": "PaginatedSnaptradeActivities"
+      },
       "PaginatedSnaptradeConnections": {
         "properties": {
           "items": {
@@ -4306,9 +5149,9 @@
             "type": "string",
             "title": "Clerk User Id"
           },
-          "account_id": {
+          "plaid_account_id": {
             "type": "string",
-            "title": "Account Id"
+            "title": "Plaid Account Id"
           },
           "name": {
             "type": "string",
@@ -4356,7 +5199,7 @@
         "type": "object",
         "required": [
           "clerk_user_id",
-          "account_id",
+          "plaid_account_id",
           "name",
           "official_name",
           "type",
@@ -4374,9 +5217,9 @@
             "type": "string",
             "title": "Clerk User Id"
           },
-          "account_id": {
+          "plaid_account_id": {
             "type": "string",
-            "title": "Account Id"
+            "title": "Plaid Account Id"
           },
           "name": {
             "anyOf": [
@@ -4470,7 +5313,7 @@
         "type": "object",
         "required": [
           "clerk_user_id",
-          "account_id",
+          "plaid_account_id",
           "name",
           "official_name",
           "type",
@@ -4488,9 +5331,9 @@
             "type": "string",
             "title": "Clerk User Id"
           },
-          "account_id": {
+          "plaid_account_id": {
             "type": "string",
-            "title": "Account Id"
+            "title": "Plaid Account Id"
           },
           "name": {
             "anyOf": [
@@ -4584,7 +5427,7 @@
         "type": "object",
         "required": [
           "clerk_user_id",
-          "account_id",
+          "plaid_account_id",
           "name",
           "official_name",
           "type",
@@ -4736,12 +5579,12 @@
             "type": "string",
             "title": "Clerk User Id"
           },
-          "account_id": {
+          "snaptrade_account_id": {
             "type": "string",
-            "title": "Account Id"
+            "title": "Snaptrade Account Id"
           },
           "connection_id": {
-            "type": "string",
+            "type": "integer",
             "title": "Connection Id"
           },
           "name": {
@@ -4786,7 +5629,7 @@
         "type": "object",
         "required": [
           "clerk_user_id",
-          "account_id",
+          "snaptrade_account_id",
           "connection_id",
           "name",
           "number",
@@ -4804,12 +5647,12 @@
             "type": "string",
             "title": "Clerk User Id"
           },
-          "account_id": {
+          "snaptrade_account_id": {
             "type": "string",
-            "title": "Account Id"
+            "title": "Snaptrade Account Id"
           },
           "connection_id": {
-            "type": "string",
+            "type": "integer",
             "title": "Connection Id"
           },
           "name": {
@@ -4893,7 +5736,7 @@
         "type": "object",
         "required": [
           "clerk_user_id",
-          "account_id",
+          "snaptrade_account_id",
           "connection_id",
           "name",
           "number",
@@ -4911,12 +5754,12 @@
             "type": "string",
             "title": "Clerk User Id"
           },
-          "account_id": {
+          "snaptrade_account_id": {
             "type": "string",
-            "title": "Account Id"
+            "title": "Snaptrade Account Id"
           },
           "connection_id": {
-            "type": "string",
+            "type": "integer",
             "title": "Connection Id"
           },
           "name": {
@@ -5000,7 +5843,7 @@
         "type": "object",
         "required": [
           "clerk_user_id",
-          "account_id",
+          "snaptrade_account_id",
           "connection_id",
           "name",
           "number",
@@ -5011,6 +5854,482 @@
           "currency"
         ],
         "title": "SnaptradeAccountUpdate"
+      },
+      "SnaptradeActivity": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "clerk_user_id": {
+            "type": "string",
+            "title": "Clerk User Id"
+          },
+          "account_id": {
+            "type": "integer",
+            "title": "Account Id"
+          },
+          "activity_id": {
+            "type": "string",
+            "title": "Activity Id"
+          },
+          "symbol_id": {
+            "type": "string",
+            "title": "Symbol Id"
+          },
+          "option_symbol_id": {
+            "type": "string",
+            "title": "Option Symbol Id"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "option_type": {
+            "type": "string",
+            "title": "Option Type"
+          },
+          "price": {
+            "type": "number",
+            "title": "Price"
+          },
+          "units": {
+            "type": "number",
+            "title": "Units"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "trade_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Trade Date"
+          },
+          "settlement_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Settlement Date"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "fees": {
+            "type": "number",
+            "title": "Fees"
+          },
+          "fx_rate": {
+            "type": "number",
+            "title": "Fx Rate"
+          },
+          "institution": {
+            "type": "string",
+            "title": "Institution"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "clerk_user_id",
+          "account_id",
+          "activity_id",
+          "symbol_id",
+          "option_symbol_id",
+          "type",
+          "option_type",
+          "price",
+          "units",
+          "amount",
+          "description",
+          "trade_date",
+          "settlement_date",
+          "currency",
+          "fees",
+          "fx_rate",
+          "institution"
+        ],
+        "title": "SnaptradeActivity"
+      },
+      "SnaptradeActivityCreate": {
+        "properties": {
+          "clerk_user_id": {
+            "type": "string",
+            "title": "Clerk User Id"
+          },
+          "activity_id": {
+            "type": "string",
+            "title": "Activity Id"
+          },
+          "account_id": {
+            "type": "integer",
+            "title": "Account Id"
+          },
+          "symbol_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Symbol Id"
+          },
+          "option_symbol_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Option Symbol Id"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Type"
+          },
+          "option_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Option Type"
+          },
+          "price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price"
+          },
+          "units": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Units"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "trade_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trade Date"
+          },
+          "settlement_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Settlement Date"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "fees": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fees"
+          },
+          "fx_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fx Rate"
+          },
+          "institution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Institution"
+          }
+        },
+        "type": "object",
+        "required": [
+          "clerk_user_id",
+          "activity_id",
+          "account_id",
+          "symbol_id",
+          "option_symbol_id",
+          "type",
+          "option_type",
+          "amount",
+          "trade_date",
+          "currency",
+          "fx_rate"
+        ],
+        "title": "SnaptradeActivityCreate"
+      },
+      "SnaptradeActivityUpdate": {
+        "properties": {
+          "clerk_user_id": {
+            "type": "string",
+            "title": "Clerk User Id"
+          },
+          "activity_id": {
+            "type": "string",
+            "title": "Activity Id"
+          },
+          "account_id": {
+            "type": "integer",
+            "title": "Account Id"
+          },
+          "symbol_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Symbol Id"
+          },
+          "option_symbol_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Option Symbol Id"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Type"
+          },
+          "option_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Option Type"
+          },
+          "price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price"
+          },
+          "units": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Units"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "trade_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trade Date"
+          },
+          "settlement_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Settlement Date"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "fees": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fees"
+          },
+          "fx_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fx Rate"
+          },
+          "institution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Institution"
+          }
+        },
+        "type": "object",
+        "required": [
+          "clerk_user_id",
+          "activity_id",
+          "account_id",
+          "symbol_id",
+          "option_symbol_id",
+          "type",
+          "option_type",
+          "amount",
+          "trade_date",
+          "currency",
+          "fx_rate"
+        ],
+        "title": "SnaptradeActivityUpdate"
       },
       "SnaptradeConnection": {
         "properties": {
@@ -5033,9 +6352,9 @@
             "type": "string",
             "title": "User Secret"
           },
-          "connection_id": {
+          "snaptrade_connection_id": {
             "type": "string",
-            "title": "Connection Id"
+            "title": "Snaptrade Connection Id"
           },
           "brokerage_name": {
             "type": "string",
@@ -5056,7 +6375,7 @@
         "required": [
           "clerk_user_id",
           "user_secret",
-          "connection_id",
+          "snaptrade_connection_id",
           "brokerage_name"
         ],
         "title": "SnaptradeConnection"
@@ -5067,7 +6386,7 @@
             "type": "string",
             "title": "Clerk User Id"
           },
-          "connection_id": {
+          "snaptrade_connection_id": {
             "anyOf": [
               {
                 "type": "string"
@@ -5076,7 +6395,7 @@
                 "type": "null"
               }
             ],
-            "title": "Connection Id"
+            "title": "Snaptrade Connection Id"
           },
           "user_secret": {
             "anyOf": [
@@ -5113,7 +6432,7 @@
             "type": "string",
             "title": "Clerk User Id"
           },
-          "connection_id": {
+          "snaptrade_connection_id": {
             "anyOf": [
               {
                 "type": "string"
@@ -5122,7 +6441,7 @@
                 "type": "null"
               }
             ],
-            "title": "Connection Id"
+            "title": "Snaptrade Connection Id"
           },
           "user_secret": {
             "anyOf": [
@@ -5152,6 +6471,687 @@
           "clerk_user_id"
         ],
         "title": "SnaptradeConnectionUpdate"
+      },
+      "SoundcloudMe": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "clerk_user_id": {
+            "type": "string",
+            "title": "Clerk User Id"
+          },
+          "urn": {
+            "type": "string",
+            "title": "Urn"
+          },
+          "avatar_url": {
+            "type": "string",
+            "title": "Avatar Url"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "first_name": {
+            "type": "string",
+            "title": "First Name"
+          },
+          "followers_count": {
+            "type": "integer",
+            "title": "Followers Count"
+          },
+          "following_count": {
+            "type": "integer",
+            "title": "Following Count"
+          },
+          "full_name": {
+            "type": "string",
+            "title": "Full Name"
+          },
+          "last_name": {
+            "type": "string",
+            "title": "Last Name"
+          },
+          "likes_count": {
+            "type": "integer",
+            "title": "Likes Count"
+          },
+          "permalink": {
+            "type": "string",
+            "title": "Permalink"
+          },
+          "permalink_url": {
+            "type": "string",
+            "title": "Permalink Url"
+          },
+          "plan": {
+            "type": "string",
+            "title": "Plan"
+          },
+          "playlist_count": {
+            "type": "integer",
+            "title": "Playlist Count"
+          },
+          "private_playlists_count": {
+            "type": "integer",
+            "title": "Private Playlists Count"
+          },
+          "public_favorites_count": {
+            "type": "integer",
+            "title": "Public Favorites Count"
+          },
+          "track_count": {
+            "type": "integer",
+            "title": "Track Count"
+          },
+          "private_tracks_count": {
+            "type": "integer",
+            "title": "Private Tracks Count"
+          },
+          "reposts_count": {
+            "type": "integer",
+            "title": "Reposts Count"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "website": {
+            "type": "string",
+            "title": "Website"
+          },
+          "website_title": {
+            "type": "string",
+            "title": "Website Title"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "clerk_user_id",
+          "urn",
+          "avatar_url",
+          "city",
+          "country",
+          "description",
+          "first_name",
+          "followers_count",
+          "following_count",
+          "full_name",
+          "last_name",
+          "likes_count",
+          "permalink",
+          "permalink_url",
+          "plan",
+          "playlist_count",
+          "private_playlists_count",
+          "public_favorites_count",
+          "track_count",
+          "private_tracks_count",
+          "reposts_count",
+          "username",
+          "website",
+          "website_title"
+        ],
+        "title": "SoundcloudMe"
+      },
+      "SoundcloudMeCreate": {
+        "properties": {
+          "clerk_user_id": {
+            "type": "string",
+            "title": "Clerk User Id"
+          },
+          "urn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Urn"
+          },
+          "avatar_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avatar Url"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "first_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Name"
+          },
+          "followers_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Followers Count"
+          },
+          "following_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Following Count"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "last_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Name"
+          },
+          "likes_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Likes Count"
+          },
+          "permalink": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Permalink"
+          },
+          "permalink_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Permalink Url"
+          },
+          "plan": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plan"
+          },
+          "playlist_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Playlist Count"
+          },
+          "private_playlists_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Private Playlists Count"
+          },
+          "private_tracks_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Private Tracks Count"
+          },
+          "public_favorites_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Favorites Count"
+          },
+          "reposts_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reposts Count"
+          },
+          "track_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Track Count"
+          },
+          "username": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Username"
+          },
+          "website": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Website"
+          },
+          "website_title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Website Title"
+          }
+        },
+        "type": "object",
+        "required": [
+          "clerk_user_id"
+        ],
+        "title": "SoundcloudMeCreate"
+      },
+      "SoundcloudMeUpdate": {
+        "properties": {
+          "clerk_user_id": {
+            "type": "string",
+            "title": "Clerk User Id"
+          },
+          "urn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Urn"
+          },
+          "avatar_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avatar Url"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "first_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Name"
+          },
+          "followers_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Followers Count"
+          },
+          "following_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Following Count"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "last_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Name"
+          },
+          "likes_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Likes Count"
+          },
+          "permalink": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Permalink"
+          },
+          "permalink_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Permalink Url"
+          },
+          "plan": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plan"
+          },
+          "playlist_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Playlist Count"
+          },
+          "private_playlists_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Private Playlists Count"
+          },
+          "private_tracks_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Private Tracks Count"
+          },
+          "public_favorites_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Favorites Count"
+          },
+          "reposts_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reposts Count"
+          },
+          "track_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Track Count"
+          },
+          "username": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Username"
+          },
+          "website": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Website"
+          },
+          "website_title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Website Title"
+          }
+        },
+        "type": "object",
+        "required": [
+          "clerk_user_id"
+        ],
+        "title": "SoundcloudMeUpdate"
       },
       "User": {
         "properties": {

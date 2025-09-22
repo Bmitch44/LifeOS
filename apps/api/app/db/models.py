@@ -14,6 +14,8 @@ from app.modules.integrations.snaptrade.models import SnaptradeConnection
 from app.modules.integrations.snaptrade.models import SnaptradeAccount
 from app.modules.integrations.snaptrade.models import SnaptradeActivity
 from app.modules.finances.models import FinancialAccount
+from app.modules.integrations.soundcloud.models import SoundcloudMe
+from app.modules.integrations.soundcloud.models import SoundcloudToken
 
 __all__ = [
     User.__name__,
@@ -25,5 +27,7 @@ __all__ = [
     SnaptradeConnection.__name__,
     SnaptradeAccount.__name__,
     SnaptradeActivity.__name__,
-    FinancialAccount.__name__
+    FinancialAccount.__name__,
+    SoundcloudMe.__name__,
+    SoundcloudToken.__name__
 ]

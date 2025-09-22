@@ -11,7 +11,7 @@ async def create_plaid_account(
     session: AsyncSession,
     *,
     clerk_user_id: str = "test_user",
-    account_id: str = "acc_1",
+    plaid_account_id: str = "acc_1",
     name: Optional[str] = "Checking",
     official_name: Optional[str] = "Official Checking",
     type: Optional[str] = "depository",
@@ -23,7 +23,7 @@ async def create_plaid_account(
 ) -> PlaidAccount:
     acc = PlaidAccount(
         clerk_user_id=clerk_user_id,
-        account_id=account_id,
+        plaid_account_id=plaid_account_id,
         name=name,
         official_name=official_name,
         type=type,

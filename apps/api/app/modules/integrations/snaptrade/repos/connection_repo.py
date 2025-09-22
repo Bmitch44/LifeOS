@@ -28,7 +28,7 @@ class SnaptradeConnectionRepo:
         try:
             connection = SnaptradeConnection(
                 clerk_user_id=payload.clerk_user_id,
-                connection_id=payload.connection_id,
+                snaptrade_connection_id=payload.snaptrade_connection_id,
                 brokerage_name=payload.brokerage_name,
                 user_secret=payload.user_secret
             )
@@ -64,7 +64,9 @@ class SnaptradeConnectionRepo:
 
     async def get_by_connection_id(self, connection_id: str) -> SnaptradeConnection:
         try:
-            connection = await self.session.execute(select(SnaptradeConnection).where(SnaptradeConnection.connection_id == connection_id))
+            connection = await self.session.execute(
+                select(SnaptradeConnection).where(SnaptradeConnection.snaptrade_connection_id == connection_id)
+            )
             if not connection:
                 raise HTTPException(status_code=404, detail="Connection not found")
             return connection.scalar_one_or_none()
@@ -78,7 +80,7 @@ class SnaptradeConnectionRepo:
             if not connection:
                 raise HTTPException(status_code=404, detail="Connection not found")
             connection.clerk_user_id = payload.clerk_user_id
-            connection.connection_id = payload.connection_id
+            connection.snaptrade_connection_id = payload.snaptrade_connection_id
             connection.brokerage_name = payload.brokerage_name
             connection.user_secret = payload.user_secret
             await self.session.commit()

@@ -12,7 +12,7 @@ class SnaptradeAccount(SQLModel, table=True):
     __tablename__ = "snaptrade_account"
     id: Optional[int] = Field(default=None, primary_key=True)
     clerk_user_id: str = Field(index=True)
-    account_id: str = Field(nullable=True, unique=True, index=True)
+    snaptrade_account_id: str = Field(nullable=True, unique=True, index=True)
     connection_id: int = Field(nullable=True, foreign_key="snaptrade_connection.id", ondelete="CASCADE")
     name: str = Field(nullable=True)
     number: str = Field(nullable=True)

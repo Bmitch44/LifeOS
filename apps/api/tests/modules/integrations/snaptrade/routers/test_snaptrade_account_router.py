@@ -7,7 +7,7 @@ from tests.factories.integrations.snaptrade import create_snaptrade_account
 @pytest.mark.anyio
 async def test_list_accounts(client, session):
     for i in range(5):
-        await create_snaptrade_account(session, account_id=f"snap_acc_{i}")
+        await create_snaptrade_account(session, snaptrade_account_id=f"s_{i}")
 
     r = await client.get("/v1/snaptrade/accounts", params={"page": 1, "size": 2})
     assert r.status_code == 200
@@ -30,8 +30,8 @@ async def test_get_account(client, session):
 async def test_create_account(client):
     payload = {
         "clerk_user_id": "test_user",
-        "account_id": "snap_acc_new",
-        "connection_id": "conn_1",
+        "snaptrade_account_id": "s1",
+        "connection_id": 1,
         "name": "Name",
         "number": "1234",
         "institution_name": "Inst",
@@ -42,7 +42,7 @@ async def test_create_account(client):
     }
     r = await client.post("/v1/snaptrade/accounts", json=payload)
     assert r.status_code == 201
-    assert r.json()["account_id"] == "snap_acc_new"
+    assert r.json()["snaptrade_account_id"] == "s1"
 
 
 @pytest.mark.anyio
@@ -50,7 +50,7 @@ async def test_update_account(client, session):
     acc = await create_snaptrade_account(session)
     payload = {
         "clerk_user_id": "test_user",
-        "account_id": acc.account_id,
+        "snaptrade_account_id": acc.snaptrade_account_id,
         "connection_id": acc.connection_id,
         "name": "New",
         "number": "9999",

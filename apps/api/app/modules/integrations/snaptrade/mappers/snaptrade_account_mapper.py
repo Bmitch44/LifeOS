@@ -1,8 +1,8 @@
-from pydantic import ValidationError
 from app.modules.finances.schemas import FinancialAccountCreate
 from app.modules.integrations.snaptrade.models import SnaptradeAccount
 from app.modules.integrations.snaptrade.schemas import SnaptradeAccountCreate
 from snaptrade_client.type.account import Account
+from app.core.exceptions import MapperError
 
 class SnaptradeAccountMapper:
     def __init__(self, clerk_user_id: str):
@@ -18,10 +18,10 @@ class SnaptradeAccountMapper:
                 currency=snaptrade_account.currency,
                 current_balance=snaptrade_account.current_balance,
                 source="snaptrade",
-                source_account_id=snaptrade_account.account_id,
+                source_account_id=snaptrade_account.snaptrade_account_id,
             )
         except Exception as e:
-            raise ValidationError(status_code=500, detail=f"Failed to map snaptrade account to financial account: {e}") from e
+            raise MapperError(source="snaptrade account", target="financial account", e=e) from e
 
     def map_api_account_to_snaptrade_account(self, api_account: Account) -> SnaptradeAccountCreate:
         try:
@@ -29,7 +29,7 @@ class SnaptradeAccountMapper:
             balance_total = balance_total.get("total", {})
             return SnaptradeAccountCreate(
                 clerk_user_id=self.clerk_user_id,
-                account_id=api_account.get("id"),
+                snaptrade_account_id=api_account.get("id"),
                 connection_id=api_account.get("brokerage_authorization"),
                 name=api_account.get("name"),  
                 number=api_account.get("number"),
@@ -40,4 +40,4 @@ class SnaptradeAccountMapper:
                 currency=balance_total.get("currency") if balance_total else "CAD",
             )
         except Exception as e:
-            raise ValidationError(status_code=500, detail=f"Failed to map api account to snaptrade account: {e}") from e
+            raise MapperError(source="api account", target="snaptrade account", e=e) from e

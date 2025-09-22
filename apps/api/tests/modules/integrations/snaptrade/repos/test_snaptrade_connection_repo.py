@@ -7,9 +7,9 @@ from tests.factories.integrations.snaptrade import create_snaptrade_connection
 @pytest.mark.anyio
 async def test_paginate_scoped_by_user(session):
     for i in range(3):
-        await create_snaptrade_connection(session, connection_id=f"conn_{i}")
+        await create_snaptrade_connection(session, snaptrade_connection_id=f"s_{i}")
     for i in range(2):
-        await create_snaptrade_connection(session, clerk_user_id="other", connection_id=f"o_conn_{i}")
+        await create_snaptrade_connection(session, clerk_user_id="other", snaptrade_connection_id=f"o_s_{i}")
 
     repo = SnaptradeConnectionRepo(session, clerk_user_id="test_user")
     page = await repo.paginate(1, 10)
@@ -25,14 +25,14 @@ async def test_create_get_get_by_connection_id_and_by_user(session):
         payload=type("Obj", (), {
             "clerk_user_id": "test_user",
             "user_secret": "sec_1",
-            "connection_id": "cid_1",
+            "snaptrade_connection_id": "s1",
             "brokerage_name": "Broker",
         })()
     )
     assert created.id is not None
     got = await repo.get(created.id)
     assert got.id == created.id
-    got2 = await repo.get_by_connection_id("cid_1")
+    got2 = await repo.get_by_connection_id("s1")
     assert got2 is not None and got2.id == created.id
     got3 = await repo.get_by_clerk_user_id()
     assert got3 is not None and got3.id == created.id
@@ -47,7 +47,7 @@ async def test_update(session):
         payload=type("Obj", (), {
             "clerk_user_id": "test_user",
             "user_secret": conn.user_secret,
-            "connection_id": conn.connection_id,
+            "snaptrade_connection_id": conn.snaptrade_connection_id,
             "brokerage_name": "NewBroker",
         })()
     )
@@ -56,7 +56,7 @@ async def test_update(session):
 
 @pytest.mark.anyio
 async def test_delete(session):
-    conn = await create_snaptrade_connection(session)
+    conn = await create_snaptrade_connection(session, snaptrade_connection_id="s1")
     repo = SnaptradeConnectionRepo(session, clerk_user_id="test_user")
     res = await repo.delete(conn.id)
     assert res["message"] == "Connection deleted successfully"

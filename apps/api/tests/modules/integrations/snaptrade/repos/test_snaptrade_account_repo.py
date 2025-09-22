@@ -7,9 +7,9 @@ from tests.factories.integrations.snaptrade import create_snaptrade_account
 @pytest.mark.anyio
 async def test_paginate_scoped_by_user(session):
     for i in range(3):
-        await create_snaptrade_account(session, account_id=f"sacc_{i}")
-    for i in range(2):
-        await create_snaptrade_account(session, clerk_user_id="other", account_id=f"o_sacc_{i}")
+        await create_snaptrade_account(session, snaptrade_account_id=f"s_{i}")
+    for i in range(3, 5):
+        await create_snaptrade_account(session, clerk_user_id="other", snaptrade_account_id=f"o_s_{i}")
 
     repo = SnaptradeAccountRepo(session, clerk_user_id="test_user")
     page = await repo.paginate(1, 10)
@@ -24,8 +24,8 @@ async def test_create_get_get_by_account_id(session):
     created = await repo.create(
         payload=type("Obj", (), {
             "clerk_user_id": "test_user",
-            "account_id": "s1",
-            "connection_id": "c1",
+            "snaptrade_account_id": "s1",
+            "connection_id": 1,
             "name": "Name",
             "number": "0001",
             "institution_name": "Inst",
@@ -50,7 +50,7 @@ async def test_update(session):
         acc.id,
         payload=type("Obj", (), {
             "clerk_user_id": "test_user",
-            "account_id": acc.account_id,
+            "snaptrade_account_id": acc.snaptrade_account_id,
             "connection_id": acc.connection_id,
             "name": "New",
             "number": "9999",

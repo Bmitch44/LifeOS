@@ -34,7 +34,7 @@ class PlaidAccountRepo:
         try:
             account = PlaidAccount(
                 clerk_user_id=payload.clerk_user_id, 
-                account_id=payload.account_id, 
+                plaid_account_id=payload.plaid_account_id, 
                 name=payload.name, 
                 official_name=payload.official_name, 
                 type=payload.type, 
@@ -64,10 +64,10 @@ class PlaidAccountRepo:
             await self.session.rollback()
             raise e
 
-    async def get_by_account_id(self, account_id: str) -> PlaidAccount:
+    async def get_by_account_id(self, plaid_account_id: str) -> PlaidAccount:
         try:
             account = await self.session.execute(
-                select(PlaidAccount).where(PlaidAccount.account_id == account_id, PlaidAccount.clerk_user_id == self.clerk_user_id)
+                select(PlaidAccount).where(PlaidAccount.plaid_account_id == plaid_account_id, PlaidAccount.clerk_user_id == self.clerk_user_id)
             )
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
@@ -81,7 +81,7 @@ class PlaidAccountRepo:
             account = await self.get(id)
             if not account:
                 raise HTTPException(status_code=404, detail="Account not found")
-            account.account_id = payload.account_id
+            account.plaid_account_id = payload.plaid_account_id
             account.name = payload.name
             account.official_name = payload.official_name
             account.type = payload.type

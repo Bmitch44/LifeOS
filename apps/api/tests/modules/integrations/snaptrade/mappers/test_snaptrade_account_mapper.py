@@ -13,8 +13,8 @@ async def test_map_snaptrade_account_to_financial_account():
     mapper = SnaptradeAccountMapper("test_user")
     s = SnaptradeAccount(
         clerk_user_id="test_user",
-        account_id="s1",
-        connection_id="c1",
+        snaptrade_account_id="s1",
+        connection_id=1,
         name="Name",
         number="0001",
         institution_name="Inst",
@@ -35,8 +35,8 @@ async def test_map_snaptrade_account_to_financial_account():
 async def test_map_api_account_to_snaptrade_account_with_balance():
     mapper = SnaptradeAccountMapper("test_user")
     api_acc = FakeApiAccount(
-        id="s_ext",
-        brokerage_authorization="c_ext",
+        id="s1",
+        brokerage_authorization=1,
         name="Ext",
         number="9999",
         institution_name="Inst",
@@ -46,8 +46,8 @@ async def test_map_api_account_to_snaptrade_account_with_balance():
     )
     p = mapper.map_api_account_to_snaptrade_account(api_acc)
     assert p.clerk_user_id == "test_user"
-    assert p.account_id == "s_ext"
-    assert p.connection_id == "c_ext"
+    assert p.snaptrade_account_id == "s1"
+    assert p.connection_id == 1
     assert p.current_balance == 12.3
     assert p.currency == "USD"
 
@@ -56,8 +56,8 @@ async def test_map_api_account_to_snaptrade_account_with_balance():
 async def test_map_api_account_to_snaptrade_account_without_balance_defaults():
     mapper = SnaptradeAccountMapper("test_user")
     api_acc = FakeApiAccount(
-        id="s_ext",
-        brokerage_authorization="c_ext",
+        id="s1",
+        brokerage_authorization=1,
         name="Ext",
         number="9999",
         institution_name="Inst",

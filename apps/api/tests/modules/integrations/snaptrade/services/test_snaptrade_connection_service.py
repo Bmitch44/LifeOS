@@ -38,7 +38,7 @@ class FakeMapper:
         return SimpleNamespace(
             clerk_user_id=self.user,
             user_secret=user_secret,
-            connection_id=ext.get("id"),
+            snaptrade_connection_id=ext.get("id"),
             brokerage_name=ext.get("name"),
         )
 

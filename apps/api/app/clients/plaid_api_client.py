@@ -42,12 +42,19 @@ class PlaidClient:
     async def create_link_token(self) -> dict:
         """Create a link token for Plaid Link initialization"""
         try:
+            # Request only necessary products to improve conversion and cost
+            products = [Products("transactions")]
+
+            # Use CA by default to enable more Link flows (e.g., Instant Match)
+            country_codes = [CountryCode('US'), CountryCode('CA')]
+
             request = LinkTokenCreateRequest(
-                products=[Products("auth"), Products("liabilities"), Products("transactions")],
+                products=products,
                 client_name="LifeOS",
-                country_codes=[CountryCode('CA')],
+                country_codes=country_codes,
                 language='en',
-                user=LinkTokenCreateRequestUser(client_user_id=str(self.clerk_user_id))
+                user=LinkTokenCreateRequestUser(client_user_id=str(self.clerk_user_id)),
+                redirect_uri=settings.plaid_redirect_uri if getattr(settings, 'plaid_redirect_uri', None) else None,
             )
             response: LinkTokenCreateResponse = self.client.link_token_create(link_token_create_request=request)
             return {"link_token": response.link_token}

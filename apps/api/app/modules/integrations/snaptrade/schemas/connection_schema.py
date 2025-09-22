@@ -5,7 +5,7 @@ from app.db.models import SnaptradeConnection
 
 class SnaptradeConnectionCreate(BaseModel):
     clerk_user_id: str
-    connection_id: Optional[str] = None
+    snaptrade_connection_id: Optional[str] = None
     user_secret: Optional[str] = None
     brokerage_name: Optional[str] = None
 

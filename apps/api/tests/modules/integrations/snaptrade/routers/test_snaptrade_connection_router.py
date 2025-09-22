@@ -1,3 +1,4 @@
+"""Snaptrade connection router tests."""
 import pytest
 
 from tests.factories.integrations.snaptrade import create_snaptrade_connection
@@ -6,7 +7,7 @@ from tests.factories.integrations.snaptrade import create_snaptrade_connection
 @pytest.mark.anyio
 async def test_list_connections(client, session):
     for i in range(5):
-        await create_snaptrade_connection(session, connection_id=f"conn_{i}")
+        await create_snaptrade_connection(session, snaptrade_connection_id=f"s_{i}")
 
     r = await client.get("/v1/snaptrade/connections", params={"page": 1, "size": 2})
     assert r.status_code == 200
@@ -29,13 +30,13 @@ async def test_get_connection(client, session):
 async def test_create_connection(client):
     payload = {
         "clerk_user_id": "test_user",
-        "connection_id": "conn_new",
+        "snaptrade_connection_id": "s1",
         "user_secret": "secret_new",
         "brokerage_name": "Broker",
     }
     r = await client.post("/v1/snaptrade/connections", json=payload)
     assert r.status_code == 201
-    assert r.json()["connection_id"] == "conn_new"
+    assert r.json()["snaptrade_connection_id"] == "s1"
 
 
 @pytest.mark.anyio
@@ -43,13 +44,13 @@ async def test_update_connection(client, session):
     conn = await create_snaptrade_connection(session)
     payload = {
         "clerk_user_id": "test_user",
-        "connection_id": "conn_updated",
+        "snaptrade_connection_id": "s1",
         "user_secret": "secret_updated",
         "brokerage_name": "BrokerUpdated",
     }
     r = await client.put(f"/v1/snaptrade/connections/{conn.id}", json=payload)
     assert r.status_code == 200
-    assert r.json()["connection_id"] == "conn_updated"
+    assert r.json()["snaptrade_connection_id"] == "s1"
 
 
 @pytest.mark.anyio

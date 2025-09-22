@@ -2,7 +2,7 @@ from app.modules.integrations.plaid.models import PlaidAccount
 from app.modules.finances.schemas import FinancialAccountCreate
 from app.modules.integrations.plaid.schemas import PlaidAccountCreate
 from plaid.model.account_base import AccountBase
-from pydantic import ValidationError
+from app.core.exceptions import MapperError
 
 class PlaidAccountToFinancialAccountMapper:
     def __init__(self, clerk_user_id: str):
@@ -18,11 +18,11 @@ class PlaidAccountToFinancialAccountMapper:
                 currency=plaid_account.iso_currency_code,
                 current_balance=plaid_account.current_balance,
                 source="plaid",
-                source_account_id=plaid_account.account_id,
+                source_account_id=plaid_account.plaid_account_id,
             )
             return financial_account
         except Exception as e:
-            raise ValidationError(status_code=500, detail=f"Failed to map plaid account to financial account: {e}") from e
+            raise MapperError(source="plaid account", target="financial account", e=e) from e
 
     def map_api_account_to_plaid_account(self, api_account: AccountBase) -> PlaidAccountCreate:
         try:
@@ -31,7 +31,7 @@ class PlaidAccountToFinancialAccountMapper:
             subtype = api_account.get("subtype", {})
             plaid_account = PlaidAccountCreate(
                 clerk_user_id=self.clerk_user_id,
-                account_id=api_account.get("account_id"),
+                plaid_account_id=api_account.get("account_id"),
                 name=api_account.get("name"),
                 official_name=api_account.get("official_name"),
                 type=type.get("value", None),
@@ -43,4 +43,4 @@ class PlaidAccountToFinancialAccountMapper:
             )
             return plaid_account
         except Exception as e:
-            raise ValidationError(status_code=500, detail=f"Failed to map api account to plaid account: {e}") from e
+            raise MapperError(source="api account", target="plaid account", e=e) from e
